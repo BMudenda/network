@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMsiteRii</title>
+    <style>
+        /* Global styles */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #f2f2f2; /* Background color for the body */
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .animated-text-container {
+            white-space: nowrap;
+            overflow: hidden;
+            position: relative;
+            animation: moveLeftToRight 10s linear infinite;
+        }
+
+        .animated-text {
+            font-size: 1.2em;
+            color: #ff6600;
+            background-color: #333;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        @keyframes moveLeftToRight {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(100%);
+            }
+        }
+
+        section {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3 {
+            color: #e74c3c;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: collapse;
+            font-size: 8px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+            clear: both; /* Clear floats */
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .footer-link {
+            text-decoration: none;
+            color: #fff;
+            font-size: 0.9em;
+            margin: 0 15px;
+        }
+
+        /* Responsive design */
+        @media only screen and (max-width: 768px) {
+            .animated-text {
+                font-size: 1em;
+            }
+
+            section {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            footer {
+                padding: 15px;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .animated-text {
+                font-size: 0.8em;
+            }
+
+            section {
+                margin: 5px;
+                padding: 10px;
+            }
+
+            footer {
+                padding: 10px;
+            }
+
+            .footer-link {
+                font-size: 0.8em;
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="animated-text-container">
+        <div class="animated-text">Welcome to Data Update</div>
+         <div class="animated-text">for internal use only....Keep Confidentiality!!!</div>
+    </div>
+</header>
+
+<section>
+    <h1>FY 24 TARGETS</h1>
+    <ol>
+        <li><a href="ref.html">Summary</a></li>
+        <li><a href="fac.html">Facility</a></li>
+        <li><a href="mer.html">PEPFAR MER</a></li>
+        <li><a href="wrap.html">Wrap Around</a></li>
+        <li><a href="sum.html">Result Framework</a></li>
+    </ol>
+</section>
+
+<section>
+    <h3>TRACKING TABLE</h3>
+    <ul>
+        <li><a href="TablePresentation.html">HEALTH</a></li>
+        <li><a href="SAFEINFO.html">SAFE</a></li>
+        <li><a href="SCHOOLINFO.html">SCHOOL</a></li>
+        <li><a href="STABLEINFO.html">STABLE</a></li>
+        <hr>
+        <li><a href="ALEJO.html">ALEJO</a></li>
+        <li><a href="SKILLS.html">Skills support</a></li>
+        <li><a href="SCHOOLSUPPORT.html">School Materials</a></li>
+    </ul>
+</section>
+
+<section>
+    <h2>OVC SERV COMP-Data</h2>
+    <label for="name-select">Select a Name:</label>
+    <select id="name-select" onchange="displayData()">
+        <option value="Thompson District Hospital">Thompson District Hospital</option>
+        <option value="Roan Antelope General Hospital">Roan Antelope General Hospital</option>
+        <option value="Mpatamatu Section 26 Clinic">Mpatamatu Section 26 Clinic</option>
+        <option value="Malaika Clinic">Malaika Clinic</option>
+        <option value="Mikomfwa Health Centre">Mikomfwa Health Centre</option>
+        <option value="Kawama Urban Health Centre (Lua)">Kawama Urban Health Centre (Lua)</option>
+                <option value="Luanshya">Luanshya</option>
+        
+    </select>
+
+    <div id="data-container"></div>
+
+    <script>
+        function displayData() {
+            var selectedName = document.getElementById("name-select").value;
+            var data = {
+                "Thompson District Hospital": ["1900", "1738", "162", "91%", "9%"],
+                "Roan Antelope General Hospital": ["1786", "1727", "59", "97%", "3%"],
+                "Mpatamatu Section 26 Clinic": ["624", "790", "-166", "127%", "-27%"],
+                "Malaika Clinic": ["442", "537", "-95", "121%", "-21%"],
+                "Mikomfwa Health Centre": ["613", "618", "-5", "101%", "-1%"],
+                "Kawama Urban Health Centre (Lua)": ["262", "284", "-22", "108%", "-8%"],
+                "Poleline (Baluba) Health Post": ["418", "561", "-143", "134%", "-34%"],
+                "Luanshya District": ["3255", "3332", "-77", "102%", "-2%"]
+            };
+            var selectedData = data[selectedName];
+            var html = "<h3>Data for " + selectedName + ":</h3>";
+            html += "<table>";
+            html += "<tr><th>Target</th><th>Reach</th><th>Unreached</th><th>Percentage Reach</th><th>Percentage Unreached</th></tr>";
+            html += "<tr>";
+
+            for (var i = 0; i < selectedData.length; i++) {
+                html += "<td>" + selectedData[i] + "</td>";
+            }
+
+            html += "</tr></table>";
+            document.getElementById("data-container").innerHTML = html;
+        }
+    </script>
+</section>
+
+<footer>
+    <div class="footer-links">
+        <a href="KAWAMAU.html" class="footer-link">SIO Page</a>
+        <a href="ccwdetails.html" class="footer-link">CCW Page</a>
+        <a href="FCWDESPF.html" class="footer-link">FCW/DESPF Page</a>
+   <p>&copy; BM Inc. All rights reserved.</p>
+</footer>
+     
