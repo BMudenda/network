@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+    <style>
+        table, tr, td, th {border: 2px solid}
+        th {border-radius: 10%;}
+    </style>
+</head>
+<body>
+    <fieldset style="background-color: aqua;">
+        <div style="display: flex;">
+
+            <form>
+                <div>
+                    <label for="inp1">REQUESTOR</label>
+                    <input type="text" id="inp1" name="inp1" required>
+                </div>
+                <br>
+                <div>
+                    <label for="inp2">LOCATION</label>
+                    <input type="text" id="inp2" name="inp2" required>
+                </div>
+                <br>
+                <div>
+                    <label for="inp3">ACTIVITY</label>
+                    <input type="text" id="inp3" name="inp3" required>
+                </div>
+                <br>
+                <div>
+                    <label for="inp4">DATE</label>
+                    <input type="date" id="inp4" name="inp4" required>
+                </div>
+                <br>
+                <div>
+                    <label for="inp5">START-TIME</label>
+                    <input type="time" id="inp5" name="inp5" required>
+                </div>
+                <br>
+                <div>
+                    <label for="inp6">END-TIME</label>
+                    <input type="time" id="inp6" name="inp6" required>
+                </div>
+            </form>
+        </div>
+        <br>
+        <button id="cre">CREATE</button>
+        <button id="del">DELETE-ENTRY</button>
+        <br>
+        <br>
+        <table id="myTable">
+            <tr>
+                <th>REQUESTOR</th><th>LOCATION</th><th>ACTIVITY</th><th>DATE</th><th>START-TIME</th><th>END-TIME</th>
+            </tr>
+        </table>
+
+        <script>
+            var db;
+            var request = indexedDB.open("myDatabase", 1);
+
+            request.onupgradeneeded = function(event) {
+                db = event.target.result;
+                var objectStore = db.createObjectStore("myStore", { keyPath: "id", autoIncrement: true });
+            };
+
+            request.onsuccess = function(event) {
+                db = event.target.result;
+                loadTableData();
+            };
+
+            var createButton = document.getElementById("cre");
+            var deleteButton = document.getElementById("del");
+
+            createButton.addEventListener("click", createRow);
+            deleteButton.addEventListener("click", deleteRow);
+
+            function createRow() {
+                var transaction = db.transaction(["myStore"], "readwrite");
+                var objectStore = transaction.objectStore("myStore");
+
+                var data = {
+                    requestor: document.getElementById("inp1").value,
+                    location: document.getElementById("inp2").value,
+                    activity: document.getElementById("inp3").value,
+                    date: document.getElementById("inp4").value,
+                    startTime: document.getElementById("inp5").value,
+                    endTime: document.getElementById("inp6").value
+                };
+
+                var request = objectStore.add(data);
+
+                request.onsuccess = function(event) {
+                    // Reload data from IndexedDB after successful addition
+                    loadTableData();
+                };
+            }
+
+            function deleteRow() {
+                var transaction = db.transaction(["myStore"], "readwrite");
+                var objectStore = transaction.objectStore("myStore");
+
+                // Open a cursor to navigate through the records
+                var request = objectStore.openCursor(null, 'prev');
+
+                request.onsuccess = function(event) {
+                    var cursor = event.target.result;
+
+                    if (cursor) {
+                        // Delete the last entry
+                        objectStore.delete(cursor.primaryKey);
+
+                        // Reload data from IndexedDB after successful deletion
+                        loadTableData();
+                    }
+                };
+
+                request.onerror = function(event) {
+                    console.error("Error deleting row:", event.target.error);
+                };
+            }
+
+            function loadTableData() {
+                var table = document.getElementById("myTable");
+                clearTable(table);
+
+                var transaction = db.transaction(["myStore"], "readonly");
+                var objectStore = transaction.objectStore("myStore");
+
+                var request = objectStore.openCursor();
+
+                request.onsuccess = function(event) {
+                    var cursor = event.target.result;
+
+                    if (cursor) {
+                        var data = cursor.value;
+
+                        var row = table.insertRow(-1);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+                        var cell4 = row.insertCell(3);
+                        var cell5 = row.insertCell(4);
+                        var cell6 = row.insertCell(5);
+
+                        cell1.innerHTML = data.requestor;
+                        cell2.innerHTML = data.location;
+                        cell3.innerHTML = data.activity;
+                        cell4.innerHTML = data.date;
+                        cell5.innerHTML = data.startTime;
+                        cell6.innerHTML = data.endTime;
+
+                        cursor.continue();
+                    }
+                };
+            }
+
+            function clearTable(table) {
+                // Clear existing rows in the table
+                while (table.rows.length > 1) {
+                    table.deleteRow(1);
+                }
+            }
+        </script>
+    </body>
+</html>

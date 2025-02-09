@@ -1,0 +1,1859 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKILLS</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+            width: 10px;
+            font-size: smaller;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        section {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        select:focus {
+            background-color: lightblue;
+        }
+        .dropbtn {
+    background-color: hsl(102, 12%, 44%);
+    color: white;
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f7fc;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(9, 6, 204, 0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+  }
+  
+  .dropdown-content a:hover {background-color: #c1f5bc}
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .dropdown:hover .dropbtn {
+    background-color: #f3f8f4;
+  }
+
+    </style>
+</head>
+<body>
+
+      
+<section>
+    <!-- ccw Filter Dropdown -->
+    <section>
+      <!-- PASTE BUTTON -->
+      
+      <div class="dropdown">
+        <button class="dropbtn">SELECT HERE👈</button>
+        <div class="dropdown-content" style="text-align: center;">
+          
+           <br><br>
+            <!-- ccw Filter Dropdown -->
+              <!-- ccw Filter Dropdown -->
+              <label for="ccwSelect">CCW:</label>
+              <select id="ccwSelect" onchange="filterTable()">
+                  <option value="">Select All</option>
+                  <option value="amos_kasonde">Amos Kasonde</option>
+                  <option value="angela_mwenya">Angela Mwenya</option>
+                  <option value="banda_david">Banda David</option>
+                  <option value="banda_misozi">Banda Misozi</option>
+                  <option value="brandina_tembo">Brandina Tembo</option>
+                  <option value="martha_muchimba">Martha Muchimba</option>
+                  <option value="chitambala_stanslous">Chitambala Stanslous</option>
+                  <option value="matildah_kunda">Matildah Kunda</option>
+                  <option value="emmanuel_kapambwe">Emmanuel Kapambwe</option>
+                  <option value="gondwe_fanny">Gondwe Fanny</option>
+                  <option value="grace_kebende">Grace Kebende</option>
+                  <option value="hector_banda">Hector Banda</option>
+                  <option value="hellen_mwansa">Hellen Mwansa</option>
+                  <option value="jane_kasaka1">Jane Kasaka1</option>
+                  <option value="janny_mutampuka">Janny Mutampuka</option>
+                  <option value="joe_nyanga">Joe Nyanga</option>
+                  <option value="aliyah_daka">Aliyah Daka</option>
+                  <option value="joseph_kaimana">Joseph Kaimana</option>
+                  <option value="joshua_malole">Joshua Malole</option>
+                  <option value="kabesha_mary">Kabesha Mary</option>
+                  <option value="kapasula_edith">Kapasula Edith</option>
+                  <option value="kumwenda_mary">Kumwenda Mary</option>
+                  <option value="makashini_christopher">Makashini Christopher</option>
+                  <option value="mary_mwape">Mary Mwape</option>
+                  <option value="mikabo_mildred">Mikabo Mildred</option>
+                  <option value="musa_joyce">Musa Joyce</option>
+                  <option value="mwaba_rodgers">Mwaba Rodgers</option>
+                  <option value="natasha_musonda">Natasha Musonda</option>
+                  <option value="sakala_veronica">Sakala Veronica</option>
+                  <option value="moses_banda">Moses Banda</option>
+                  <option value="soteli_winfridah">Soteli Winfridah</option>
+                  <option value="tembo_ireen">Tembo Ireen</option>
+                  <!-- Add more options here -->
+              </select>
+                <!-- other options... -->
+            </select>
+            <br><br>
+            <!-- Facility Filter Dropdown -->
+            <label for="facilitySelect">FACILITY:</label>
+            <select id="facilitySelect" onchange="filterTable()">
+                <option value="">Select All</option>
+                <option value="Thompson District Hospital">Thompson</option>
+                <option value="Roan A. Gen Hospital">Roan</option>
+                 <option value="Mpatamatu Section 26 Clinic">Section 26</option>
+                <option value="Malaika Clinic">Malaika</option>
+                <option value="Kawama Urban Health Centre (Lua)">Kawama</option>
+                <option value="Mikomfwa Health Centre">Mikonfwa</option>
+                <option value="Poleline (Baluba) Health Post">Baluba</option>
+                <!-- other options... -->
+            </select>
+            <br><br>
+            <!-- Gender Filter Dropdown change femele male-->
+            <label for="suppresionSelect">GENDER TYPE:</label>
+            <select id="suppresionSelect" onchange="filterTable()">
+                <option value="">Select All</option>
+                <option value="Male">M</option>
+                <option value="Female">F</option>
+            </select>
+            <br><br>
+            <!-- Age Band Filter Dropdown create age band -->
+            <label for="ageBandSelect">Project_Status:</label>
+            <select id="ageBandSelect" onchange="filterTable()">
+                <option value="">Select All</option>
+                
+                <option value="Active">Active</option>
+                <option value="Attrition">Attrition</option>
+                
+              
+                
+                
+                <!-- add other age bands as necessary -->
+            </select>
+        <br><br>
+            <!-- ELIGIBLE MONTH Status Filter Dropdown change to serv and create serv formula -->
+            <label for="hivStatusSelect">Course_Status:</label>
+            <select id="hivStatusSelect" onchange="filterTable()">
+                <option value="">Select All</option>
+                <option value="Deceased">Deceased</option>
+                <option value="Still Studying">Studying</option>
+                <option value="Graduated">Graduated</option>
+                <option value="not completed">not completed</option>
+                
+                
+                
+            </select>
+    <br><br>
+        <input id="myInput" type="text" placeholder="Search..">
+        </div>
+
+        <br><br>
+
+  </div>
+    
+
+</div>
+</section>
+
+
+<h2>skills tracker</h2>
+<p style="background-color: rgb(244, 248, 248);">Total Beneficiaries Filtered: <span id="rowCount">0</span></p>
+<table class="dataframe" id="myTable">
+    <thead>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+      <script>
+      $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+          var value = $(this).val().toLowerCase();
+          $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+        });
+      });
+      </script>
+
+<tr style="text-align: right;">
+  <th></th>
+  <th>Health Facility</th>
+  <th>CCW</th>
+  <th>Name of VCA</th>
+  <th>Sex</th>
+  <th>Age</th>
+  <th>NRC No.</th>
+  <th>Phone No.</th>
+  <th>Email Address</th>
+  <th>Date Enrolled on USAID ECAP I</th>
+  <th>Project Status</th>
+  <th>Type of Support</th>
+  <th>Value of Support</th>
+  <th>Highest Level of Qualification</th>
+  <th>Course Study</th>
+  <th>Course Duration</th>
+  <th>Tertiary Qualification Type</th>
+  <th>Course Start Date</th>
+  <th>Date of Completion</th>
+  <th>Institution</th>
+  <th>Status of VCA Currently</th>
+  <th>Name of Employer</th>
+  <th>Type of Employer</th>
+  <th>VCA linked to market-linked opportunities</th>
+  <th>Type of market-linked opportunities</th>
+  <th>General Comments</th>
+  <th>FY</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <th>0</th>
+  <td>Mikomfwa Health Centre</td>
+  <td>Luanshya</td>
+  <td>Kalenga Eugine\n</td>
+  <td>Male</td>
+  <td>22</td>
+  <td>616846/10/1</td>
+  <td>976649975</td>
+  <td>NaN</td>
+  <td>2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K6,425.00</td>
+  <td>Grade 12</td>
+  <td>Basic Electrical</td>
+  <td>6 Months</td>
+  <td>Certificate</td>
+  <td>09/12/2022</td>
+  <td>30/06/2023</td>
+  <td>ISTEC</td>
+  <td>Graduated</td>
+  <td>Unemployed</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>20</td>
+</tr>
+<tr>
+  <th>1</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>Luanshya</td>
+  <td>Musonda  Yebo</td>
+  <td>Female</td>
+  <td>20</td>
+  <td>354498/68/1</td>
+  <td>0960 584810</td>
+  <td>NaN</td>
+  <td>02/02/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K6,425.00</td>
+  <td>Grade 12</td>
+  <td>catering</td>
+  <td>6 Months</td>
+  <td>Certificate</td>
+  <td>09/12/2022</td>
+  <td>30/06/2023</td>
+  <td>ISTEC</td>
+  <td>Deceased</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Deceased</td>
+  <td>20</td>
+</tr>
+<tr>
+  <th>2</th>
+  <td>Thompson District Hospital</td>
+  <td>Luanshya</td>
+  <td>Cleopatra Siamooya</td>
+  <td>Female</td>
+  <td>21</td>
+  <td>345885/68/1</td>
+  <td>962866995</td>
+  <td>NaN</td>
+  <td>24/07/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K6,425.00</td>
+  <td>Grade 12</td>
+  <td>Fashion and Designing</td>
+  <td>6 Months</td>
+  <td>Certificate</td>
+  <td>09/12/2022</td>
+  <td>30/06/2023</td>
+  <td>ISTEC</td>
+  <td>Still Studying</td>
+  <td>Unemployed</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>20</td>
+</tr>
+<tr>
+  <th>3</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>Luanshya</td>
+  <td>Mwape priscila</td>
+  <td>Female</td>
+  <td>20</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>21/11/2022</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K6,425.00</td>
+  <td>Grade 12</td>
+  <td>Food Production</td>
+  <td>6 Months</td>
+  <td>Certificate</td>
+  <td>09/12/2022</td>
+  <td>30/06/2023</td>
+  <td>ISTEC</td>
+  <td>Still Studying</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>20</td>
+</tr>
+<tr>
+  <th>4</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>Luanshya</td>
+  <td>Mapalo Mwanza</td>
+  <td>Male</td>
+  <td>20</td>
+  <td>357670/68/1</td>
+  <td>967107573</td>
+  <td>NaN</td>
+  <td>20/07/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K14,025.00</td>
+  <td>Grade 9</td>
+  <td>Metal Fabrication and Welding</td>
+  <td>12 months</td>
+  <td>Certificate</td>
+  <td>10/04/2021</td>
+  <td>04/01/2022</td>
+  <td>ISTEC</td>
+  <td>Graduated</td>
+  <td>Unemployed</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>21</td>
+</tr>
+<tr>
+  <th>5</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>Luanshya</td>
+  <td>Zulu Catherine</td>
+  <td>Female</td>
+  <td>22</td>
+  <td>338347/68/1</td>
+  <td>767039139</td>
+  <td>NaN</td>
+  <td>25/03/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4,175.00</td>
+  <td>Grade 12</td>
+  <td>Metal Fabrication and Welding</td>
+  <td>3 Months</td>
+  <td>Trade Test</td>
+  <td>04/10/2021</td>
+  <td>2/17/2022</td>
+  <td>ISTEC</td>
+  <td>Graduated</td>
+  <td>Unemployed</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>21</td>
+</tr>
+<tr>
+  <th>6</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>Luanshya</td>
+  <td>Abel Kaila</td>
+  <td>Male</td>
+  <td>20</td>
+  <td>345906/62/1</td>
+  <td>771362065</td>
+  <td>NaN</td>
+  <td>01/07/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4,175.00</td>
+  <td>NaN</td>
+  <td>Metal Fabrication and Welding</td>
+  <td>3 Months</td>
+  <td>Trade Test</td>
+  <td>10/04/2021</td>
+  <td>2/17/2022</td>
+  <td>ISTEC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>Individual</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>21</td>
+</tr>
+<tr>
+  <th>7</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>Luanshya</td>
+  <td>Mumbi Mumbi</td>
+  <td>Male</td>
+  <td>21</td>
+  <td>342915/68/1</td>
+  <td>974638891</td>
+  <td>mumbithethird@gmail.com</td>
+  <td>20/08/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4,175.00</td>
+  <td>Grade 12</td>
+  <td>Metal Fabrication and Welding</td>
+  <td>3 Months</td>
+  <td>Trade Test</td>
+  <td>04/10/2021</td>
+  <td>2/17/2022</td>
+  <td>ISTEC</td>
+  <td>Graduated</td>
+  <td>Employed</td>
+  <td>Private</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>completed</td>
+  <td>21</td>
+</tr>
+<tr>
+  <th>8</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>Luanshya</td>
+  <td>Ronald Mwansa</td>
+  <td>Male</td>
+  <td>20</td>
+  <td>351541/68/1</td>
+  <td>769275706</td>
+  <td>NaN</td>
+  <td>12/04/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4,175.00</td>
+  <td>NaN</td>
+  <td>Metal Fabrication and Welding</td>
+  <td>3 Months</td>
+  <td>Trade Test</td>
+  <td>04/10/2021</td>
+  <td>2/17/2022</td>
+  <td>ISTEC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>VCA did start the Course</td>
+  <td>21</td>
+</tr>
+<tr>
+  <th>9</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>Luanshya</td>
+  <td>Precious Bwalya</td>
+  <td>Female</td>
+  <td>19</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>18/03/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4,175.00</td>
+  <td>NaN</td>
+  <td>Metal Fabrication and Welding</td>
+  <td>3 Months</td>
+  <td>Trade Test</td>
+  <td>10/04/2021</td>
+  <td>2/17/2022</td>
+  <td>ISTEC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>21</td>
+</tr>
+<tr>
+  <th>10</th>
+  <td>Thompson District Hospital</td>
+  <td>Luanshya</td>
+  <td>Mwape Chileshe</td>
+  <td>Female</td>
+  <td>20</td>
+  <td>354267/68/1</td>
+  <td>962014399</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4,175.00</td>
+  <td>NaN</td>
+  <td>Metal Fabrication and Welding</td>
+  <td>3 Months</td>
+  <td>Trade Test</td>
+  <td>04/10/2021</td>
+  <td>2/17/2022</td>
+  <td>ISTEC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>21</td>
+</tr>
+<tr>
+  <th>11</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>Luanshya</td>
+  <td>Chewe Mapalo Mwanza</td>
+  <td>Female</td>
+  <td>20</td>
+  <td>357670/68/1</td>
+  <td>966903293</td>
+  <td>NaN</td>
+  <td>20/07/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4,175.00</td>
+  <td>NaN</td>
+  <td>Metal Fabrication and Welding</td>
+  <td>3Moths</td>
+  <td>Trade Test</td>
+  <td>04/10/2021</td>
+  <td>NaN</td>
+  <td>ISTEC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>21</td>
+</tr>
+<tr>
+  <th>12</th>
+  <td>Thompson District Hospital</td>
+  <td>Luanshya</td>
+  <td>Berthany Mumba</td>
+  <td>Female</td>
+  <td>21</td>
+  <td>NaN</td>
+  <td>961624656</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4,175.00</td>
+  <td>NaN</td>
+  <td>Metal Fabrication and Welding</td>
+  <td>3 Months</td>
+  <td>Trade Test</td>
+  <td>10/04/2021</td>
+  <td>2/17/2022</td>
+  <td>ISTEC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>21</td>
+</tr>
+<tr>
+  <th>13</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>Luanshya</td>
+  <td>Mumba Madalitso</td>
+  <td>Male</td>
+  <td>21</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K9,430.00</td>
+  <td>NaN</td>
+  <td>Electrical</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>ISTEC</td>
+  <td>Still Studying</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>21</td>
+</tr>
+<tr>
+  <th>14</th>
+  <td>Thompson District Hospital</td>
+  <td>Luanshya</td>
+  <td>Lapukeni Gift</td>
+  <td>Female</td>
+  <td>22</td>
+  <td>342216/68/1</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>28/03/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4070</td>
+  <td>Grade 12</td>
+  <td>Electrical Engineering Trade Test Level Two</td>
+  <td>12 Months</td>
+  <td>Trade Test</td>
+  <td>01/01/2022</td>
+  <td>NaN</td>
+  <td>LTBC</td>
+  <td>not completed</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>VCA dropped out because of pregnancy</td>
+  <td>22</td>
+</tr>
+<tr>
+  <th>15</th>
+  <td>Thompson District Hospital</td>
+  <td>Luanshya</td>
+  <td>Phiri Costance</td>
+  <td>Female</td>
+  <td>22</td>
+  <td>340986/68/1</td>
+  <td>978087660</td>
+  <td>NaN</td>
+  <td>28/03/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4070</td>
+  <td>Grade 9</td>
+  <td>Electrical Engineering Trade Test Level Two</td>
+  <td>12 Months</td>
+  <td>Trade Test</td>
+  <td>01/01/2022</td>
+  <td>NaN</td>
+  <td>LTBC</td>
+  <td>not completed</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>VCA dropped out because of pregnancy</td>
+  <td>22</td>
+</tr>
+<tr>
+  <th>16</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>Luanshya</td>
+  <td>Bwalya Gift</td>
+  <td>Female</td>
+  <td>18</td>
+  <td>357405/68/1</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4070</td>
+  <td>Grade 9</td>
+  <td>Electrical Engineering Trade Test Level Two</td>
+  <td>12 Months</td>
+  <td>Trade Test</td>
+  <td>01/01/2022</td>
+  <td>01/01/2023</td>
+  <td>LTBC</td>
+  <td>completed</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>22</td>
+</tr>
+<tr>
+  <th>17</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>Luanshya</td>
+  <td>Chileshe Gregory</td>
+  <td>Male</td>
+  <td>20</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>03/04/2021</td>
+  <td>Attrition</td>
+  <td>Tuition Fees</td>
+  <td>K4070</td>
+  <td>Grade 9</td>
+  <td>Automotive Mechanics Trade Test Level Two</td>
+  <td>12 Months</td>
+  <td>Trade Test</td>
+  <td>01/01/2022</td>
+  <td>01/01/2023</td>
+  <td>LTBC</td>
+  <td>completed</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Deceased</td>
+  <td>22</td>
+</tr>
+<tr>
+  <th>18</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>Luanshya</td>
+  <td>Kunda Ethern</td>
+  <td>Male</td>
+  <td>21</td>
+  <td>334585/68/1</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>25/01/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4070</td>
+  <td>Grade 12</td>
+  <td>Electrical Engineering</td>
+  <td>12 months</td>
+  <td>Trade Test</td>
+  <td>01/01/2022</td>
+  <td>01/01/2023</td>
+  <td>LTBC</td>
+  <td>completed</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>22</td>
+</tr>
+<tr>
+  <th>19</th>
+  <td>Poleline (Baluba) Health Post</td>
+  <td>hector_banda</td>
+  <td>Justina Namwai</td>
+  <td>Female</td>
+  <td>20</td>
+  <td>297983/68/1</td>
+  <td>771801388</td>
+  <td>NaN</td>
+  <td>12/04/2023</td>
+  <td>Attrition</td>
+  <td>Tuition Fees</td>
+  <td>k3500</td>
+  <td>NaN</td>
+  <td>Food Production</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>INSTC</td>
+  <td>Graduated</td>
+  <td>Self</td>
+  <td>Self-employed</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Graduated</td>
+  <td>23</td>
+</tr>
+<tr>
+  <th>20</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>hellen_mwansa</td>
+  <td>Violet Nyirenda</td>
+  <td>Female</td>
+  <td>20</td>
+  <td>352494/68/1</td>
+  <td>769709647</td>
+  <td>NaN</td>
+  <td>24/04/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>k3501</td>
+  <td>Grade 12</td>
+  <td>Food Production</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Graduated</td>
+  <td>23</td>
+</tr>
+<tr>
+  <th>21</th>
+  <td>Poleline (Baluba) Health Post</td>
+  <td>hector_banda</td>
+  <td>Hellen Chiibwe</td>
+  <td>Female</td>
+  <td>21</td>
+  <td>440256/10/1</td>
+  <td>764310012</td>
+  <td>NaN</td>
+  <td>05/12/2022</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>k3502</td>
+  <td>NaN</td>
+  <td>General Hospitality</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Graduated</td>
+  <td>23</td>
+</tr>
+<tr>
+  <th>22</th>
+  <td>Malaika Clinic</td>
+  <td>matildah_kunda</td>
+  <td>Naomi Changwe</td>
+  <td>Female</td>
+  <td>22</td>
+  <td>344563/68/1</td>
+  <td>974734097</td>
+  <td>NaN</td>
+  <td>16/03/2022</td>
+  <td>Attrition</td>
+  <td>Tuition Fees</td>
+  <td>k3503</td>
+  <td>NaN</td>
+  <td>Metal Fabrication</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Graduated</td>
+  <td>23</td>
+</tr>
+<tr>
+  <th>23</th>
+  <td>Malaika Clinic</td>
+  <td>joe_nyanga</td>
+  <td>Hildah Kalunde</td>
+  <td>Female</td>
+  <td>22</td>
+  <td>343586/68/1</td>
+  <td>767136688</td>
+  <td>NaN</td>
+  <td>09/03/2022</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>k3500</td>
+  <td>NaN</td>
+  <td>Driving</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>LTBC</td>
+  <td>Graduated</td>
+  <td>Kalense Farm</td>
+  <td>Private</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Graduated</td>
+  <td>23</td>
+</tr>
+<tr>
+  <th>24</th>
+  <td>Poleline (Baluba) Health Post</td>
+  <td>hector_banda</td>
+  <td>Peggy Mwansa</td>
+  <td>Female</td>
+  <td>21</td>
+  <td>645049/67/1</td>
+  <td>768532382</td>
+  <td>NaN</td>
+  <td>05/12/2022</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>k3500</td>
+  <td>NaN</td>
+  <td>Food Production</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>Self</td>
+  <td>Self-employed</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Graduated</td>
+  <td>23</td>
+</tr>
+<tr>
+  <th>25</th>
+  <td>Mikomfwa Health Centre</td>
+  <td>martha_muchimba</td>
+  <td>Trinita Mumba</td>
+  <td>Female</td>
+  <td>21</td>
+  <td>327708/42/1</td>
+  <td>777550073</td>
+  <td>NaN</td>
+  <td>01/02/2022</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>k3500</td>
+  <td>NaN</td>
+  <td>General Hospitality</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Graduated</td>
+  <td>23</td>
+</tr>
+<tr>
+  <th>26</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>brandina_tembo</td>
+  <td>Sarah Ngosa</td>
+  <td>Female</td>
+  <td>20</td>
+  <td>346245/68/1</td>
+  <td>967397674</td>
+  <td>NaN</td>
+  <td>24/04/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>k3500</td>
+  <td>Grade 12</td>
+  <td>Food Production</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Graduated</td>
+  <td>23</td>
+</tr>
+<tr>
+  <th>27</th>
+  <td>Mikomfwa Health Centre</td>
+  <td>martha_muchimba</td>
+  <td>Borniface Mulutula</td>
+  <td>Male</td>
+  <td>22</td>
+  <td>356568/68/1</td>
+  <td>764583914</td>
+  <td>NaN</td>
+  <td>17/05/2022</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>k3500</td>
+  <td>NaN</td>
+  <td>Metal Fabrication</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Graduated</td>
+  <td>23</td>
+</tr>
+<tr>
+  <th>28</th>
+  <td>Mikomfwa Health Centre</td>
+  <td>martha_muchimba</td>
+  <td>Natashya Mukango</td>
+  <td>Female</td>
+  <td>21</td>
+  <td>341245/68/1</td>
+  <td>762001015</td>
+  <td>NaN</td>
+  <td>13/04/2022</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>k3500</td>
+  <td>NaN</td>
+  <td>Power Electrical</td>
+  <td>3months</td>
+  <td>Certificate</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Graduated</td>
+  <td>23</td>
+</tr>
+<tr>
+  <th>29</th>
+  <td>Mikomfwa Health Centre</td>
+  <td>martha_muchimba</td>
+  <td>Aminata Juma</td>
+  <td>Female</td>
+  <td>21</td>
+  <td>352069/68/1</td>
+  <td>962013202</td>
+  <td>NaN</td>
+  <td>13/04/2022</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>k3500</td>
+  <td>NaN</td>
+  <td>Power Electrical</td>
+  <td>3momths</td>
+  <td>Certificate</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Graduated</td>
+  <td>23</td>
+</tr>
+<tr>
+  <th>30</th>
+  <td>Poleline (Baluba) Health Post</td>
+  <td>hector_banda</td>
+  <td>Bernard Muntali</td>
+  <td>Male</td>
+  <td>21</td>
+  <td>353582/68/1</td>
+  <td>766100028</td>
+  <td>NaN</td>
+  <td>10/02/2023</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>k3500</td>
+  <td>NaN</td>
+  <td>Power Electrical</td>
+  <td>3months</td>
+  <td>Certificate</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Graduated</td>
+  <td>23</td>
+</tr>
+<tr>
+  <th>31</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>mwaba_rodgers</td>
+  <td>Patrick Sefalino</td>
+  <td>Male</td>
+  <td>22</td>
+  <td>345475/68/1</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>10/02/2021</td>
+  <td>Attrition</td>
+  <td>Tuition Fees</td>
+  <td>k3500</td>
+  <td>Grade 12</td>
+  <td>Driving</td>
+  <td>3months</td>
+  <td>Certificate</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>LTBC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Graduated</td>
+  <td>23</td>
+</tr>
+<tr>
+  <th>32</th>
+  <td>Kawama Urban Health Centre (Lua)</td>
+  <td>angela_mwenya</td>
+  <td>Ireen Mutale</td>
+  <td>Female</td>
+  <td>22</td>
+  <td>348869/68/1</td>
+  <td>760195645</td>
+  <td>NaN</td>
+  <td>12/03/2022</td>
+  <td>Attrition</td>
+  <td>Tuition Fees</td>
+  <td>k3500</td>
+  <td>Grade 12</td>
+  <td>General Hospitality</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Graduated</td>
+  <td>23</td>
+</tr>
+<tr>
+  <th>33</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>banda_misozi</td>
+  <td>Brian Banda</td>
+  <td>Male</td>
+  <td>19</td>
+  <td>382721/68/1</td>
+  <td>767423330</td>
+  <td>NaN</td>
+  <td>26/03/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>k3500</td>
+  <td>Grade 12</td>
+  <td>Metal Fabrication</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Graduated</td>
+  <td>23</td>
+</tr>
+<tr>
+  <th>34</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>mikabo_mildred</td>
+  <td>Kunda Kabwe</td>
+  <td>Male</td>
+  <td>19</td>
+  <td>361887/68/1</td>
+  <td>966922845</td>
+  <td>NaN</td>
+  <td>25/01/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K2,500.00</td>
+  <td>Grade 12</td>
+  <td>ICT</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>01/01/2024</td>
+  <td>30/03/2024</td>
+  <td>LTBC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Completed</td>
+  <td>24</td>
+</tr>
+<tr>
+  <th>35</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>sakala_veronica</td>
+  <td>Musonda Mangala</td>
+  <td>Male</td>
+  <td>23</td>
+  <td>587109/67/1</td>
+  <td>962951862</td>
+  <td>NaN</td>
+  <td>02/02/2021</td>
+  <td>Attrition</td>
+  <td>Tuition Fees</td>
+  <td>K4,000.00</td>
+  <td>Grade 12</td>
+  <td>Metal Fabrication</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>01/01/2024</td>
+  <td>30/03/2024</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Completed</td>
+  <td>24</td>
+</tr>
+<tr>
+  <th>36</th>
+  <td>Poleline (Baluba) Health Post</td>
+  <td>mwaba_rodgers</td>
+  <td>Chunda Blessing J.</td>
+  <td>Female</td>
+  <td>21</td>
+  <td>612001/67/1</td>
+  <td>968102796</td>
+  <td>NaN</td>
+  <td>30/03/2023</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4,000.00</td>
+  <td>Grade 12</td>
+  <td>Fashion Design Tech</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>01/01/2024</td>
+  <td>30/03/2024</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Completed</td>
+  <td>24</td>
+</tr>
+<tr>
+  <th>37</th>
+  <td>Thompson District Hospital</td>
+  <td>hector_banda</td>
+  <td>Nayame Norah</td>
+  <td>Female</td>
+  <td>20</td>
+  <td>350200/68/1</td>
+  <td>961410803</td>
+  <td>NaN</td>
+  <td>26/01/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4,000.00</td>
+  <td>Grade 9</td>
+  <td>Food Production</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>01/01/2024</td>
+  <td>30/03/2024</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Completed</td>
+  <td>24</td>
+</tr>
+<tr>
+  <th>38</th>
+  <td>Thompson District Hospital</td>
+  <td>kabesha_mary</td>
+  <td>Chisanga Patricia</td>
+  <td>Female</td>
+  <td>19</td>
+  <td>362958/68/1</td>
+  <td>961374810</td>
+  <td>NaN</td>
+  <td>17/02/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4,000.00</td>
+  <td>Grade 12</td>
+  <td>General Hospitality</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>01/01/2024</td>
+  <td>30/03/2024</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Completed</td>
+  <td>24</td>
+</tr>
+<tr>
+  <th>39</th>
+  <td>Thompson District Hospital</td>
+  <td>kabesha_mary</td>
+  <td>Mfune Stephan</td>
+  <td>Female</td>
+  <td>18</td>
+  <td>362957/68/1</td>
+  <td>967762959</td>
+  <td>NaN</td>
+  <td>17/02/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4,000.00</td>
+  <td>Grade 12</td>
+  <td>General Hospitality</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>01/01/2024</td>
+  <td>30/03/2024</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Completed</td>
+  <td>24</td>
+</tr>
+<tr>
+  <th>40</th>
+  <td>Thompson District Hospital</td>
+  <td>kabesha_mary</td>
+  <td>Chomba Eness</td>
+  <td>Female</td>
+  <td>21</td>
+  <td>342527/68/1</td>
+  <td>961431652</td>
+  <td>NaN</td>
+  <td>14/02/2022</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4,000.00</td>
+  <td>Grade 12</td>
+  <td>General Hospitality</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>01/01/2024</td>
+  <td>30/03/2024</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Completed</td>
+  <td>24</td>
+</tr>
+<tr>
+  <th>41</th>
+  <td>Poleline (Baluba) Health Post</td>
+  <td>janny_mutampuka</td>
+  <td>Mulenga John</td>
+  <td>Male</td>
+  <td>21</td>
+  <td>346454/68/1</td>
+  <td>762056458</td>
+  <td>NaN</td>
+  <td>24/06/2022</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4,000.00</td>
+  <td>Grade 12</td>
+  <td>Driving CI</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>01/01/2024</td>
+  <td>30/03/2024</td>
+  <td>LTBC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Completed</td>
+  <td>24</td>
+</tr>
+<tr>
+  <th>42</th>
+  <td>Thompson District Hospital</td>
+  <td>hector_banda</td>
+  <td>wamunyima itwi</td>
+  <td>Male</td>
+  <td>20</td>
+  <td>NaN</td>
+  <td>967106639</td>
+  <td>NaN</td>
+  <td>27/04/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4,000.00</td>
+  <td>Grade 9</td>
+  <td>Metal Fabrication</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>01/01/2024</td>
+  <td>30/03/2024</td>
+  <td>LSTC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>No</td>
+  <td>NaN</td>
+  <td>Completed</td>
+  <td>24</td>
+</tr>
+<tr>
+  <th>43</th>
+  <td>Poleline (Baluba) Health Post</td>
+  <td>kumwenda_mary</td>
+  <td>Bwalya Joseph</td>
+  <td>Male</td>
+  <td>20</td>
+  <td>488021/68/1</td>
+  <td>770801471</td>
+  <td>NaN</td>
+  <td>24/06/2022</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K2,500.00</td>
+  <td>Grade 12</td>
+  <td>Driving CI</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>01/01/2024</td>
+  <td>30/03/2024</td>
+  <td>LTBC</td>
+  <td>Graduated</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Completed</td>
+  <td>24</td>
+</tr>
+<tr>
+  <th>44</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>hector_banda</td>
+  <td>Bah Salif</td>
+  <td>Male</td>
+  <td>18</td>
+  <td>362235/68/1</td>
+  <td>969648527</td>
+  <td>NaN</td>
+  <td>30/04/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4500</td>
+  <td>Grade 12</td>
+  <td>Driving CI</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>12/01/2025</td>
+  <td>NaN</td>
+  <td>LTBC</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Yet to complete the course</td>
+  <td>25</td>
+</tr>
+<tr>
+  <th>45</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>mikabo_mildred</td>
+  <td>Soko Kondwani</td>
+  <td>Male</td>
+  <td>19</td>
+  <td>363054/68/1</td>
+  <td>968276765</td>
+  <td>NaN</td>
+  <td>27/03/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4500</td>
+  <td>Grade 12</td>
+  <td>Electronics</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>13/01/2025</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Yet to complete the course</td>
+  <td>25</td>
+</tr>
+<tr>
+  <th>46</th>
+  <td>Poleline (Baluba) Health Post</td>
+  <td>hector_banda</td>
+  <td>Mukupa Lameck</td>
+  <td>Male</td>
+  <td>20</td>
+  <td>361711/68/1</td>
+  <td>762654595</td>
+  <td>NaN</td>
+  <td>05/11/2024</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4500</td>
+  <td>Grade 12</td>
+  <td>Driving CI</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>14/01/2025</td>
+  <td>NaN</td>
+  <td>LTBC</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Yet to complete the course</td>
+  <td>25</td>
+</tr>
+<tr>
+  <th>47</th>
+  <td>Poleline (Baluba) Health Post</td>
+  <td>hector_banda</td>
+  <td>Nsofwa Jennipher</td>
+  <td>Female</td>
+  <td>19</td>
+  <td>368343/68/1</td>
+  <td>767965830</td>
+  <td>NaN</td>
+  <td>17/06/2024</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4500</td>
+  <td>Grade 12</td>
+  <td>Driving CI</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>15/01/2025</td>
+  <td>NaN</td>
+  <td>LTBC</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Yet to complete the course</td>
+  <td>25</td>
+</tr>
+<tr>
+  <th>48</th>
+  <td>Mikomfwa Health Centre</td>
+  <td>martha_muchimba</td>
+  <td>Kabanshi Annie T.</td>
+  <td>Female</td>
+  <td>21</td>
+  <td>366218/18/1</td>
+  <td>766952489</td>
+  <td>NaN</td>
+  <td>13/04/2022</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4500</td>
+  <td>Grade 9</td>
+  <td>Metal Fabrication</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>16/01/2025</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Yet to complete the course</td>
+  <td>25</td>
+</tr>
+<tr>
+  <th>49</th>
+  <td>Malaika Clinic</td>
+  <td>joe_nyanga</td>
+  <td>Musonda Julien</td>
+  <td>Female</td>
+  <td>18</td>
+  <td>367255/68/1</td>
+  <td>961593250</td>
+  <td>NaN</td>
+  <td>09/03/2022</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4500</td>
+  <td>Grade 7</td>
+  <td>Driving CI</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>17/01/2025</td>
+  <td>NaN</td>
+  <td>LTBC</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Yet to complete the course</td>
+  <td>25</td>
+</tr>
+<tr>
+  <th>50</th>
+  <td>Mikomfwa Health Centre</td>
+  <td>martha_muchimba</td>
+  <td>Malisala Liness</td>
+  <td>Female</td>
+  <td>22</td>
+  <td>353944/68/1</td>
+  <td>763360962</td>
+  <td>NaN</td>
+  <td>04/04/2023</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4500</td>
+  <td>Grade 12</td>
+  <td>Catering</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>18/01/2025</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Yet to complete the course</td>
+  <td>25</td>
+</tr>
+<tr>
+  <th>51</th>
+  <td>Thompson District Hospital</td>
+  <td>joshua_malole</td>
+  <td>Nzima Emmanuel</td>
+  <td>Male</td>
+  <td>20</td>
+  <td>366514/68/1</td>
+  <td>960603112</td>
+  <td>NaN</td>
+  <td>28/04/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4500</td>
+  <td>Grade 12</td>
+  <td>Driving CI</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>19/01/2025</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Yet to complete the course</td>
+  <td>25</td>
+</tr>
+<tr>
+  <th>52</th>
+  <td>Thompson District Hospital</td>
+  <td>kabesha_mary</td>
+  <td>Mazila Henry</td>
+  <td>Male</td>
+  <td>18</td>
+  <td>365554/68/1</td>
+  <td>771845937</td>
+  <td>NaN</td>
+  <td>26/03/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4500</td>
+  <td>Grade 12</td>
+  <td>ICT</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>20/01/2025</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Yet to complete the course</td>
+  <td>25</td>
+</tr>
+<tr>
+  <th>53</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>kapasula_edith</td>
+  <td>Chibala Mwamba C.</td>
+  <td>Male</td>
+  <td>21</td>
+  <td>367008/68/1</td>
+  <td>767153362</td>
+  <td>NaN</td>
+  <td>25/02/2021</td>
+  <td>Active</td>
+  <td>Tuition Fees</td>
+  <td>K4500</td>
+  <td>Grade 12</td>
+  <td>Electrical</td>
+  <td>3month</td>
+  <td>Certificate</td>
+  <td>21/01/2025</td>
+  <td>NaN</td>
+  <td>LSTC</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>NaN</td>
+  <td>Yet to complete the course</td>
+  <td>25</td>
+</tr>
+</tbody>
+</table>
+
+<script>
+    function filterTable() {
+        var ccwSelect = document.getElementById("ccwSelect").value.toLowerCase();
+        var facilitySelect = document.getElementById("facilitySelect").value.toLowerCase();
+        var suppresionSelect = document.getElementById("suppresionSelect").value.toLowerCase();
+        var ageBandSelect = document.getElementById("ageBandSelect").value.toLowerCase();
+        var hivStatusSelect = document.getElementById("hivStatusSelect").value.toLowerCase();
+
+        var table = document.getElementById("myTable");
+        var rows = table.getElementsByTagName("tr");
+
+        var rowCount = 0;
+
+        for (var i = 1; i < rows.length; i++) {
+            var ccwCell = rows[i].getElementsByTagName("td")[1];
+            var facilityCell = rows[i].getElementsByTagName("td")[0];
+            var suppresionCell = rows[i].getElementsByTagName("td")[3];
+            var ageBandCell = rows[i].getElementsByTagName("td")[9];
+            var hivStatusCell = rows[i].getElementsByTagName("td")[19];
+
+            var ccwText = ccwCell.textContent || ccwCell.innerText;
+            var facilityText = facilityCell.textContent || facilityCell.innerText;
+            var suppresionText = suppresionCell.textContent || suppresionCell.innerText;
+            var ageBandText = ageBandCell.textContent || ageBandCell.innerText;
+            var hivStatusText = hivStatusCell.textContent || hivStatusCell.innerText;
+
+            // Check if row matches the selected filters
+            if ((ccwText.toLowerCase() === ccwSelect || ccwSelect === "") &&
+                (facilityText.toLowerCase() === facilitySelect || facilitySelect === "") &&
+                (suppresionText.toLowerCase() === suppresionSelect || suppresionSelect === "") &&
+                (ageBandText.toLowerCase() === ageBandSelect || ageBandSelect === "") &&
+                (hivStatusText.toLowerCase() === hivStatusSelect || hivStatusSelect === "")) {
+                rows[i].style.display = "";
+                rowCount++;  // Increase count for visible rows
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+
+        // Display the count of visible rows
+        document.getElementById("rowCount").innerText = rowCount;
+    }
+</script>
+<footer>
+    
+   <p>&copy; BM Inc. 08-02-25.</p>
+</footer>
+</body>
+</html>

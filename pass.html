@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+</head>
+<body>
+
+<!-- Your content goes here -->
+
+<!-- Create a link to the home page -->
+<a href="index.html">Home Page</a>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Protected List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        input {
+            padding: 8px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Password Protected Link</h2>
+
+    <h1> Data Entry Module<h1> <h4>please enter the password to access the links<h4>
+
+    <div id="password-form">
+        <label for="password">Enter the password:</label>
+        <input type="password" id="password" name="password">
+        <button onclick="checkPassword()">Submit</button>
+    </div>
+
+    <div id="protected-content" style="display: none;">
+        <p>Welcome! Here is the protected link:</p>
+        <h2>view Protected Lis</h2>
+    <h3>FCW-CLICK TO VIEW P1 LIST</h3>
+            <li>🔗 <a href="securedoct.html">P1-List</a></li>
+
+    <script>
+        function checkPassword() {
+            var enteredPassword = document.getElementById("password").value;
+
+            // Replace "data123" with the actual password
+            if (enteredPassword === "data123") {
+                document.getElementById("password-form").style.display = "none";
+                document.getElementById("protected-content").style.display = "block";
+            } else {
+                alert("Incorrect password. Please try again.");
+            }
+        }
+    </script>
+
+</body>
+</html>

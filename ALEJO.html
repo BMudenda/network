@@ -1,0 +1,990 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALEJO</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+            width: 10px;
+            font-size: smaller;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        section {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        select:focus {
+            background-color: lightblue;
+        }
+        .dropbtn {
+    background-color: hsl(102, 12%, 44%);
+    color: white;
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f7fc;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(9, 6, 204, 0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+  }
+  
+  .dropdown-content a:hover {background-color: #c1f5bc}
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .dropdown:hover .dropbtn {
+    background-color: #f3f8f4;
+  }
+
+    </style>
+</head>
+<body>
+
+      
+<section>
+    <!-- ccw Filter Dropdown -->
+    <section>
+      <!-- PASTE BUTTON -->
+      
+      <div class="dropdown">
+        <button class="dropbtn">SELECT HERE👈</button>
+        <div class="dropdown-content" style="text-align: center;">
+          
+           <br><br>
+            <!-- ccw Filter Dropdown -->
+              <!-- ccw Filter Dropdown -->
+              <label for="ccwSelect">CCW:</label>
+              <select id="ccwSelect" onchange="filterTable()">
+                  <option value="">Select All</option>
+                  <option value="amos_kasonde">Amos Kasonde</option>
+                  <option value="angela_mwenya">Angela Mwenya</option>
+                  <option value="banda_david">Banda David</option>
+                  <option value="banda_misozi">Banda Misozi</option>
+                  <option value="brandina_tembo">Brandina Tembo</option>
+                  <option value="martha_muchimba">Martha Muchimba</option>
+                  <option value="chitambala_stanslous">Chitambala Stanslous</option>
+                  <option value="matildah_kunda">Matildah Kunda</option>
+                  <option value="emmanuel_kapambwe">Emmanuel Kapambwe</option>
+                  <option value="gondwe_fanny">Gondwe Fanny</option>
+                  <option value="grace_kebende">Grace Kebende</option>
+                  <option value="hector_banda">Hector Banda</option>
+                  <option value="hellen_mwansa">Hellen Mwansa</option>
+                  <option value="jane_kasaka1">Jane Kasaka1</option>
+                  <option value="janny_mutampuka">Janny Mutampuka</option>
+                  <option value="joe_nyanga">Joe Nyanga</option>
+                  <option value="aliyah_daka">Aliyah Daka</option>
+                  <option value="joseph_kaimana">Joseph Kaimana</option>
+                  <option value="joshua_malole">Joshua Malole</option>
+                  <option value="kabesha_mary">Kabesha Mary</option>
+                  <option value="kapasula_edith">Kapasula Edith</option>
+                  <option value="kumwenda_mary">Kumwenda Mary</option>
+                  <option value="makashini_christopher">Makashini Christopher</option>
+                  <option value="mary_mwape">Mary Mwape</option>
+                  <option value="mikabo_mildred">Mikabo Mildred</option>
+                  <option value="musa_joyce">Musa Joyce</option>
+                  <option value="mwaba_rodgers">Mwaba Rodgers</option>
+                  <option value="natasha_musonda">Natasha Musonda</option>
+                  <option value="sakala_veronica">Sakala Veronica</option>
+                  <option value="moses_banda">Moses Banda</option>
+                  <option value="soteli_winfridah">Soteli Winfridah</option>
+                  <option value="tembo_ireen">Tembo Ireen</option>
+                  <!-- Add more options here -->
+              </select>
+                <!-- other options... -->
+            </select>
+            <br><br>
+            <!-- Facility Filter Dropdown -->
+            <label for="facilitySelect">FACILITY:</label>
+            <select id="facilitySelect" onchange="filterTable()">
+                <option value="">Select All</option>
+                <option value="Thompson District Hospital">Thompson</option>
+                <option value="Roan A. Gen Hospital">Roan</option>
+                 <option value="Mpatamatu Section 26 Clinic">Section 26</option>
+                <option value="Malaika Clinic">Malaika</option>
+                <option value="Kawama Urban Health Centre (Lua)">Kawama</option>
+                <option value="Mikomfwa Health Centre">Mikonfwa</option>
+                <option value="Poleline (Baluba) Health Post">Baluba</option>
+                <!-- other options... -->
+            </select>
+            <br><br>
+            <!-- Gender Filter Dropdown change femele male-->
+            <label for="suppresionSelect">GENDER TYPE:</label>
+            <select id="suppresionSelect" onchange="filterTable()">
+                <option value="">Select All</option>
+                <option value="Male">M</option>
+                <option value="Female">F</option>
+            </select>
+            <br><br>
+            <!-- Age Band Filter Dropdown create age band -->
+            <label for="ageBandSelect"></label>
+            <select id="ageBandSelect" onchange="filterTable()">
+                <option value=""></option>
+                
+                    
+              
+                
+                
+                <!-- add other age bands as necessary -->
+            </select>
+        <br><br>
+            <!-- ELIGIBLE MONTH Status Filter Dropdown change to serv and create serv formula -->
+            <label for="hivStatusSelect"></label>
+            <select id="hivStatusSelect" onchange="filterTable()">
+                <option value=""></option>
+                
+                
+                
+                
+            </select>
+    <br><br>
+        <input id="myInput" type="text" placeholder="Search..">
+        </div>
+
+        <br><br>
+
+  </div>
+    
+
+</div>
+</section>
+
+
+<h2>ALEJO</h2>
+<p style="background-color: rgb(244, 248, 248);">Total Beneficiaries Filtered: <span id="rowCount">0</span></p>
+<table class="dataframe" id="myTable">
+    <thead>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+      <script>
+      $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+          var value = $(this).val().toLowerCase();
+          $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+        });
+      });
+      </script>
+
+<tr style="text-align: right;">
+  <th></th>
+  <th>SITE</th>
+  <th>CCWs_Responsible</th>
+  <th>Full Names</th>
+  <th>SEX</th>
+  <th>AGE</th>
+  <th>NRC #</th>
+  <th>CONTACT</th>
+  <th>Amount</th>
+  <th>ADRESS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <th>0</th>
+  <td>Poleline (Baluba) Health Post</td>
+  <td>amos_kasonde</td>
+  <td>MWANZA PRECIUOS</td>
+  <td>Female</td>
+  <td>30</td>
+  <td>285792/68/1</td>
+  <td>760610261</td>
+  <td>K100</td>
+  <td>Baluba</td>
+</tr>
+<tr>
+  <th>1</th>
+  <td>Poleline (Baluba) Health Post</td>
+  <td>amos_kasonde</td>
+  <td>BWALYA JUSTINA</td>
+  <td>Female</td>
+  <td>60</td>
+  <td>181904/45/1</td>
+  <td>971991283</td>
+  <td>K100</td>
+  <td>BALUBA</td>
+</tr>
+<tr>
+  <th>2</th>
+  <td>Poleline (Baluba) Health Post</td>
+  <td>amos_kasonde</td>
+  <td>CHISUPA CHARITY</td>
+  <td>Female</td>
+  <td>42</td>
+  <td>249256/68/1</td>
+  <td>961034012</td>
+  <td>K100</td>
+  <td>Baluba</td>
+</tr>
+<tr>
+  <th>3</th>
+  <td>Poleline (Baluba) Health Post</td>
+  <td>amos_kasonde</td>
+  <td>CHANDA ALICE</td>
+  <td>Female</td>
+  <td>41</td>
+  <td>305159/16/1</td>
+  <td>772965717</td>
+  <td>K100</td>
+  <td>Baluba</td>
+</tr>
+<tr>
+  <th>4</th>
+  <td>Kawama Urban Health Centre (Lua)</td>
+  <td>angela_mwenya</td>
+  <td>MULENGA JAQUELINE</td>
+  <td>Female</td>
+  <td>51</td>
+  <td>307898/67/1</td>
+  <td>961528300</td>
+  <td>K100</td>
+  <td>6740/m kamishishi</td>
+</tr>
+<tr>
+  <th>5</th>
+  <td>Kawama Urban Health Centre (Lua)</td>
+  <td>angela_mwenya</td>
+  <td>LUNGU DEOPHISTER</td>
+  <td>Female</td>
+  <td>27</td>
+  <td>323723/68/1</td>
+  <td>764527244</td>
+  <td>K100</td>
+  <td>Zone 4</td>
+</tr>
+<tr>
+  <th>6</th>
+  <td>Kawama Urban Health Centre (Lua)</td>
+  <td>angela_mwenya</td>
+  <td>KUNDA MOUREEN</td>
+  <td>Female</td>
+  <td>48</td>
+  <td>205052/68/1</td>
+  <td>760108430</td>
+  <td>K100</td>
+  <td>Zone 4 kawa3</td>
+</tr>
+<tr>
+  <th>7</th>
+  <td>Kawama Urban Health Centre (Lua)</td>
+  <td>angela_mwenya</td>
+  <td>KAFOLA MAUREEN</td>
+  <td>Female</td>
+  <td>48</td>
+  <td>221126/68/1</td>
+  <td>962855777</td>
+  <td>K100</td>
+  <td>309/22 mpatamatu</td>
+</tr>
+<tr>
+  <th>8</th>
+  <td>Kawama Urban Health Centre (Lua)</td>
+  <td>angela_mwenya</td>
+  <td>MABLE MUSONDA</td>
+  <td>Female</td>
+  <td>40</td>
+  <td>268647/68/1</td>
+  <td>769039599</td>
+  <td>K100</td>
+  <td>Kawama Zone 2</td>
+</tr>
+<tr>
+  <th>9</th>
+  <td>Kawama Urban Health Centre (Lua)</td>
+  <td>angela_mwenya</td>
+  <td>NSOFWA TRYNESS</td>
+  <td>Female</td>
+  <td>59</td>
+  <td>180786/68/1</td>
+  <td>979665285</td>
+  <td>K100</td>
+  <td>121 zone 4 kawama</td>
+</tr>
+<tr>
+  <th>10</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>banda_david</td>
+  <td>ZULU DIANA</td>
+  <td>Female</td>
+  <td>48</td>
+  <td>417701/52/1</td>
+  <td>975214836</td>
+  <td>K100</td>
+  <td>Kawama</td>
+</tr>
+<tr>
+  <th>11</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>banda_david</td>
+  <td>MWAMBA ANNA</td>
+  <td>Female</td>
+  <td>66</td>
+  <td>129798/31/1</td>
+  <td>964047691</td>
+  <td>K100</td>
+  <td>30B/26, Mpatamatu</td>
+</tr>
+<tr>
+  <th>12</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>banda_david</td>
+  <td>MUSONDA MOSES</td>
+  <td>Male</td>
+  <td>63</td>
+  <td>150524/68/1</td>
+  <td>967623178</td>
+  <td>K100</td>
+  <td>471/25</td>
+</tr>
+<tr>
+  <th>13</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>banda_david</td>
+  <td>KAPANDULA FALES</td>
+  <td>Female</td>
+  <td>61</td>
+  <td>179836/17/1</td>
+  <td>961893232</td>
+  <td>K100</td>
+  <td>138/21</td>
+</tr>
+<tr>
+  <th>14</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>banda_david</td>
+  <td>CHOLA JAMES</td>
+  <td>Male</td>
+  <td>59</td>
+  <td>239289/61/1</td>
+  <td>968254580</td>
+  <td>K100</td>
+  <td>Chenda Maunga</td>
+</tr>
+<tr>
+  <th>15</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>banda_david</td>
+  <td>CHANDA MAUREEN</td>
+  <td>Female</td>
+  <td>42</td>
+  <td>254091/68/1</td>
+  <td>760694806</td>
+  <td>K100</td>
+  <td>143/26, Mpatamatu</td>
+</tr>
+<tr>
+  <th>16</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>banda_david</td>
+  <td>BWIPI JUDITH</td>
+  <td>Female</td>
+  <td>52</td>
+  <td>198223/68/1</td>
+  <td>760250738</td>
+  <td>K100</td>
+  <td>8/23, Mpatamatu</td>
+</tr>
+<tr>
+  <th>17</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>banda_david</td>
+  <td>BANDA TIWINENJI</td>
+  <td>Female</td>
+  <td>72</td>
+  <td>158866/52/1</td>
+  <td>975197843</td>
+  <td>K100</td>
+  <td>305/26, Mpatamatu</td>
+</tr>
+<tr>
+  <th>18</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>banda_misozi</td>
+  <td>LOTI FRIDAH</td>
+  <td>Female</td>
+  <td>46</td>
+  <td>22430968/1</td>
+  <td>965034150</td>
+  <td>K100</td>
+  <td>534/9</td>
+</tr>
+<tr>
+  <th>19</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>banda_misozi</td>
+  <td>CHINOKORO AGATHA</td>
+  <td>Female</td>
+  <td>68</td>
+  <td>900527/15/2</td>
+  <td>764582874</td>
+  <td>K100</td>
+  <td>263/4</td>
+</tr>
+<tr>
+  <th>20</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>banda_misozi</td>
+  <td>KATONGO MODDY</td>
+  <td>Female</td>
+  <td>48</td>
+  <td>105263/38/1</td>
+  <td>963244039</td>
+  <td>K100</td>
+  <td>Km 134/8</td>
+</tr>
+<tr>
+  <th>21</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>banda_misozi</td>
+  <td>BANNDA MARGRET</td>
+  <td>Female</td>
+  <td>49</td>
+  <td>256086/66/1</td>
+  <td>963320041</td>
+  <td>K100</td>
+  <td>30/6b</td>
+</tr>
+<tr>
+  <th>22</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>chitambala_stanslous</td>
+  <td>KABWE GETRUDE</td>
+  <td>Female</td>
+  <td>43</td>
+  <td>266806/68/1</td>
+  <td>965564580</td>
+  <td>K100</td>
+  <td>65/8</td>
+</tr>
+<tr>
+  <th>23</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>chitambala_stanslous</td>
+  <td>CHOLA MEMORY</td>
+  <td>Female</td>
+  <td>37</td>
+  <td>283867/68/1</td>
+  <td>969835359</td>
+  <td>K100</td>
+  <td>719/Ndeke</td>
+</tr>
+<tr>
+  <th>24</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>chitambala_stanslous</td>
+  <td>CHEWILO DYNESS</td>
+  <td>Female</td>
+  <td>79</td>
+  <td>158322/68/1</td>
+  <td>964431241</td>
+  <td>K100</td>
+  <td>6902</td>
+</tr>
+<tr>
+  <th>25</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>chitambala_stanslous</td>
+  <td>KABWE KINFRED</td>
+  <td>Male</td>
+  <td>59</td>
+  <td>178161/41/1</td>
+  <td>963806618</td>
+  <td>K100</td>
+  <td>6 Gardenia Avenue</td>
+</tr>
+<tr>
+  <th>26</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>gondwe_fanny</td>
+  <td>MULENGA PATRICK</td>
+  <td>Male</td>
+  <td>46</td>
+  <td>230348/68/1</td>
+  <td>961180186</td>
+  <td>K100</td>
+  <td>Section 27, New plots</td>
+</tr>
+<tr>
+  <th>27</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>gondwe_fanny</td>
+  <td>LUKWESA VIOLET</td>
+  <td>Female</td>
+  <td>56</td>
+  <td>199087/63/1</td>
+  <td>965021971</td>
+  <td>K100</td>
+  <td>260/25</td>
+</tr>
+<tr>
+  <th>28</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>gondwe_fanny</td>
+  <td>CHUBEKI HENRY</td>
+  <td>Male</td>
+  <td>73</td>
+  <td>114334/46/1</td>
+  <td>965818534</td>
+  <td>K100</td>
+  <td>637/27, Mpatamatu</td>
+</tr>
+<tr>
+  <th>29</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>gondwe_fanny</td>
+  <td>CHIPASHA MAGDALENE</td>
+  <td>Female</td>
+  <td>57</td>
+  <td>188578/68/1</td>
+  <td>965026014</td>
+  <td>K100</td>
+  <td>546/26</td>
+</tr>
+<tr>
+  <th>30</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>gondwe_fanny</td>
+  <td>HANAMWINGA BENARD</td>
+  <td>Male</td>
+  <td>71</td>
+  <td>190642/74/1</td>
+  <td>963311124</td>
+  <td>K100</td>
+  <td>713B/27</td>
+</tr>
+<tr>
+  <th>31</th>
+  <td>Malaika Clinic</td>
+  <td>joe_nyanga</td>
+  <td>SAYA JOSEPHINE</td>
+  <td>Female</td>
+  <td>53</td>
+  <td>260643/61/1</td>
+  <td>962020168</td>
+  <td>K100</td>
+  <td>C 37 MIKOMFWA</td>
+</tr>
+<tr>
+  <th>32</th>
+  <td>Malaika Clinic</td>
+  <td>joe_nyanga</td>
+  <td>CHIPU JOYCE</td>
+  <td>Female</td>
+  <td>46</td>
+  <td>225016/68/1</td>
+  <td>969834207</td>
+  <td>K100</td>
+  <td>KT 821 KAMBILOMBILO</td>
+</tr>
+<tr>
+  <th>33</th>
+  <td>Malaika Clinic</td>
+  <td>joe_nyanga</td>
+  <td>CHOLA JULIET</td>
+  <td>Female</td>
+  <td>41</td>
+  <td>136345/93/1</td>
+  <td>971185737</td>
+  <td>K100</td>
+  <td>D79 COMPOUND</td>
+</tr>
+<tr>
+  <th>34</th>
+  <td>Thompson District Hospital</td>
+  <td>kabesha_mary</td>
+  <td>KAMBITA ESTHER</td>
+  <td>Female</td>
+  <td>36</td>
+  <td>245172/68/1</td>
+  <td>762874945</td>
+  <td>K100</td>
+  <td>2020 buntungwa overspill</td>
+</tr>
+<tr>
+  <th>35</th>
+  <td>Thompson District Hospital</td>
+  <td>kabesha_mary</td>
+  <td>PATISHA MILDRED</td>
+  <td>Female</td>
+  <td>52</td>
+  <td>203182/68/1</td>
+  <td>961562785</td>
+  <td>K100</td>
+  <td>283 buntungwa overspill</td>
+</tr>
+<tr>
+  <th>36</th>
+  <td>Thompson District Hospital</td>
+  <td>kabesha_mary</td>
+  <td>KABASO MARIA</td>
+  <td>Female</td>
+  <td>37</td>
+  <td>109603/92/1</td>
+  <td>964980287</td>
+  <td>K100</td>
+  <td>C24 mikomfwa</td>
+</tr>
+<tr>
+  <th>37</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>makashini_christopher</td>
+  <td>KIBALE SUZEN</td>
+  <td>Female</td>
+  <td>44</td>
+  <td>152994/25/1</td>
+  <td>763812903</td>
+  <td>K100</td>
+  <td>307/27</td>
+</tr>
+<tr>
+  <th>38</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>makashini_christopher</td>
+  <td>CHANDA JUDITH</td>
+  <td>Female</td>
+  <td>38</td>
+  <td>250856/45/1</td>
+  <td>760694938</td>
+  <td>K100</td>
+  <td>Mpata Hills</td>
+</tr>
+<tr>
+  <th>39</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>mikabo_mildred</td>
+  <td>NKHOMA GLORIA</td>
+  <td>Female</td>
+  <td>53</td>
+  <td>179063/62/1</td>
+  <td>969509648</td>
+  <td>K100</td>
+  <td>1376/5</td>
+</tr>
+<tr>
+  <th>40</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>mikabo_mildred</td>
+  <td>MWENYA GRADYS</td>
+  <td>Female</td>
+  <td>51</td>
+  <td>201729/68/1</td>
+  <td>764095712</td>
+  <td>K100</td>
+  <td>1379/5</td>
+</tr>
+<tr>
+  <th>41</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>mikabo_mildred</td>
+  <td>CHIZU REGINA</td>
+  <td>Female</td>
+  <td>49</td>
+  <td>204672/68/1</td>
+  <td>965018024</td>
+  <td>K100</td>
+  <td>919/9</td>
+</tr>
+<tr>
+  <th>42</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>mikabo_mildred</td>
+  <td>KASAKULA BENICA</td>
+  <td>Female</td>
+  <td>49</td>
+  <td>212160/68/1</td>
+  <td>968608637</td>
+  <td>K100</td>
+  <td>53/4</td>
+</tr>
+<tr>
+  <th>43</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>mikabo_mildred</td>
+  <td>MWANSA SARAH</td>
+  <td>Female</td>
+  <td>66</td>
+  <td>212559/33/1</td>
+  <td>972005338</td>
+  <td>K100</td>
+  <td>1084/5</td>
+</tr>
+<tr>
+  <th>44</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>mikabo_mildred</td>
+  <td>MUMBA JOHN</td>
+  <td>Male</td>
+  <td>81</td>
+  <td>148428/68/1</td>
+  <td>963624462</td>
+  <td>K100</td>
+  <td>88/4</td>
+</tr>
+<tr>
+  <th>45</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>mikabo_mildred</td>
+  <td>CHILESHE ANN</td>
+  <td>Female</td>
+  <td>49</td>
+  <td>221908/43/1</td>
+  <td>962316212</td>
+  <td>K100</td>
+  <td>138/8</td>
+</tr>
+<tr>
+  <th>46</th>
+  <td>Kawama Urban Health Centre (Lua)</td>
+  <td>aliyah_daka</td>
+  <td>CHANDA GILLIAN</td>
+  <td>Female</td>
+  <td>37</td>
+  <td>280962/68/1</td>
+  <td>968441314</td>
+  <td>K100</td>
+  <td>256/Kawama</td>
+</tr>
+<tr>
+  <th>47</th>
+  <td>Thompson District Hospital</td>
+  <td>musa_joyce</td>
+  <td>ANNIE KABAMBA</td>
+  <td>Female</td>
+  <td>55</td>
+  <td>201732/66/1</td>
+  <td>962132981</td>
+  <td>K100</td>
+  <td>620 Buntungwa</td>
+</tr>
+<tr>
+  <th>48</th>
+  <td>Thompson District Hospital</td>
+  <td>musa_joyce</td>
+  <td>NGOMA AGNESS</td>
+  <td>Female</td>
+  <td>62</td>
+  <td>160193/68/1</td>
+  <td>964120523</td>
+  <td>K100</td>
+  <td>Kt208</td>
+</tr>
+<tr>
+  <th>49</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>mwaba_rodgers</td>
+  <td>MWANSA MARGRET</td>
+  <td>Female</td>
+  <td>40</td>
+  <td>263131/68/1</td>
+  <td>965031533</td>
+  <td>K100</td>
+  <td>214/9</td>
+</tr>
+<tr>
+  <th>50</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>mwaba_rodgers</td>
+  <td>NAKASOTE MARGRET</td>
+  <td>Female</td>
+  <td>60</td>
+  <td>15350468/1</td>
+  <td>969840169</td>
+  <td>K100</td>
+  <td>218/9</td>
+</tr>
+<tr>
+  <th>51</th>
+  <td>Thompson District Hospital</td>
+  <td>sakala_veronica</td>
+  <td>MUKULILA CHARITY</td>
+  <td>Female</td>
+  <td>52</td>
+  <td>192758/68/1</td>
+  <td>965741607</td>
+  <td>K100</td>
+  <td>2006 twashuka</td>
+</tr>
+<tr>
+  <th>52</th>
+  <td>Thompson District Hospital</td>
+  <td>sakala_veronica</td>
+  <td>MUKUKA LOVENESS</td>
+  <td>Female</td>
+  <td>54</td>
+  <td>192758/68/1</td>
+  <td>965682345</td>
+  <td>K100</td>
+  <td>200/1 twashuka</td>
+</tr>
+<tr>
+  <th>53</th>
+  <td>Thompson District Hospital</td>
+  <td>sakala_veronica</td>
+  <td>MUKOBE ANNA</td>
+  <td>Female</td>
+  <td>46</td>
+  <td>230465/68/1</td>
+  <td>964118434</td>
+  <td>K100</td>
+  <td>2004/1 twashuka</td>
+</tr>
+<tr>
+  <th>54</th>
+  <td>Thompson District Hospital</td>
+  <td>sakala_veronica</td>
+  <td>BWALYA SUSAN</td>
+  <td>Female</td>
+  <td>39</td>
+  <td>260027/68/1</td>
+  <td>963867577</td>
+  <td>K100</td>
+  <td>101/1 twashuka</td>
+</tr>
+<tr>
+  <th>55</th>
+  <td>Thompson District Hospital</td>
+  <td>sakala_veronica</td>
+  <td>CHISHIBA JANET</td>
+  <td>Female</td>
+  <td>48</td>
+  <td>209387/68/1</td>
+  <td>967032996</td>
+  <td>K100</td>
+  <td>52/2 twashuka</td>
+</tr>
+<tr>
+  <th>56</th>
+  <td>Roan A. Gen Hospital</td>
+  <td>soteli_winfridah</td>
+  <td>KASONGO REGINA</td>
+  <td>Female</td>
+  <td>47</td>
+  <td>218103/68/1</td>
+  <td>779278380</td>
+  <td>K100</td>
+  <td>709/2</td>
+</tr>
+<tr>
+  <th>57</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>tembo_ireen</td>
+  <td>ZIMBA IDAH</td>
+  <td>Female</td>
+  <td>49</td>
+  <td>206296/68/1</td>
+  <td>963811916</td>
+  <td>K100</td>
+  <td>Kawama</td>
+</tr>
+<tr>
+  <th>58</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>tembo_ireen</td>
+  <td>MWANZA GIFT</td>
+  <td>Female</td>
+  <td>39</td>
+  <td>395156/67/1</td>
+  <td>967665360</td>
+  <td>K100</td>
+  <td>08 New Kawama</td>
+</tr>
+<tr>
+  <th>59</th>
+  <td>Mpatamatu Section 26 Clinic</td>
+  <td>tembo_ireen</td>
+  <td>EMELDAH CHOLA</td>
+  <td>Female</td>
+  <td>55</td>
+  <td>161594/68/1</td>
+  <td>962932814</td>
+  <td>K100</td>
+  <td>51F/24, Mpatamatu</td>
+</tr>
+</tbody>
+</table>
+<script>
+    function filterTable() {
+        var ccwSelect = document.getElementById("ccwSelect").value.toLowerCase();
+        var facilitySelect = document.getElementById("facilitySelect").value.toLowerCase();
+        var suppresionSelect = document.getElementById("suppresionSelect").value.toLowerCase();
+        var ageBandSelect = document.getElementById("ageBandSelect").value.toLowerCase();
+        var hivStatusSelect = document.getElementById("hivStatusSelect").value.toLowerCase();
+
+        var table = document.getElementById("myTable");
+        var rows = table.getElementsByTagName("tr");
+
+        var rowCount = 0;
+
+        for (var i = 1; i < rows.length; i++) {
+            var ccwCell = rows[i].getElementsByTagName("td")[1];
+            var facilityCell = rows[i].getElementsByTagName("td")[0];
+            var suppresionCell = rows[i].getElementsByTagName("td")[3];
+            var ageBandCell = rows[i].getElementsByTagName("td")[4];
+            var hivStatusCell = rows[i].getElementsByTagName("td")[5];
+
+            var ccwText = ccwCell.textContent || ccwCell.innerText;
+            var facilityText = facilityCell.textContent || facilityCell.innerText;
+            var suppresionText = suppresionCell.textContent || suppresionCell.innerText;
+            var ageBandText = ageBandCell.textContent || ageBandCell.innerText;
+            var hivStatusText = hivStatusCell.textContent || hivStatusCell.innerText;
+
+            // Check if row matches the selected filters
+            if ((ccwText.toLowerCase() === ccwSelect || ccwSelect === "") &&
+                (facilityText.toLowerCase() === facilitySelect || facilitySelect === "") &&
+                (suppresionText.toLowerCase() === suppresionSelect || suppresionSelect === "") &&
+                (ageBandText.toLowerCase() === ageBandSelect || ageBandSelect === "") &&
+                (hivStatusText.toLowerCase() === hivStatusSelect || hivStatusSelect === "")) {
+                rows[i].style.display = "";
+                rowCount++;  // Increase count for visible rows
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+
+        // Display the count of visible rows
+        document.getElementById("rowCount").innerText = rowCount;
+    }
+</script>
+<footer>
+    
+   <p>&copy; BM Inc. 08-02-25.</p>
+</footer>
+</body>
+</html>

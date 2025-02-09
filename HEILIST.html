@@ -1,0 +1,4243 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEI ACTIVE_FY25</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+            width: 10px;
+            font-size: smaller;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        section {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        select:focus {
+            background-color: lightblue;
+        }
+        .dropbtn {
+    background-color: hsl(184, 96%, 69%);
+    color: white;
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f7fc;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(9, 6, 204, 0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+  }
+  
+  .dropdown-content a:hover {background-color: #c1f5bc}
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .dropdown:hover .dropbtn {
+    background-color: #f3f8f4;
+  }
+
+    </style>
+</head>
+<body>
+
+      
+<section>
+    <!-- ccw Filter Dropdown -->
+    <section>
+      <!-- PASTE BUTTON -->
+      
+      <div class="dropdown">
+        <button class="dropbtn">SELECT HERE👈</button>
+        <div class="dropdown-content" style="text-align: center;">
+          
+           <br><br>
+            <!-- ccw Filter Dropdown -->
+              <!-- ccw Filter Dropdown -->
+              <label for="ccwSelect">CCW:</label>
+              <select id="ccwSelect" onchange="filterTable()">
+                  <option value="">Select All</option>
+                  <option value="amos_kasonde">Amos Kasonde</option>
+                  <option value="angela_mwenya">Angela Mwenya</option>
+                  <option value="banda_david">Banda David</option>
+                  <option value="banda_misozi">Banda Misozi</option>
+                  <option value="brandina_tembo">Brandina Tembo</option>
+                  <option value="martha_muchimba">Martha Muchimba</option>
+                  <option value="chitambala_stanslous">Chitambala Stanslous</option>
+                  <option value="matildah_kunda">Matildah Kunda</option>
+                  <option value="emmanuel_kapambwe">Emmanuel Kapambwe</option>
+                  <option value="gondwe_fanny">Gondwe Fanny</option>
+                  <option value="grace_kebende">Grace Kebende</option>
+                  <option value="hector_banda">Hector Banda</option>
+                  <option value="hellen_mwansa">Hellen Mwansa</option>
+                  <option value="jane_kasaka1">Jane Kasaka1</option>
+                  <option value="janny_mutampuka">Janny Mutampuka</option>
+                  <option value="joe_nyanga">Joe Nyanga</option>
+                  <option value="aliyah_daka">Aliyah Daka</option>
+                  <option value="joseph_kaimana">Joseph Kaimana</option>
+                  <option value="joshua_malole">Joshua Malole</option>
+                  <option value="kabesha_mary">Kabesha Mary</option>
+                  <option value="kapasula_edith">Kapasula Edith</option>
+                  <option value="kumwenda_mary">Kumwenda Mary</option>
+                  <option value="makashini_christopher">Makashini Christopher</option>
+                  <option value="mary_mwape">Mary Mwape</option>
+                  <option value="mikabo_mildred">Mikabo Mildred</option>
+                  <option value="musa_joyce">Musa Joyce</option>
+                  <option value="mwaba_rodgers">Mwaba Rodgers</option>
+                  <option value="natasha_musonda">Natasha Musonda</option>
+                  <option value="sakala_veronica">Sakala Veronica</option>
+                  <option value="moses_banda">Moses Banda</option>
+                  <option value="soteli_winfridah">Soteli Winfridah</option>
+                  <option value="tembo_ireen">Tembo Ireen</option>
+                  <!-- Add more options here -->
+              </select>
+                <!-- other options... -->
+            </select>
+            <br><br>
+            <!-- Facility Filter Dropdown -->
+            <label for="facilitySelect">FACILITY:</label>
+            <select id="facilitySelect" onchange="filterTable()">
+                <option value="">Select All</option>
+                <option value="Thompson District Hospital">Thompson</option>
+                <option value="Roan A. Gen Hospital">Roan</option>
+                 <option value="Mpatamatu Section 26 Clinic">Section 26</option>
+                <option value="Malaika Clinic">Malaika</option>
+                <option value="Kawama Urban Health Centre (Lua)">Kawama</option>
+                <option value="Mikomfwa Health Centre">Mikonfwa</option>
+                <option value="Poleline (Baluba) Health Post">Baluba</option>
+                <!-- other options... -->
+            </select>
+            <br><br>
+            <!-- Gender Filter Dropdown change femele male-->
+            <label for="suppresionSelect">GENDER TYPE:</label>
+            <select id="suppresionSelect" onchange="filterTable()">
+                <option value="">Select All</option>
+                <option value="M">M</option>
+                <option value="F">F</option>
+            </select>
+            <br><br>
+            <!-- Age Band Filter Dropdown create age band -->
+            <label for="ageBandSelect">AGE:</label>
+            <select id="ageBandSelect" onchange="filterTable()">
+                <option value="">Select All</option>
+                <option value="0"><1</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              
+                
+                
+                <!-- add other age bands as necessary -->
+            </select>
+        <br><br>
+            <!-- ELIGIBLE MONTH Status Filter Dropdown change to serv and create serv formula -->
+            <label for="hivStatusSelect">Eligibility:</label>
+            <select id="hivStatusSelect" onchange="filterTable()">
+                <option value="">Select All</option>
+                <option value="YES">YES</option>
+                <option value="NO">N0</option>
+                <option value="Graduated">Graduated</option>
+                <option value="AGEDOUT">AGEOUT</option>
+                
+                
+            </select>
+    <br><br>
+        <input id="myInput" type="text" placeholder="Search..">
+        </div>
+
+        <br><br>
+
+  </div>
+    
+
+</div>
+</section>
+<script>
+  var password = "pass12345";
+  (function passcodeprotect() {
+  var passcode = prompt("Enter PassCode");
+  while (passcode !== password) {
+  alert("Incorrect PassCode");
+  return passcodeprotect();
+  }
+  })();
+  alert('Welcome HEI List...please observe confidentiality..!');
+  </script>
+
+<h2>HEI List👶</h2>
+<p style="background-color: aqua;">Total Beneficiaries Filtered: <span id="rowCount">0</span></p>
+<table class="dataframe" id="myTable">
+    <thead>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+      <script>
+      $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+          var value = $(this).val().toLowerCase();
+          $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+        });
+      });
+      </script>
+
+    <tr style="text-align: right;">
+      <th>Serial#</th>
+      <th>Facility</th>
+      <th>ccw</th>
+      <th>HEI Name</th>
+      <th>gender</th>
+      <th>Date.of.Birth</th>
+      <th>AGE</th>
+      <th>6__WEEK</th>
+      <th>6__MONTH</th>
+      <th>9__MONTH</th>
+      <th>12__MONTH</th>
+      <th>18__MONTH</th>
+      <th>24__MONTH</th>
+      <th>DBS DUE THIS MONTH</th>
+    </tr>
+    </thead>
+    <tbody>
+        <!-- paste list down here -->
+      <tr>
+      <th>0</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>aliyah_daka</td>
+      <td>BLESSINGS NANYIZA</td>
+      <td>F</td>
+      <td>04-Aug-24</td>
+      <td>1</td>
+      <td>15-Sep-24</td>
+      <td>31-Jan-25</td>
+      <td>01-May-25</td>
+      <td>30-Jul-25</td>
+      <td>26-Jan-26</td>
+      <td>25-Jul-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>aliyah_daka</td>
+      <td>DIMUS CHIBALE</td>
+      <td>M</td>
+      <td>09-Jan-23</td>
+      <td>2</td>
+      <td>20-Feb-23</td>
+      <td>08-Jul-23</td>
+      <td>06-Oct-23</td>
+      <td>04-Jan-24</td>
+      <td>02-Jul-24</td>
+      <td>29-Dec-24</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>aliyah_daka</td>
+      <td>MALAMA EMMA</td>
+      <td>F</td>
+      <td>14-Nov-22</td>
+      <td>3</td>
+      <td>26-Dec-22</td>
+      <td>13-May-23</td>
+      <td>11-Aug-23</td>
+      <td>09-Nov-23</td>
+      <td>07-May-24</td>
+      <td>03-Nov-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>aliyah_daka</td>
+      <td>MUKANZU JOHN</td>
+      <td>M</td>
+      <td>16-Dec-22</td>
+      <td>3</td>
+      <td>27-Jan-23</td>
+      <td>14-Jun-23</td>
+      <td>12-Sep-23</td>
+      <td>11-Dec-23</td>
+      <td>08-Jun-24</td>
+      <td>05-Dec-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>aliyah_daka</td>
+      <td>POSSIBLE MWILA</td>
+      <td>M</td>
+      <td>16-Nov-22</td>
+      <td>3</td>
+      <td>28-Dec-22</td>
+      <td>15-May-23</td>
+      <td>13-Aug-23</td>
+      <td>11-Nov-23</td>
+      <td>09-May-24</td>
+      <td>05-Nov-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>aliyah_daka</td>
+      <td>SHADRECK CHILESHE</td>
+      <td>M</td>
+      <td>29-Oct-23</td>
+      <td>2</td>
+      <td>10-Dec-23</td>
+      <td>26-Apr-24</td>
+      <td>25-Jul-24</td>
+      <td>23-Oct-24</td>
+      <td>21-Apr-25</td>
+      <td>18-Oct-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>aliyah_daka</td>
+      <td>WEBBY JOWA</td>
+      <td>M</td>
+      <td>10-May-23</td>
+      <td>2</td>
+      <td>21-Jun-23</td>
+      <td>06-Nov-23</td>
+      <td>04-Feb-24</td>
+      <td>04-May-24</td>
+      <td>31-Oct-24</td>
+      <td>29-Apr-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>amos_kasonde</td>
+      <td>Betsheba chisenga</td>
+      <td>F</td>
+      <td>08-Nov-22</td>
+      <td>3</td>
+      <td>20-Dec-22</td>
+      <td>07-May-23</td>
+      <td>05-Aug-23</td>
+      <td>03-Nov-23</td>
+      <td>01-May-24</td>
+      <td>28-Oct-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>amos_kasonde</td>
+      <td>Chipego mwila</td>
+      <td>M</td>
+      <td>12-Dec-22</td>
+      <td>3</td>
+      <td>23-Jan-23</td>
+      <td>10-Jun-23</td>
+      <td>08-Sep-23</td>
+      <td>07-Dec-23</td>
+      <td>04-Jun-24</td>
+      <td>01-Dec-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>amos_kasonde</td>
+      <td>Destiny mwape</td>
+      <td>M</td>
+      <td>14-Feb-23</td>
+      <td>2</td>
+      <td>28-Mar-23</td>
+      <td>13-Aug-23</td>
+      <td>11-Nov-23</td>
+      <td>09-Feb-24</td>
+      <td>07-Aug-24</td>
+      <td>03-Feb-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>amos_kasonde</td>
+      <td>Fridah mulenga</td>
+      <td>F</td>
+      <td>22-Jul-23</td>
+      <td>2</td>
+      <td>02-Sep-23</td>
+      <td>18-Jan-24</td>
+      <td>17-Apr-24</td>
+      <td>16-Jul-24</td>
+      <td>12-Jan-25</td>
+      <td>11-Jul-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>amos_kasonde</td>
+      <td>Godfrey ofusiwa</td>
+      <td>M</td>
+      <td>17-Nov-23</td>
+      <td>2</td>
+      <td>29-Dec-23</td>
+      <td>15-May-24</td>
+      <td>13-Aug-24</td>
+      <td>11-Nov-24</td>
+      <td>10-May-25</td>
+      <td>06-Nov-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>amos_kasonde</td>
+      <td>Hope kampamba</td>
+      <td>F</td>
+      <td>07-Apr-24</td>
+      <td>1</td>
+      <td>19-May-24</td>
+      <td>04-Oct-24</td>
+      <td>02-Jan-25</td>
+      <td>02-Apr-25</td>
+      <td>29-Sep-25</td>
+      <td>28-Mar-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>amos_kasonde</td>
+      <td>Isaac j chisenga</td>
+      <td>M</td>
+      <td>26-Dec-23</td>
+      <td>2</td>
+      <td>06-Feb-24</td>
+      <td>23-Jun-24</td>
+      <td>21-Sep-24</td>
+      <td>20-Dec-24</td>
+      <td>18-Jun-25</td>
+      <td>15-Dec-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>amos_kasonde</td>
+      <td>Joseph phiri</td>
+      <td>M</td>
+      <td>30-Jan-24</td>
+      <td>1</td>
+      <td>12-Mar-24</td>
+      <td>28-Jul-24</td>
+      <td>26-Oct-24</td>
+      <td>24-Jan-25</td>
+      <td>23-Jul-25</td>
+      <td>19-Jan-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>amos_kasonde</td>
+      <td>Judith gondwe</td>
+      <td>F</td>
+      <td>27-Sep-23</td>
+      <td>2</td>
+      <td>08-Nov-23</td>
+      <td>25-Mar-24</td>
+      <td>23-Jun-24</td>
+      <td>21-Sep-24</td>
+      <td>20-Mar-25</td>
+      <td>16-Sep-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>amos_kasonde</td>
+      <td>Margaret chisenga</td>
+      <td>F</td>
+      <td>06-Jul-24</td>
+      <td>1</td>
+      <td>17-Aug-24</td>
+      <td>02-Jan-25</td>
+      <td>02-Apr-25</td>
+      <td>01-Jul-25</td>
+      <td>28-Dec-25</td>
+      <td>26-Jun-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>amos_kasonde</td>
+      <td>Mvula mvula</td>
+      <td>M</td>
+      <td>06-Feb-23</td>
+      <td>2</td>
+      <td>20-Mar-23</td>
+      <td>05-Aug-23</td>
+      <td>03-Nov-23</td>
+      <td>01-Feb-24</td>
+      <td>30-Jul-24</td>
+      <td>26-Jan-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>amos_kasonde</td>
+      <td>Patience muzyamba</td>
+      <td>F</td>
+      <td>23-Oct-22</td>
+      <td>3</td>
+      <td>04-Dec-22</td>
+      <td>21-Apr-23</td>
+      <td>20-Jul-23</td>
+      <td>18-Oct-23</td>
+      <td>15-Apr-24</td>
+      <td>12-Oct-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>amos_kasonde</td>
+      <td>Prince mokola</td>
+      <td>M</td>
+      <td>14-Oct-22</td>
+      <td>3</td>
+      <td>25-Nov-22</td>
+      <td>12-Apr-23</td>
+      <td>11-Jul-23</td>
+      <td>09-Oct-23</td>
+      <td>06-Apr-24</td>
+      <td>03-Oct-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>amos_kasonde</td>
+      <td>Silvia chileshe</td>
+      <td>F</td>
+      <td>01-Sep-23</td>
+      <td>2</td>
+      <td>13-Oct-23</td>
+      <td>28-Feb-24</td>
+      <td>28-May-24</td>
+      <td>26-Aug-24</td>
+      <td>22-Feb-25</td>
+      <td>21-Aug-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>amos_kasonde</td>
+      <td>Transina bwanga</td>
+      <td>F</td>
+      <td>02-Sep-23</td>
+      <td>2</td>
+      <td>14-Oct-23</td>
+      <td>29-Feb-24</td>
+      <td>29-May-24</td>
+      <td>27-Aug-24</td>
+      <td>23-Feb-25</td>
+      <td>22-Aug-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Chalwe Anold</td>
+      <td>M</td>
+      <td>12-Dec-22</td>
+      <td>3</td>
+      <td>23-Jan-23</td>
+      <td>10-Jun-23</td>
+      <td>08-Sep-23</td>
+      <td>07-Dec-23</td>
+      <td>04-Jun-24</td>
+      <td>01-Dec-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Kamboi kelvin</td>
+      <td>M</td>
+      <td>09-Jan-23</td>
+      <td>2</td>
+      <td>20-Feb-23</td>
+      <td>08-Jul-23</td>
+      <td>06-Oct-23</td>
+      <td>04-Jan-24</td>
+      <td>02-Jul-24</td>
+      <td>29-Dec-24</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Kamboi mogan</td>
+      <td>M</td>
+      <td>14-Jul-24</td>
+      <td>1</td>
+      <td>25-Aug-24</td>
+      <td>10-Jan-25</td>
+      <td>10-Apr-25</td>
+      <td>09-Jul-25</td>
+      <td>05-Jan-26</td>
+      <td>04-Jul-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Lubuto mwale</td>
+      <td>F</td>
+      <td>16-Jan-23</td>
+      <td>2</td>
+      <td>27-Feb-23</td>
+      <td>15-Jul-23</td>
+      <td>13-Oct-23</td>
+      <td>11-Jan-24</td>
+      <td>09-Jul-24</td>
+      <td>05-Jan-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Machiya Gift</td>
+      <td>M</td>
+      <td>05-Jun-23</td>
+      <td>2</td>
+      <td>17-Jul-23</td>
+      <td>02-Dec-23</td>
+      <td>01-Mar-24</td>
+      <td>30-May-24</td>
+      <td>26-Nov-24</td>
+      <td>25-May-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Mbene Jofrey</td>
+      <td>M</td>
+      <td>30-Sep-22</td>
+      <td>3</td>
+      <td>11-Nov-22</td>
+      <td>29-Mar-23</td>
+      <td>27-Jun-23</td>
+      <td>25-Sep-23</td>
+      <td>23-Mar-24</td>
+      <td>19-Sep-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Mulenga Boyd</td>
+      <td>M</td>
+      <td>08-Jan-23</td>
+      <td>2</td>
+      <td>19-Feb-23</td>
+      <td>07-Jul-23</td>
+      <td>05-Oct-23</td>
+      <td>03-Jan-24</td>
+      <td>01-Jul-24</td>
+      <td>28-Dec-24</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Mulenga Daniel</td>
+      <td>M</td>
+      <td>30-Sep-22</td>
+      <td>3</td>
+      <td>11-Nov-22</td>
+      <td>29-Mar-23</td>
+      <td>27-Jun-23</td>
+      <td>25-Sep-23</td>
+      <td>23-Mar-24</td>
+      <td>19-Sep-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Mushibwe blessings</td>
+      <td>M</td>
+      <td>11-Apr-24</td>
+      <td>1</td>
+      <td>23-May-24</td>
+      <td>08-Oct-24</td>
+      <td>06-Jan-25</td>
+      <td>06-Apr-25</td>
+      <td>03-Oct-25</td>
+      <td>01-Apr-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Mutasha fridah</td>
+      <td>F</td>
+      <td>26-Feb-24</td>
+      <td>1</td>
+      <td>08-Apr-24</td>
+      <td>24-Aug-24</td>
+      <td>22-Nov-24</td>
+      <td>20-Feb-25</td>
+      <td>19-Aug-25</td>
+      <td>15-Feb-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>banda_david</td>
+      <td>BRIAN KAMALONI</td>
+      <td>M</td>
+      <td>05-Mar-23</td>
+      <td>2</td>
+      <td>16-Apr-23</td>
+      <td>01-Sep-23</td>
+      <td>30-Nov-23</td>
+      <td>28-Feb-24</td>
+      <td>26-Aug-24</td>
+      <td>22-Feb-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>banda_david</td>
+      <td>GENESIS CHINYEMBA</td>
+      <td>M</td>
+      <td>17-Jul-23</td>
+      <td>2</td>
+      <td>28-Aug-23</td>
+      <td>13-Jan-24</td>
+      <td>12-Apr-24</td>
+      <td>11-Jul-24</td>
+      <td>07-Jan-25</td>
+      <td>06-Jul-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>banda_david</td>
+      <td>GRACIOUS CHOLA</td>
+      <td>F</td>
+      <td>23-Jul-24</td>
+      <td>1</td>
+      <td>03-Sep-24</td>
+      <td>19-Jan-25</td>
+      <td>19-Apr-25</td>
+      <td>18-Jul-25</td>
+      <td>14-Jan-26</td>
+      <td>13-Jul-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>banda_david</td>
+      <td>JESMINE KONKOSHOLO</td>
+      <td>F</td>
+      <td>30-Jun-23</td>
+      <td>2</td>
+      <td>11-Aug-23</td>
+      <td>27-Dec-23</td>
+      <td>26-Mar-24</td>
+      <td>24-Jun-24</td>
+      <td>21-Dec-24</td>
+      <td>19-Jun-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>banda_david</td>
+      <td>Namukoko Alijavwa</td>
+      <td>F</td>
+      <td>09-Oct-23</td>
+      <td>2</td>
+      <td>20-Nov-23</td>
+      <td>06-Apr-24</td>
+      <td>05-Jul-24</td>
+      <td>03-Oct-24</td>
+      <td>01-Apr-25</td>
+      <td>28-Sep-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>banda_david</td>
+      <td>PROMISE SICHONDWE</td>
+      <td>F</td>
+      <td>10-May-24</td>
+      <td>1</td>
+      <td>21-Jun-24</td>
+      <td>06-Nov-24</td>
+      <td>04-Feb-25</td>
+      <td>05-May-25</td>
+      <td>01-Nov-25</td>
+      <td>30-Apr-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>banda_misozi</td>
+      <td>Christopher Mwansa</td>
+      <td>M</td>
+      <td>01-Aug-24</td>
+      <td>1</td>
+      <td>12-Sep-24</td>
+      <td>28-Jan-25</td>
+      <td>28-Apr-25</td>
+      <td>27-Jul-25</td>
+      <td>23-Jan-26</td>
+      <td>22-Jul-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>banda_misozi</td>
+      <td>Favour Chikunji</td>
+      <td>M</td>
+      <td>23-Jun-24</td>
+      <td>1</td>
+      <td>04-Aug-24</td>
+      <td>20-Dec-24</td>
+      <td>20-Mar-25</td>
+      <td>18-Jun-25</td>
+      <td>15-Dec-25</td>
+      <td>13-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>banda_misozi</td>
+      <td>Mpofu Kondwani</td>
+      <td>M</td>
+      <td>16-Nov-23</td>
+      <td>2</td>
+      <td>28-Dec-23</td>
+      <td>14-May-24</td>
+      <td>12-Aug-24</td>
+      <td>10-Nov-24</td>
+      <td>09-May-25</td>
+      <td>05-Nov-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>banda_misozi</td>
+      <td>Nyirenda Stacy Bliss</td>
+      <td>F</td>
+      <td>16-Jan-24</td>
+      <td>1</td>
+      <td>27-Feb-24</td>
+      <td>14-Jul-24</td>
+      <td>12-Oct-24</td>
+      <td>10-Jan-25</td>
+      <td>09-Jul-25</td>
+      <td>05-Jan-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>brandina_tembo</td>
+      <td>Lubuwa miracle</td>
+      <td>F</td>
+      <td>03-Feb-24</td>
+      <td>1</td>
+      <td>16-Mar-24</td>
+      <td>01-Aug-24</td>
+      <td>30-Oct-24</td>
+      <td>28-Jan-25</td>
+      <td>27-Jul-25</td>
+      <td>23-Jan-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>chitambala_stanslous</td>
+      <td>Sampa Hope</td>
+      <td>F</td>
+      <td>06-Oct-22</td>
+      <td>3</td>
+      <td>17-Nov-22</td>
+      <td>04-Apr-23</td>
+      <td>03-Jul-23</td>
+      <td>01-Oct-23</td>
+      <td>29-Mar-24</td>
+      <td>25-Sep-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>Thompson District Hospital</td>
+      <td>emmanuel_kapambwe</td>
+      <td>Chabota Taona</td>
+      <td>F</td>
+      <td>10-Oct-24</td>
+      <td>1</td>
+      <td>21-Nov-24</td>
+      <td>08-Apr-25</td>
+      <td>07-Jul-25</td>
+      <td>05-Oct-25</td>
+      <td>03-Apr-26</td>
+      <td>30-Sep-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>Thompson District Hospital</td>
+      <td>emmanuel_kapambwe</td>
+      <td>Kain mwenya</td>
+      <td>F</td>
+      <td>20-Oct-23</td>
+      <td>2</td>
+      <td>01-Dec-23</td>
+      <td>17-Apr-24</td>
+      <td>16-Jul-24</td>
+      <td>14-Oct-24</td>
+      <td>12-Apr-25</td>
+      <td>09-Oct-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>gondwe_fanny</td>
+      <td>Jacquilene Kaunda</td>
+      <td>F</td>
+      <td>09-Dec-22</td>
+      <td>3</td>
+      <td>20-Jan-23</td>
+      <td>07-Jun-23</td>
+      <td>05-Sep-23</td>
+      <td>04-Dec-23</td>
+      <td>01-Jun-24</td>
+      <td>28-Nov-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>gondwe_fanny</td>
+      <td>Loti Joshua</td>
+      <td>M</td>
+      <td>27-Nov-22</td>
+      <td>3</td>
+      <td>08-Jan-23</td>
+      <td>26-May-23</td>
+      <td>24-Aug-23</td>
+      <td>22-Nov-23</td>
+      <td>20-May-24</td>
+      <td>16-Nov-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>gondwe_fanny</td>
+      <td>Nkhoma Bukata</td>
+      <td>F</td>
+      <td>28-Nov-22</td>
+      <td>3</td>
+      <td>09-Jan-23</td>
+      <td>27-May-23</td>
+      <td>25-Aug-23</td>
+      <td>23-Nov-23</td>
+      <td>21-May-24</td>
+      <td>17-Nov-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>grace_kebende</td>
+      <td>DESTINY MUSONDA</td>
+      <td>M</td>
+      <td>02-Aug-23</td>
+      <td>2</td>
+      <td>13-Sep-23</td>
+      <td>29-Jan-24</td>
+      <td>28-Apr-24</td>
+      <td>27-Jul-24</td>
+      <td>23-Jan-25</td>
+      <td>22-Jul-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>grace_kebende</td>
+      <td>EDWARD KAPAYA</td>
+      <td>M</td>
+      <td>17-Oct-23</td>
+      <td>2</td>
+      <td>28-Nov-23</td>
+      <td>14-Apr-24</td>
+      <td>13-Jul-24</td>
+      <td>11-Oct-24</td>
+      <td>09-Apr-25</td>
+      <td>06-Oct-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>grace_kebende</td>
+      <td>ELI SONDASHI</td>
+      <td>M</td>
+      <td>02-Oct-22</td>
+      <td>3</td>
+      <td>13-Nov-22</td>
+      <td>31-Mar-23</td>
+      <td>29-Jun-23</td>
+      <td>27-Sep-23</td>
+      <td>25-Mar-24</td>
+      <td>21-Sep-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>grace_kebende</td>
+      <td>ELIZABETH MUTALE</td>
+      <td>F</td>
+      <td>25-Sep-22</td>
+      <td>3</td>
+      <td>06-Nov-22</td>
+      <td>24-Mar-23</td>
+      <td>22-Jun-23</td>
+      <td>20-Sep-23</td>
+      <td>18-Mar-24</td>
+      <td>14-Sep-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>grace_kebende</td>
+      <td>GIBSON CHIBESA</td>
+      <td>M</td>
+      <td>04-Oct-22</td>
+      <td>3</td>
+      <td>15-Nov-22</td>
+      <td>02-Apr-23</td>
+      <td>01-Jul-23</td>
+      <td>29-Sep-23</td>
+      <td>27-Mar-24</td>
+      <td>23-Sep-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>54</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>grace_kebende</td>
+      <td>GLORY MBEWE</td>
+      <td>M</td>
+      <td>04-Jan-24</td>
+      <td>1</td>
+      <td>15-Feb-24</td>
+      <td>02-Jul-24</td>
+      <td>30-Sep-24</td>
+      <td>29-Dec-24</td>
+      <td>27-Jun-25</td>
+      <td>24-Dec-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>55</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>grace_kebende</td>
+      <td>JOSHUA. SINYINZA</td>
+      <td>M</td>
+      <td>14-Jun-23</td>
+      <td>2</td>
+      <td>26-Jul-23</td>
+      <td>11-Dec-23</td>
+      <td>10-Mar-24</td>
+      <td>08-Jun-24</td>
+      <td>05-Dec-24</td>
+      <td>03-Jun-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>grace_kebende</td>
+      <td>MAPALO MISELO</td>
+      <td>F</td>
+      <td>02-Dec-23</td>
+      <td>2</td>
+      <td>13-Jan-24</td>
+      <td>30-May-24</td>
+      <td>28-Aug-24</td>
+      <td>26-Nov-24</td>
+      <td>25-May-25</td>
+      <td>21-Nov-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>grace_kebende</td>
+      <td>MERCY MWILA</td>
+      <td>F</td>
+      <td>07-Oct-22</td>
+      <td>3</td>
+      <td>18-Nov-22</td>
+      <td>05-Apr-23</td>
+      <td>04-Jul-23</td>
+      <td>02-Oct-23</td>
+      <td>30-Mar-24</td>
+      <td>26-Sep-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>grace_kebende</td>
+      <td>NATASHA MALAMBO</td>
+      <td>F</td>
+      <td>13-Jul-23</td>
+      <td>2</td>
+      <td>24-Aug-23</td>
+      <td>09-Jan-24</td>
+      <td>08-Apr-24</td>
+      <td>07-Jul-24</td>
+      <td>03-Jan-25</td>
+      <td>02-Jul-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>grace_kebende</td>
+      <td>OSWALD PHIRI</td>
+      <td>M</td>
+      <td>27-May-23</td>
+      <td>2</td>
+      <td>08-Jul-23</td>
+      <td>23-Nov-23</td>
+      <td>21-Feb-24</td>
+      <td>21-May-24</td>
+      <td>17-Nov-24</td>
+      <td>16-May-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>grace_kebende</td>
+      <td>PASCALINA KAYAMBOMA</td>
+      <td>F</td>
+      <td>08-Mar-23</td>
+      <td>2</td>
+      <td>19-Apr-23</td>
+      <td>04-Sep-23</td>
+      <td>03-Dec-23</td>
+      <td>02-Mar-24</td>
+      <td>29-Aug-24</td>
+      <td>25-Feb-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>hector_banda</td>
+      <td>Angel Chansa</td>
+      <td>M</td>
+      <td>04-May-24</td>
+      <td>1</td>
+      <td>15-Jun-24</td>
+      <td>31-Oct-24</td>
+      <td>29-Jan-25</td>
+      <td>29-Apr-25</td>
+      <td>26-Oct-25</td>
+      <td>24-Apr-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>hector_banda</td>
+      <td>Angel mumba</td>
+      <td>M</td>
+      <td>04-Sep-24</td>
+      <td>1</td>
+      <td>16-Oct-24</td>
+      <td>03-Mar-25</td>
+      <td>01-Jun-25</td>
+      <td>30-Aug-25</td>
+      <td>26-Feb-26</td>
+      <td>25-Aug-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>hector_banda</td>
+      <td>ESAU LUMANO</td>
+      <td>M</td>
+      <td>08-Feb-23</td>
+      <td>2</td>
+      <td>22-Mar-23</td>
+      <td>07-Aug-23</td>
+      <td>05-Nov-23</td>
+      <td>03-Feb-24</td>
+      <td>01-Aug-24</td>
+      <td>28-Jan-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>hector_banda</td>
+      <td>Faith Daka</td>
+      <td>F</td>
+      <td>04-Jun-24</td>
+      <td>1</td>
+      <td>16-Jul-24</td>
+      <td>01-Dec-24</td>
+      <td>01-Mar-25</td>
+      <td>30-May-25</td>
+      <td>26-Nov-25</td>
+      <td>25-May-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>hector_banda</td>
+      <td>Maria katebe</td>
+      <td>F</td>
+      <td>16-Nov-23</td>
+      <td>2</td>
+      <td>28-Dec-23</td>
+      <td>14-May-24</td>
+      <td>12-Aug-24</td>
+      <td>10-Nov-24</td>
+      <td>09-May-25</td>
+      <td>05-Nov-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>hector_banda</td>
+      <td>Mary Ng'andu</td>
+      <td>F</td>
+      <td>09-Apr-24</td>
+      <td>1</td>
+      <td>21-May-24</td>
+      <td>06-Oct-24</td>
+      <td>04-Jan-25</td>
+      <td>04-Apr-25</td>
+      <td>01-Oct-25</td>
+      <td>30-Mar-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>hector_banda</td>
+      <td>Moses Kaira</td>
+      <td>M</td>
+      <td>21-Jul-23</td>
+      <td>2</td>
+      <td>01-Sep-23</td>
+      <td>17-Jan-24</td>
+      <td>16-Apr-24</td>
+      <td>15-Jul-24</td>
+      <td>11-Jan-25</td>
+      <td>10-Jul-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>hector_banda</td>
+      <td>Moses Mambwe</td>
+      <td>M</td>
+      <td>05-Apr-23</td>
+      <td>2</td>
+      <td>17-May-23</td>
+      <td>02-Oct-23</td>
+      <td>31-Dec-23</td>
+      <td>30-Mar-24</td>
+      <td>26-Sep-24</td>
+      <td>25-Mar-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>hector_banda</td>
+      <td>Mubanga EMMANUEL</td>
+      <td>M</td>
+      <td>02-Nov-23</td>
+      <td>2</td>
+      <td>14-Dec-23</td>
+      <td>30-Apr-24</td>
+      <td>29-Jul-24</td>
+      <td>27-Oct-24</td>
+      <td>25-Apr-25</td>
+      <td>22-Oct-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>hector_banda</td>
+      <td>Nancy Chisenga</td>
+      <td>F</td>
+      <td>19-Apr-24</td>
+      <td>1</td>
+      <td>31-May-24</td>
+      <td>16-Oct-24</td>
+      <td>14-Jan-25</td>
+      <td>14-Apr-25</td>
+      <td>11-Oct-25</td>
+      <td>09-Apr-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>hector_banda</td>
+      <td>Ngoyi Ngoyi</td>
+      <td>M</td>
+      <td>30-Oct-23</td>
+      <td>2</td>
+      <td>11-Dec-23</td>
+      <td>27-Apr-24</td>
+      <td>26-Jul-24</td>
+      <td>24-Oct-24</td>
+      <td>22-Apr-25</td>
+      <td>19-Oct-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>72</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>hector_banda</td>
+      <td>Olipa Mwansa</td>
+      <td>F</td>
+      <td>06-Oct-23</td>
+      <td>2</td>
+      <td>17-Nov-23</td>
+      <td>03-Apr-24</td>
+      <td>02-Jul-24</td>
+      <td>30-Sep-24</td>
+      <td>29-Mar-25</td>
+      <td>25-Sep-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>hector_banda</td>
+      <td>Sakala Esnart</td>
+      <td>F</td>
+      <td>12-Dec-23</td>
+      <td>2</td>
+      <td>23-Jan-24</td>
+      <td>09-Jun-24</td>
+      <td>07-Sep-24</td>
+      <td>06-Dec-24</td>
+      <td>04-Jun-25</td>
+      <td>01-Dec-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>74</th>
+      <td>Poleline (Baluba) Health Post</td>
+      <td>hector_banda</td>
+      <td>Shakainah Mulolani</td>
+      <td>F</td>
+      <td>27-Oct-23</td>
+      <td>2</td>
+      <td>08-Dec-23</td>
+      <td>24-Apr-24</td>
+      <td>23-Jul-24</td>
+      <td>21-Oct-24</td>
+      <td>19-Apr-25</td>
+      <td>16-Oct-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>hellen_mwansa</td>
+      <td>Moses chiyangi</td>
+      <td>M</td>
+      <td>04-Oct-24</td>
+      <td>1</td>
+      <td>15-Nov-24</td>
+      <td>02-Apr-25</td>
+      <td>01-Jul-25</td>
+      <td>29-Sep-25</td>
+      <td>28-Mar-26</td>
+      <td>24-Sep-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>76</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>jane_kasaka1</td>
+      <td>Michelle mwansa</td>
+      <td>F</td>
+      <td>05-Jul-23</td>
+      <td>2</td>
+      <td>16-Aug-23</td>
+      <td>01-Jan-24</td>
+      <td>31-Mar-24</td>
+      <td>29-Jun-24</td>
+      <td>26-Dec-24</td>
+      <td>24-Jun-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>77</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>jane_kasaka1</td>
+      <td>Paul musonda</td>
+      <td>M</td>
+      <td>27-Mar-24</td>
+      <td>1</td>
+      <td>08-May-24</td>
+      <td>23-Sep-24</td>
+      <td>22-Dec-24</td>
+      <td>22-Mar-25</td>
+      <td>18-Sep-25</td>
+      <td>17-Mar-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>78</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Evaristo mulenga</td>
+      <td>M</td>
+      <td>28-May-24</td>
+      <td>1</td>
+      <td>09-Jul-24</td>
+      <td>24-Nov-24</td>
+      <td>22-Feb-25</td>
+      <td>23-May-25</td>
+      <td>19-Nov-25</td>
+      <td>18-May-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>79</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Ezira muzuanga</td>
+      <td>F</td>
+      <td>03-Jul-24</td>
+      <td>1</td>
+      <td>14-Aug-24</td>
+      <td>30-Dec-24</td>
+      <td>30-Mar-25</td>
+      <td>28-Jun-25</td>
+      <td>25-Dec-25</td>
+      <td>23-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>80</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Innocent meleki</td>
+      <td>M</td>
+      <td>24-Mar-24</td>
+      <td>1</td>
+      <td>05-May-24</td>
+      <td>20-Sep-24</td>
+      <td>19-Dec-24</td>
+      <td>19-Mar-25</td>
+      <td>15-Sep-25</td>
+      <td>14-Mar-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>81</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Joshua chikwanda</td>
+      <td>M</td>
+      <td>31-May-24</td>
+      <td>1</td>
+      <td>12-Jul-24</td>
+      <td>27-Nov-24</td>
+      <td>25-Feb-25</td>
+      <td>26-May-25</td>
+      <td>22-Nov-25</td>
+      <td>21-May-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>82</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Joyce mulenga</td>
+      <td>M</td>
+      <td>22-Sep-22</td>
+      <td>3</td>
+      <td>03-Nov-22</td>
+      <td>21-Mar-23</td>
+      <td>19-Jun-23</td>
+      <td>17-Sep-23</td>
+      <td>15-Mar-24</td>
+      <td>11-Sep-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>83</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Kalobwe Hope</td>
+      <td>M</td>
+      <td>27-Sep-22</td>
+      <td>3</td>
+      <td>08-Nov-22</td>
+      <td>26-Mar-23</td>
+      <td>24-Jun-23</td>
+      <td>22-Sep-23</td>
+      <td>20-Mar-24</td>
+      <td>16-Sep-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>84</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Kapinga destiny</td>
+      <td>F</td>
+      <td>14-Nov-22</td>
+      <td>3</td>
+      <td>26-Dec-22</td>
+      <td>13-May-23</td>
+      <td>11-Aug-23</td>
+      <td>09-Nov-23</td>
+      <td>07-May-24</td>
+      <td>03-Nov-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>85</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Mathews kachasa</td>
+      <td>M</td>
+      <td>12-May-24</td>
+      <td>1</td>
+      <td>23-Jun-24</td>
+      <td>08-Nov-24</td>
+      <td>06-Feb-25</td>
+      <td>07-May-25</td>
+      <td>03-Nov-25</td>
+      <td>02-May-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>86</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Miracle mutambo</td>
+      <td>M</td>
+      <td>07-Feb-24</td>
+      <td>1</td>
+      <td>20-Mar-24</td>
+      <td>05-Aug-24</td>
+      <td>03-Nov-24</td>
+      <td>01-Feb-25</td>
+      <td>31-Jul-25</td>
+      <td>27-Jan-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>87</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Ndanj nakawala</td>
+      <td>F</td>
+      <td>24-Mar-24</td>
+      <td>1</td>
+      <td>05-May-24</td>
+      <td>20-Sep-24</td>
+      <td>19-Dec-24</td>
+      <td>19-Mar-25</td>
+      <td>15-Sep-25</td>
+      <td>14-Mar-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Ngoma patrick</td>
+      <td>M</td>
+      <td>20-Oct-22</td>
+      <td>3</td>
+      <td>01-Dec-22</td>
+      <td>18-Apr-23</td>
+      <td>17-Jul-23</td>
+      <td>15-Oct-23</td>
+      <td>12-Apr-24</td>
+      <td>09-Oct-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>89</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Sakala jean</td>
+      <td>F</td>
+      <td>28-Oct-22</td>
+      <td>3</td>
+      <td>09-Dec-22</td>
+      <td>26-Apr-23</td>
+      <td>25-Jul-23</td>
+      <td>23-Oct-23</td>
+      <td>20-Apr-24</td>
+      <td>17-Oct-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>90</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Tiana mulenga</td>
+      <td>F</td>
+      <td>27-Mar-24</td>
+      <td>1</td>
+      <td>08-May-24</td>
+      <td>23-Sep-24</td>
+      <td>22-Dec-24</td>
+      <td>22-Mar-25</td>
+      <td>18-Sep-25</td>
+      <td>17-Mar-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>91</th>
+      <td>Thompson District Hospital</td>
+      <td>joseph_kaimana</td>
+      <td>Hope Chambwe</td>
+      <td>F</td>
+      <td>15-Mar-23</td>
+      <td>2</td>
+      <td>26-Apr-23</td>
+      <td>11-Sep-23</td>
+      <td>10-Dec-23</td>
+      <td>09-Mar-24</td>
+      <td>05-Sep-24</td>
+      <td>04-Mar-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>92</th>
+      <td>Thompson District Hospital</td>
+      <td>joseph_kaimana</td>
+      <td>Limpo mainess kangwa</td>
+      <td>F</td>
+      <td>24-Oct-23</td>
+      <td>2</td>
+      <td>05-Dec-23</td>
+      <td>21-Apr-24</td>
+      <td>20-Jul-24</td>
+      <td>18-Oct-24</td>
+      <td>16-Apr-25</td>
+      <td>13-Oct-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>93</th>
+      <td>Thompson District Hospital</td>
+      <td>joseph_kaimana</td>
+      <td>Mariah Nkhata</td>
+      <td>F</td>
+      <td>08-Nov-23</td>
+      <td>2</td>
+      <td>20-Dec-23</td>
+      <td>06-May-24</td>
+      <td>04-Aug-24</td>
+      <td>02-Nov-24</td>
+      <td>01-May-25</td>
+      <td>28-Oct-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>94</th>
+      <td>Thompson District Hospital</td>
+      <td>joseph_kaimana</td>
+      <td>Maya kaputa</td>
+      <td>F</td>
+      <td>29-Jun-24</td>
+      <td>1</td>
+      <td>10-Aug-24</td>
+      <td>26-Dec-24</td>
+      <td>26-Mar-25</td>
+      <td>24-Jun-25</td>
+      <td>21-Dec-25</td>
+      <td>19-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>Thompson District Hospital</td>
+      <td>joshua_malole</td>
+      <td>Sichiwesa izukanji</td>
+      <td>M</td>
+      <td>13-Dec-23</td>
+      <td>2</td>
+      <td>24-Jan-24</td>
+      <td>10-Jun-24</td>
+      <td>08-Sep-24</td>
+      <td>07-Dec-24</td>
+      <td>05-Jun-25</td>
+      <td>02-Dec-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>Thompson District Hospital</td>
+      <td>joshua_malole</td>
+      <td>Munyati wongani</td>
+      <td>M</td>
+      <td>24-Jun-24</td>
+      <td>1</td>
+      <td>05-Aug-24</td>
+      <td>21-Dec-24</td>
+      <td>21-Mar-25</td>
+      <td>19-Jun-25</td>
+      <td>16-Dec-25</td>
+      <td>14-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>Thompson District Hospital</td>
+      <td>joshua_malole</td>
+      <td>Sichiwese suwilanji</td>
+      <td>M</td>
+      <td>13-Oct-23</td>
+      <td>2</td>
+      <td>24-Nov-23</td>
+      <td>10-Apr-24</td>
+      <td>09-Jul-24</td>
+      <td>07-Oct-24</td>
+      <td>05-Apr-25</td>
+      <td>02-Oct-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>98</th>
+      <td>Thompson District Hospital</td>
+      <td>kabesha_mary</td>
+      <td>Muzumala James</td>
+      <td>M</td>
+      <td>09-May-24</td>
+      <td>1</td>
+      <td>20-Jun-24</td>
+      <td>05-Nov-24</td>
+      <td>03-Feb-25</td>
+      <td>04-May-25</td>
+      <td>31-Oct-25</td>
+      <td>29-Apr-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>99</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>kapasula_edith</td>
+      <td>Chanda Rebecca</td>
+      <td>F</td>
+      <td>15-May-22</td>
+      <td>3</td>
+      <td>26-Jun-22</td>
+      <td>11-Nov-22</td>
+      <td>09-Feb-23</td>
+      <td>10-May-23</td>
+      <td>06-Nov-23</td>
+      <td>04-May-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>100</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>kapasula_edith</td>
+      <td>Kunda Magret</td>
+      <td>F</td>
+      <td>10-Jun-24</td>
+      <td>1</td>
+      <td>22-Jul-24</td>
+      <td>07-Dec-24</td>
+      <td>07-Mar-25</td>
+      <td>05-Jun-25</td>
+      <td>02-Dec-25</td>
+      <td>31-May-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>101</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>kapasula_edith</td>
+      <td>Mulemba Tasheni</td>
+      <td>F</td>
+      <td>25-Jan-23</td>
+      <td>2</td>
+      <td>08-Mar-23</td>
+      <td>24-Jul-23</td>
+      <td>22-Oct-23</td>
+      <td>20-Jan-24</td>
+      <td>18-Jul-24</td>
+      <td>14-Jan-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>102</th>
+      <td>Thompson District Hospital</td>
+      <td>kumwenda_mary</td>
+      <td>Gladys Inonge Muyunda</td>
+      <td>F</td>
+      <td>20-Jun-24</td>
+      <td>1</td>
+      <td>01-Aug-24</td>
+      <td>17-Dec-24</td>
+      <td>17-Mar-25</td>
+      <td>15-Jun-25</td>
+      <td>12-Dec-25</td>
+      <td>10-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>103</th>
+      <td>Thompson District Hospital</td>
+      <td>kumwenda_mary</td>
+      <td>Matildah Chipili</td>
+      <td>F</td>
+      <td>25-Apr-24</td>
+      <td>1</td>
+      <td>06-Jun-24</td>
+      <td>22-Oct-24</td>
+      <td>20-Jan-25</td>
+      <td>20-Apr-25</td>
+      <td>17-Oct-25</td>
+      <td>15-Apr-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>104</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>makashini_christopher</td>
+      <td>EMMANUEL CHANDA</td>
+      <td>M</td>
+      <td>06-Sep-24</td>
+      <td>1</td>
+      <td>18-Oct-24</td>
+      <td>05-Mar-25</td>
+      <td>03-Jun-25</td>
+      <td>01-Sep-25</td>
+      <td>28-Feb-26</td>
+      <td>27-Aug-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>105</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>makashini_christopher</td>
+      <td>JOSEPH CHISANGA</td>
+      <td>M</td>
+      <td>17-Mar-23</td>
+      <td>2</td>
+      <td>28-Apr-23</td>
+      <td>13-Sep-23</td>
+      <td>12-Dec-23</td>
+      <td>11-Mar-24</td>
+      <td>07-Sep-24</td>
+      <td>06-Mar-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>106</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>makashini_christopher</td>
+      <td>MWAMBA BUKATA</td>
+      <td>F</td>
+      <td>30-Oct-23</td>
+      <td>2</td>
+      <td>11-Dec-23</td>
+      <td>27-Apr-24</td>
+      <td>26-Jul-24</td>
+      <td>24-Oct-24</td>
+      <td>22-Apr-25</td>
+      <td>19-Oct-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>107</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>makashini_christopher</td>
+      <td>Precious Milimo</td>
+      <td>F</td>
+      <td>20-Nov-23</td>
+      <td>2</td>
+      <td>01-Jan-24</td>
+      <td>18-May-24</td>
+      <td>16-Aug-24</td>
+      <td>14-Nov-24</td>
+      <td>13-May-25</td>
+      <td>09-Nov-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>108</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>makashini_christopher</td>
+      <td>WILLIAM CHULU</td>
+      <td>M</td>
+      <td>20-Aug-23</td>
+      <td>2</td>
+      <td>01-Oct-23</td>
+      <td>16-Feb-24</td>
+      <td>16-May-24</td>
+      <td>14-Aug-24</td>
+      <td>10-Feb-25</td>
+      <td>09-Aug-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>109</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>martha_muchimba</td>
+      <td>Abel chama</td>
+      <td>M</td>
+      <td>31-Jan-23</td>
+      <td>2</td>
+      <td>14-Mar-23</td>
+      <td>30-Jul-23</td>
+      <td>28-Oct-23</td>
+      <td>26-Jan-24</td>
+      <td>24-Jul-24</td>
+      <td>20-Jan-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>110</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>martha_muchimba</td>
+      <td>Amirah Myireti</td>
+      <td>F</td>
+      <td>01-May-24</td>
+      <td>1</td>
+      <td>12-Jun-24</td>
+      <td>28-Oct-24</td>
+      <td>26-Jan-25</td>
+      <td>26-Apr-25</td>
+      <td>23-Oct-25</td>
+      <td>21-Apr-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>111</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>martha_muchimba</td>
+      <td>Baby Royna Mfune</td>
+      <td>F</td>
+      <td>02-Sep-24</td>
+      <td>1</td>
+      <td>14-Oct-24</td>
+      <td>01-Mar-25</td>
+      <td>30-May-25</td>
+      <td>28-Aug-25</td>
+      <td>24-Feb-26</td>
+      <td>23-Aug-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>112</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>martha_muchimba</td>
+      <td>Chimwemwe Musonda</td>
+      <td>F</td>
+      <td>16-Aug-23</td>
+      <td>2</td>
+      <td>27-Sep-23</td>
+      <td>12-Feb-24</td>
+      <td>12-May-24</td>
+      <td>10-Aug-24</td>
+      <td>06-Feb-25</td>
+      <td>05-Aug-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>113</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>martha_muchimba</td>
+      <td>Izukanji Nachilima</td>
+      <td>F</td>
+      <td>24-Aug-23</td>
+      <td>2</td>
+      <td>05-Oct-23</td>
+      <td>20-Feb-24</td>
+      <td>20-May-24</td>
+      <td>18-Aug-24</td>
+      <td>14-Feb-25</td>
+      <td>13-Aug-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>114</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>martha_muchimba</td>
+      <td>Joshua Mweeta</td>
+      <td>M</td>
+      <td>21-Aug-23</td>
+      <td>2</td>
+      <td>02-Oct-23</td>
+      <td>17-Feb-24</td>
+      <td>17-May-24</td>
+      <td>15-Aug-24</td>
+      <td>11-Feb-25</td>
+      <td>10-Aug-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>115</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>martha_muchimba</td>
+      <td>Matthews chomba</td>
+      <td>M</td>
+      <td>04-Jan-24</td>
+      <td>1</td>
+      <td>15-Feb-24</td>
+      <td>02-Jul-24</td>
+      <td>30-Sep-24</td>
+      <td>29-Dec-24</td>
+      <td>27-Jun-25</td>
+      <td>24-Dec-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>116</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>mary_mwape</td>
+      <td>Abigail Chimwemwe</td>
+      <td>F</td>
+      <td>26-Sep-23</td>
+      <td>2</td>
+      <td>07-Nov-23</td>
+      <td>24-Mar-24</td>
+      <td>22-Jun-24</td>
+      <td>20-Sep-24</td>
+      <td>19-Mar-25</td>
+      <td>15-Sep-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>117</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>mary_mwape</td>
+      <td>Alice Kachushi</td>
+      <td>F</td>
+      <td>20-Jan-23</td>
+      <td>2</td>
+      <td>03-Mar-23</td>
+      <td>19-Jul-23</td>
+      <td>17-Oct-23</td>
+      <td>15-Jan-24</td>
+      <td>13-Jul-24</td>
+      <td>09-Jan-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>118</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>mary_mwape</td>
+      <td>Lubuto kalingane</td>
+      <td>M</td>
+      <td>11-Dec-23</td>
+      <td>2</td>
+      <td>22-Jan-24</td>
+      <td>08-Jun-24</td>
+      <td>06-Sep-24</td>
+      <td>05-Dec-24</td>
+      <td>03-Jun-25</td>
+      <td>30-Nov-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>119</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>mary_mwape</td>
+      <td>Lubuto Kasonde</td>
+      <td>M</td>
+      <td>07-Dec-23</td>
+      <td>2</td>
+      <td>18-Jan-24</td>
+      <td>04-Jun-24</td>
+      <td>02-Sep-24</td>
+      <td>01-Dec-24</td>
+      <td>30-May-25</td>
+      <td>26-Nov-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>120</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>mary_mwape</td>
+      <td>Peter Chibale</td>
+      <td>M</td>
+      <td>28-Jul-24</td>
+      <td>1</td>
+      <td>08-Sep-24</td>
+      <td>24-Jan-25</td>
+      <td>24-Apr-25</td>
+      <td>23-Jul-25</td>
+      <td>19-Jan-26</td>
+      <td>18-Jul-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>121</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>mary_mwape</td>
+      <td>Prince Mukwaka</td>
+      <td>M</td>
+      <td>11-Nov-23</td>
+      <td>2</td>
+      <td>23-Dec-23</td>
+      <td>09-May-24</td>
+      <td>07-Aug-24</td>
+      <td>05-Nov-24</td>
+      <td>04-May-25</td>
+      <td>31-Oct-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>122</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>mary_mwape</td>
+      <td>Shekainah Nhata</td>
+      <td>F</td>
+      <td>10-Oct-23</td>
+      <td>2</td>
+      <td>21-Nov-23</td>
+      <td>07-Apr-24</td>
+      <td>06-Jul-24</td>
+      <td>04-Oct-24</td>
+      <td>02-Apr-25</td>
+      <td>29-Sep-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>123</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Chabala doris</td>
+      <td>F</td>
+      <td>29-Jan-23</td>
+      <td>2</td>
+      <td>12-Mar-23</td>
+      <td>28-Jul-23</td>
+      <td>26-Oct-23</td>
+      <td>24-Jan-24</td>
+      <td>22-Jul-24</td>
+      <td>18-Jan-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>124</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Faith zulu</td>
+      <td>F</td>
+      <td>24-Apr-24</td>
+      <td>1</td>
+      <td>05-Jun-24</td>
+      <td>21-Oct-24</td>
+      <td>19-Jan-25</td>
+      <td>19-Apr-25</td>
+      <td>16-Oct-25</td>
+      <td>14-Apr-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>125</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Happy mwila</td>
+      <td>M</td>
+      <td>20-Jan-23</td>
+      <td>2</td>
+      <td>03-Mar-23</td>
+      <td>19-Jul-23</td>
+      <td>17-Oct-23</td>
+      <td>15-Jan-24</td>
+      <td>13-Jul-24</td>
+      <td>09-Jan-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>126</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Musambili michelle</td>
+      <td>F</td>
+      <td>21-Nov-22</td>
+      <td>3</td>
+      <td>02-Jan-23</td>
+      <td>20-May-23</td>
+      <td>18-Aug-23</td>
+      <td>16-Nov-23</td>
+      <td>14-May-24</td>
+      <td>10-Nov-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>127</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Owen phiri</td>
+      <td>M</td>
+      <td>26-Jul-24</td>
+      <td>1</td>
+      <td>06-Sep-24</td>
+      <td>22-Jan-25</td>
+      <td>22-Apr-25</td>
+      <td>21-Jul-25</td>
+      <td>17-Jan-26</td>
+      <td>16-Jul-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>128</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Patience mwansa</td>
+      <td>F</td>
+      <td>09-Apr-24</td>
+      <td>1</td>
+      <td>21-May-24</td>
+      <td>06-Oct-24</td>
+      <td>04-Jan-25</td>
+      <td>04-Apr-25</td>
+      <td>01-Oct-25</td>
+      <td>30-Mar-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>129</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Phiri Esther</td>
+      <td>F</td>
+      <td>21-Mar-24</td>
+      <td>1</td>
+      <td>02-May-24</td>
+      <td>17-Sep-24</td>
+      <td>16-Dec-24</td>
+      <td>16-Mar-25</td>
+      <td>12-Sep-25</td>
+      <td>11-Mar-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>130</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Prince nyirongo</td>
+      <td>M</td>
+      <td>01-May-24</td>
+      <td>1</td>
+      <td>12-Jun-24</td>
+      <td>28-Oct-24</td>
+      <td>26-Jan-25</td>
+      <td>26-Apr-25</td>
+      <td>23-Oct-25</td>
+      <td>21-Apr-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>131</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Sakala nebert</td>
+      <td>M</td>
+      <td>29-Oct-22</td>
+      <td>3</td>
+      <td>10-Dec-22</td>
+      <td>27-Apr-23</td>
+      <td>26-Jul-23</td>
+      <td>24-Oct-23</td>
+      <td>21-Apr-24</td>
+      <td>18-Oct-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>132</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Simwanza caroline</td>
+      <td>F</td>
+      <td>26-Oct-22</td>
+      <td>3</td>
+      <td>07-Dec-22</td>
+      <td>24-Apr-23</td>
+      <td>23-Jul-23</td>
+      <td>21-Oct-23</td>
+      <td>18-Apr-24</td>
+      <td>15-Oct-24</td>
+      <td>AGEDOUT</td>
+    </tr>
+    <tr>
+      <th>133</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>mikabo_mildred</td>
+      <td>Besa Stanislaus</td>
+      <td>M</td>
+      <td>11-Jul-23</td>
+      <td>2</td>
+      <td>22-Aug-23</td>
+      <td>07-Jan-24</td>
+      <td>06-Apr-24</td>
+      <td>05-Jul-24</td>
+      <td>01-Jan-25</td>
+      <td>30-Jun-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>134</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>mikabo_mildred</td>
+      <td>Musa Gift</td>
+      <td>M</td>
+      <td>02-May-24</td>
+      <td>1</td>
+      <td>13-Jun-24</td>
+      <td>29-Oct-24</td>
+      <td>27-Jan-25</td>
+      <td>27-Apr-25</td>
+      <td>24-Oct-25</td>
+      <td>22-Apr-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>135</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>mikabo_mildred</td>
+      <td>Mutale Christopher</td>
+      <td>M</td>
+      <td>14-Feb-24</td>
+      <td>1</td>
+      <td>27-Mar-24</td>
+      <td>12-Aug-24</td>
+      <td>10-Nov-24</td>
+      <td>08-Feb-25</td>
+      <td>07-Aug-25</td>
+      <td>03-Feb-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>136</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>mikabo_mildred</td>
+      <td>Mwenya Anita</td>
+      <td>F</td>
+      <td>01-Mar-23</td>
+      <td>2</td>
+      <td>12-Apr-23</td>
+      <td>28-Aug-23</td>
+      <td>26-Nov-23</td>
+      <td>24-Feb-24</td>
+      <td>22-Aug-24</td>
+      <td>18-Feb-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>137</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>mikabo_mildred</td>
+      <td>Sichone Stephani Zayan</td>
+      <td>M</td>
+      <td>01-Jun-24</td>
+      <td>1</td>
+      <td>13-Jul-24</td>
+      <td>28-Nov-24</td>
+      <td>26-Feb-25</td>
+      <td>27-May-25</td>
+      <td>23-Nov-25</td>
+      <td>22-May-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>138</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>moses_banda</td>
+      <td>Melvin tembo</td>
+      <td>M</td>
+      <td>08-Aug-24</td>
+      <td>1</td>
+      <td>19-Sep-24</td>
+      <td>04-Feb-25</td>
+      <td>05-May-25</td>
+      <td>03-Aug-25</td>
+      <td>30-Jan-26</td>
+      <td>29-Jul-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>139</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>natasha_musonda</td>
+      <td>Aisha Starich</td>
+      <td>F</td>
+      <td>13-Jun-24</td>
+      <td>1</td>
+      <td>25-Jul-24</td>
+      <td>10-Dec-24</td>
+      <td>10-Mar-25</td>
+      <td>08-Jun-25</td>
+      <td>05-Dec-25</td>
+      <td>03-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>140</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>natasha_musonda</td>
+      <td>Alice Mumfushi</td>
+      <td>F</td>
+      <td>20-Jan-23</td>
+      <td>2</td>
+      <td>03-Mar-23</td>
+      <td>19-Jul-23</td>
+      <td>17-Oct-23</td>
+      <td>15-Jan-24</td>
+      <td>13-Jul-24</td>
+      <td>09-Jan-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>141</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>natasha_musonda</td>
+      <td>Deborah Phiri</td>
+      <td>F</td>
+      <td>19-Sep-23</td>
+      <td>2</td>
+      <td>31-Oct-23</td>
+      <td>17-Mar-24</td>
+      <td>15-Jun-24</td>
+      <td>13-Sep-24</td>
+      <td>12-Mar-25</td>
+      <td>08-Sep-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>142</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>natasha_musonda</td>
+      <td>Jeden Ulika</td>
+      <td>M</td>
+      <td>25-Jun-24</td>
+      <td>1</td>
+      <td>06-Aug-24</td>
+      <td>22-Dec-24</td>
+      <td>22-Mar-25</td>
+      <td>20-Jun-25</td>
+      <td>17-Dec-25</td>
+      <td>15-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>143</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>natasha_musonda</td>
+      <td>Ramadam Sinkwa</td>
+      <td>M</td>
+      <td>25-Nov-23</td>
+      <td>2</td>
+      <td>06-Jan-24</td>
+      <td>23-May-24</td>
+      <td>21-Aug-24</td>
+      <td>19-Nov-24</td>
+      <td>18-May-25</td>
+      <td>14-Nov-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>144</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>natasha_musonda</td>
+      <td>Terence Masuwa</td>
+      <td>M</td>
+      <td>14-Oct-23</td>
+      <td>2</td>
+      <td>25-Nov-23</td>
+      <td>11-Apr-24</td>
+      <td>10-Jul-24</td>
+      <td>08-Oct-24</td>
+      <td>06-Apr-25</td>
+      <td>03-Oct-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>145</th>
+      <td>Thompson District Hospital</td>
+      <td>sakala_veronica</td>
+      <td>Kapandila Sarah</td>
+      <td>F</td>
+      <td>17-Dec-23</td>
+      <td>2</td>
+      <td>28-Jan-24</td>
+      <td>14-Jun-24</td>
+      <td>12-Sep-24</td>
+      <td>11-Dec-24</td>
+      <td>09-Jun-25</td>
+      <td>06-Dec-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>146</th>
+      <td>Thompson District Hospital</td>
+      <td>sakala_veronica</td>
+      <td>Mwape bibiana</td>
+      <td>F</td>
+      <td>13-Jul-24</td>
+      <td>1</td>
+      <td>24-Aug-24</td>
+      <td>09-Jan-25</td>
+      <td>09-Apr-25</td>
+      <td>08-Jul-25</td>
+      <td>04-Jan-26</td>
+      <td>03-Jul-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>147</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>soteli_winfridah</td>
+      <td>Christian mutambo</td>
+      <td>F</td>
+      <td>23-Jul-24</td>
+      <td>1</td>
+      <td>03-Sep-24</td>
+      <td>19-Jan-25</td>
+      <td>19-Apr-25</td>
+      <td>18-Jul-25</td>
+      <td>14-Jan-26</td>
+      <td>13-Jul-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>148</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>soteli_winfridah</td>
+      <td>Natasha Mupinga</td>
+      <td>F</td>
+      <td>26-Jun-24</td>
+      <td>1</td>
+      <td>07-Aug-24</td>
+      <td>23-Dec-24</td>
+      <td>23-Mar-25</td>
+      <td>21-Jun-25</td>
+      <td>18-Dec-25</td>
+      <td>16-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>tembo_ireen</td>
+      <td>CHANDA DESTINY</td>
+      <td>M</td>
+      <td>22-Feb-23</td>
+      <td>2</td>
+      <td>05-Apr-23</td>
+      <td>21-Aug-23</td>
+      <td>19-Nov-23</td>
+      <td>17-Feb-24</td>
+      <td>15-Aug-24</td>
+      <td>11-Feb-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>150</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>tembo_ireen</td>
+      <td>CHANDA FAITH</td>
+      <td>F</td>
+      <td>25-Apr-24</td>
+      <td>1</td>
+      <td>06-Jun-24</td>
+      <td>22-Oct-24</td>
+      <td>20-Jan-25</td>
+      <td>20-Apr-25</td>
+      <td>17-Oct-25</td>
+      <td>15-Apr-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>151</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>tembo_ireen</td>
+      <td>CHOLA MARIA</td>
+      <td>F</td>
+      <td>02-Jan-23</td>
+      <td>2</td>
+      <td>13-Feb-23</td>
+      <td>01-Jul-23</td>
+      <td>29-Sep-23</td>
+      <td>28-Dec-23</td>
+      <td>25-Jun-24</td>
+      <td>22-Dec-24</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>152</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>tembo_ireen</td>
+      <td>KATANDA MARTHA</td>
+      <td>F</td>
+      <td>09-Jul-23</td>
+      <td>2</td>
+      <td>20-Aug-23</td>
+      <td>05-Jan-24</td>
+      <td>04-Apr-24</td>
+      <td>03-Jul-24</td>
+      <td>30-Dec-24</td>
+      <td>28-Jun-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>153</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>tembo_ireen</td>
+      <td>MUBANGA TRINITY</td>
+      <td>M</td>
+      <td>15-Sep-23</td>
+      <td>2</td>
+      <td>27-Oct-23</td>
+      <td>13-Mar-24</td>
+      <td>11-Jun-24</td>
+      <td>09-Sep-24</td>
+      <td>08-Mar-25</td>
+      <td>04-Sep-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>154</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>tembo_ireen</td>
+      <td>MWANSA FAVOUR</td>
+      <td>F</td>
+      <td>25-May-23</td>
+      <td>2</td>
+      <td>06-Jul-23</td>
+      <td>21-Nov-23</td>
+      <td>19-Feb-24</td>
+      <td>19-May-24</td>
+      <td>15-Nov-24</td>
+      <td>14-May-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>155</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>tembo_ireen</td>
+      <td>NGWIRA TANDIWE</td>
+      <td>F</td>
+      <td>18-May-23</td>
+      <td>2</td>
+      <td>29-Jun-23</td>
+      <td>14-Nov-23</td>
+      <td>12-Feb-24</td>
+      <td>12-May-24</td>
+      <td>08-Nov-24</td>
+      <td>07-May-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>156</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>tembo_ireen</td>
+      <td>SAKALA JOSHUA</td>
+      <td>M</td>
+      <td>13-Jul-24</td>
+      <td>1</td>
+      <td>24-Aug-24</td>
+      <td>09-Jan-25</td>
+      <td>09-Apr-25</td>
+      <td>08-Jul-25</td>
+      <td>04-Jan-26</td>
+      <td>03-Jul-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>157</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>moses_banda</td>
+      <td>Malukutila gift</td>
+      <td>F</td>
+      <td>22-Jun-23</td>
+      <td>2</td>
+      <td>03-Aug-23</td>
+      <td>19-Dec-23</td>
+      <td>18-Mar-24</td>
+      <td>16-Jun-24</td>
+      <td>13-Dec-24</td>
+      <td>11-Jun-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>158</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>aliyah_daka</td>
+      <td>Donald Fibwe</td>
+      <td>M</td>
+      <td>17-Aug-24</td>
+      <td>1</td>
+      <td>28-Sep-24</td>
+      <td>13-Feb-25</td>
+      <td>14-May-25</td>
+      <td>12-Aug-25</td>
+      <td>08-Feb-26</td>
+      <td>07-Aug-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>159</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>aliyah_daka</td>
+      <td>Wendy Samulozela</td>
+      <td>F</td>
+      <td>21-Aug-24</td>
+      <td>1</td>
+      <td>02-Oct-24</td>
+      <td>17-Feb-25</td>
+      <td>18-May-25</td>
+      <td>16-Aug-25</td>
+      <td>12-Feb-26</td>
+      <td>11-Aug-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>160</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Kasonde shanteo</td>
+      <td>F</td>
+      <td>30-Apr-24</td>
+      <td>1</td>
+      <td>11-Jun-24</td>
+      <td>27-Oct-24</td>
+      <td>25-Jan-25</td>
+      <td>25-Apr-25</td>
+      <td>22-Oct-25</td>
+      <td>20-Apr-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>161</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Mulenga Angel</td>
+      <td>M</td>
+      <td>03-Jun-24</td>
+      <td>1</td>
+      <td>15-Jul-24</td>
+      <td>30-Nov-24</td>
+      <td>28-Feb-25</td>
+      <td>29-May-25</td>
+      <td>25-Nov-25</td>
+      <td>24-May-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>162</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Mulenga favour</td>
+      <td>F</td>
+      <td>15-Jul-24</td>
+      <td>1</td>
+      <td>26-Aug-24</td>
+      <td>11-Jan-25</td>
+      <td>11-Apr-25</td>
+      <td>10-Jul-25</td>
+      <td>06-Jan-26</td>
+      <td>05-Jul-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>163</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Chileshe Kezia</td>
+      <td>F</td>
+      <td>26-Jun-24</td>
+      <td>1</td>
+      <td>07-Aug-24</td>
+      <td>23-Dec-24</td>
+      <td>23-Mar-25</td>
+      <td>21-Jun-25</td>
+      <td>18-Dec-25</td>
+      <td>16-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>164</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Shanteo kasonda</td>
+      <td>F</td>
+      <td>30-Apr-24</td>
+      <td>1</td>
+      <td>11-Jun-24</td>
+      <td>27-Oct-24</td>
+      <td>25-Jan-25</td>
+      <td>25-Apr-25</td>
+      <td>22-Oct-25</td>
+      <td>20-Apr-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>165</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Chileshe kezia</td>
+      <td>F</td>
+      <td>26-Jun-24</td>
+      <td>1</td>
+      <td>07-Aug-24</td>
+      <td>23-Dec-24</td>
+      <td>23-Mar-25</td>
+      <td>21-Jun-25</td>
+      <td>18-Dec-25</td>
+      <td>16-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>166</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Musonda Brace</td>
+      <td>M</td>
+      <td>17-Jul-24</td>
+      <td>1</td>
+      <td>28-Aug-24</td>
+      <td>13-Jan-25</td>
+      <td>13-Apr-25</td>
+      <td>12-Jul-25</td>
+      <td>08-Jan-26</td>
+      <td>07-Jul-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>167</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Mosha Ngandu</td>
+      <td>M</td>
+      <td>04-May-23</td>
+      <td>2</td>
+      <td>15-Jun-23</td>
+      <td>31-Oct-23</td>
+      <td>29-Jan-24</td>
+      <td>28-Apr-24</td>
+      <td>25-Oct-24</td>
+      <td>23-Apr-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>168</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Kapenda abell</td>
+      <td>F</td>
+      <td>23-Jul-24</td>
+      <td>1</td>
+      <td>03-Sep-24</td>
+      <td>19-Jan-25</td>
+      <td>19-Apr-25</td>
+      <td>18-Jul-25</td>
+      <td>14-Jan-26</td>
+      <td>13-Jul-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>169</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Abraham kateba</td>
+      <td>M</td>
+      <td>24-Mar-23</td>
+      <td>2</td>
+      <td>05-May-23</td>
+      <td>20-Sep-23</td>
+      <td>19-Dec-23</td>
+      <td>18-Mar-24</td>
+      <td>14-Sep-24</td>
+      <td>13-Mar-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>170</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Kapila ruth</td>
+      <td>F</td>
+      <td>02-Jan-24</td>
+      <td>1</td>
+      <td>13-Feb-24</td>
+      <td>30-Jun-24</td>
+      <td>28-Sep-24</td>
+      <td>27-Dec-24</td>
+      <td>25-Jun-25</td>
+      <td>22-Dec-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>171</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Kase Elijah</td>
+      <td>M</td>
+      <td>01-Oct-24</td>
+      <td>1</td>
+      <td>12-Nov-24</td>
+      <td>30-Mar-25</td>
+      <td>28-Jun-25</td>
+      <td>26-Sep-25</td>
+      <td>25-Mar-26</td>
+      <td>21-Sep-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>172</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Mugala Elisha</td>
+      <td>M</td>
+      <td>19-Oct-24</td>
+      <td>1</td>
+      <td>30-Nov-24</td>
+      <td>17-Apr-25</td>
+      <td>16-Jul-25</td>
+      <td>14-Oct-25</td>
+      <td>12-Apr-26</td>
+      <td>09-Oct-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>173</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Chengo jasmine</td>
+      <td>M</td>
+      <td>17-Jan-24</td>
+      <td>1</td>
+      <td>28-Feb-24</td>
+      <td>15-Jul-24</td>
+      <td>13-Oct-24</td>
+      <td>11-Jan-25</td>
+      <td>10-Jul-25</td>
+      <td>06-Jan-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>174</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Kambeu Destine</td>
+      <td>M</td>
+      <td>28-Dec-23</td>
+      <td>2</td>
+      <td>08-Feb-24</td>
+      <td>25-Jun-24</td>
+      <td>23-Sep-24</td>
+      <td>22-Dec-24</td>
+      <td>20-Jun-25</td>
+      <td>17-Dec-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>175</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Mulenga Gabriel</td>
+      <td>M</td>
+      <td>15-May-24</td>
+      <td>1</td>
+      <td>26-Jun-24</td>
+      <td>11-Nov-24</td>
+      <td>09-Feb-25</td>
+      <td>10-May-25</td>
+      <td>06-Nov-25</td>
+      <td>05-May-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>176</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>angela_mwenya</td>
+      <td>Mubanga mary</td>
+      <td>F</td>
+      <td>09-Jul-24</td>
+      <td>1</td>
+      <td>20-Aug-24</td>
+      <td>05-Jan-25</td>
+      <td>05-Apr-25</td>
+      <td>04-Jul-25</td>
+      <td>31-Dec-25</td>
+      <td>29-Jun-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>177</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Gabriel musakanyana</td>
+      <td>M</td>
+      <td>10-May-24</td>
+      <td>1</td>
+      <td>21-Jun-24</td>
+      <td>06-Nov-24</td>
+      <td>04-Feb-25</td>
+      <td>05-May-25</td>
+      <td>01-Nov-25</td>
+      <td>30-Apr-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>178</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Tasheni mwanza</td>
+      <td>F</td>
+      <td>28-Oct-24</td>
+      <td>1</td>
+      <td>09-Dec-24</td>
+      <td>26-Apr-25</td>
+      <td>25-Jul-25</td>
+      <td>23-Oct-25</td>
+      <td>21-Apr-26</td>
+      <td>18-Oct-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>179</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>mikabo_mildred</td>
+      <td>Prain Uyoya</td>
+      <td>M</td>
+      <td>16-Feb-24</td>
+      <td>1</td>
+      <td>29-Mar-24</td>
+      <td>14-Aug-24</td>
+      <td>12-Nov-24</td>
+      <td>10-Feb-25</td>
+      <td>09-Aug-25</td>
+      <td>05-Feb-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>180</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>banda_misozi</td>
+      <td>John Mwamba Katongo</td>
+      <td>M</td>
+      <td>11-Nov-24</td>
+      <td>1</td>
+      <td>23-Dec-24</td>
+      <td>10-May-25</td>
+      <td>08-Aug-25</td>
+      <td>06-Nov-25</td>
+      <td>05-May-26</td>
+      <td>01-Nov-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>181</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>martha_muchimba</td>
+      <td>Tembo Melvin</td>
+      <td>M</td>
+      <td>01-Aug-24</td>
+      <td>1</td>
+      <td>12-Sep-24</td>
+      <td>28-Jan-25</td>
+      <td>28-Apr-25</td>
+      <td>27-Jul-25</td>
+      <td>23-Jan-26</td>
+      <td>22-Jul-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>182</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>martha_muchimba</td>
+      <td>Zulu Emmanuel</td>
+      <td>M</td>
+      <td>30-Dec-23</td>
+      <td>2</td>
+      <td>10-Feb-24</td>
+      <td>27-Jun-24</td>
+      <td>25-Sep-24</td>
+      <td>24-Dec-24</td>
+      <td>22-Jun-25</td>
+      <td>19-Dec-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>183</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>martha_muchimba</td>
+      <td>Miracle E Nkuwa</td>
+      <td>M</td>
+      <td>01-Jan-24</td>
+      <td>1</td>
+      <td>12-Feb-24</td>
+      <td>29-Jun-24</td>
+      <td>27-Sep-24</td>
+      <td>26-Dec-24</td>
+      <td>24-Jun-25</td>
+      <td>21-Dec-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>184</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>martha_muchimba</td>
+      <td>Kamel Mulenga</td>
+      <td>M</td>
+      <td>20-Sep-24</td>
+      <td>1</td>
+      <td>01-Nov-24</td>
+      <td>19-Mar-25</td>
+      <td>17-Jun-25</td>
+      <td>15-Sep-25</td>
+      <td>14-Mar-26</td>
+      <td>10-Sep-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>185</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Kakompe innocent</td>
+      <td>M</td>
+      <td>04-Jul-24</td>
+      <td>1</td>
+      <td>15-Aug-24</td>
+      <td>31-Dec-24</td>
+      <td>31-Mar-25</td>
+      <td>29-Jun-25</td>
+      <td>26-Dec-25</td>
+      <td>24-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>186</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>martha_muchimba</td>
+      <td>Misheck</td>
+      <td>M</td>
+      <td>31-Jan-24</td>
+      <td>1</td>
+      <td>13-Mar-24</td>
+      <td>29-Jul-24</td>
+      <td>27-Oct-24</td>
+      <td>25-Jan-25</td>
+      <td>24-Jul-25</td>
+      <td>20-Jan-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>187</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Mbwe emmaul</td>
+      <td>M</td>
+      <td>23-Jan-24</td>
+      <td>1</td>
+      <td>05-Mar-24</td>
+      <td>21-Jul-24</td>
+      <td>19-Oct-24</td>
+      <td>17-Jan-25</td>
+      <td>16-Jul-25</td>
+      <td>12-Jan-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>188</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Navi naomi</td>
+      <td>F</td>
+      <td>23-Feb-24</td>
+      <td>1</td>
+      <td>05-Apr-24</td>
+      <td>21-Aug-24</td>
+      <td>19-Nov-24</td>
+      <td>17-Feb-25</td>
+      <td>16-Aug-25</td>
+      <td>12-Feb-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>189</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Inambao lumbwa</td>
+      <td>M</td>
+      <td>28-Jun-24</td>
+      <td>1</td>
+      <td>09-Aug-24</td>
+      <td>25-Dec-24</td>
+      <td>25-Mar-25</td>
+      <td>23-Jun-25</td>
+      <td>20-Dec-25</td>
+      <td>18-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>190</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>mary_mwape</td>
+      <td>Yamikani mwansa</td>
+      <td>M</td>
+      <td>06-Feb-24</td>
+      <td>1</td>
+      <td>19-Mar-24</td>
+      <td>04-Aug-24</td>
+      <td>02-Nov-24</td>
+      <td>31-Jan-25</td>
+      <td>30-Jul-25</td>
+      <td>26-Jan-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>191</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>mary_mwape</td>
+      <td>Eliam Bwalya</td>
+      <td>M</td>
+      <td>04-Jul-24</td>
+      <td>1</td>
+      <td>15-Aug-24</td>
+      <td>31-Dec-24</td>
+      <td>31-Mar-25</td>
+      <td>29-Jun-25</td>
+      <td>26-Dec-25</td>
+      <td>24-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>192</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>mary_mwape</td>
+      <td>Kayembo wana</td>
+      <td>M</td>
+      <td>18-Aug-24</td>
+      <td>1</td>
+      <td>29-Sep-24</td>
+      <td>14-Feb-25</td>
+      <td>15-May-25</td>
+      <td>13-Aug-25</td>
+      <td>09-Feb-26</td>
+      <td>08-Aug-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>193</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Nsofwa vivian</td>
+      <td>F</td>
+      <td>30-Mar-24</td>
+      <td>1</td>
+      <td>11-May-24</td>
+      <td>26-Sep-24</td>
+      <td>25-Dec-24</td>
+      <td>25-Mar-25</td>
+      <td>21-Sep-25</td>
+      <td>20-Mar-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>194</th>
+      <td>Thompson District Hospital</td>
+      <td>musa_joyce</td>
+      <td>Malumbo Katangi</td>
+      <td>M</td>
+      <td>14-Oct-24</td>
+      <td>1</td>
+      <td>25-Nov-24</td>
+      <td>12-Apr-25</td>
+      <td>11-Jul-25</td>
+      <td>09-Oct-25</td>
+      <td>07-Apr-26</td>
+      <td>04-Oct-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>195</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Kateba abraham</td>
+      <td>M</td>
+      <td>24-Mar-23</td>
+      <td>2</td>
+      <td>05-May-23</td>
+      <td>20-Sep-23</td>
+      <td>19-Dec-23</td>
+      <td>18-Mar-24</td>
+      <td>14-Sep-24</td>
+      <td>13-Mar-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>196</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Mwape musolela</td>
+      <td>F</td>
+      <td>02-Mar-24</td>
+      <td>1</td>
+      <td>13-Apr-24</td>
+      <td>29-Aug-24</td>
+      <td>27-Nov-24</td>
+      <td>25-Feb-25</td>
+      <td>24-Aug-25</td>
+      <td>20-Feb-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>197</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Mulenga tiana</td>
+      <td>F</td>
+      <td>27-Mar-24</td>
+      <td>1</td>
+      <td>08-May-24</td>
+      <td>23-Sep-24</td>
+      <td>22-Dec-24</td>
+      <td>22-Mar-25</td>
+      <td>18-Sep-25</td>
+      <td>17-Mar-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>198</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>natasha_musonda</td>
+      <td>Wezi Christine</td>
+      <td>F</td>
+      <td>25-Jun-24</td>
+      <td>1</td>
+      <td>06-Aug-24</td>
+      <td>22-Dec-24</td>
+      <td>22-Mar-25</td>
+      <td>20-Jun-25</td>
+      <td>17-Dec-25</td>
+      <td>15-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>199</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>natasha_musonda</td>
+      <td>Mufaya genesis</td>
+      <td>F</td>
+      <td>01-Sep-24</td>
+      <td>1</td>
+      <td>13-Oct-24</td>
+      <td>28-Feb-25</td>
+      <td>29-May-25</td>
+      <td>27-Aug-25</td>
+      <td>23-Feb-26</td>
+      <td>22-Aug-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>200</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Cynthia mulenga</td>
+      <td>M</td>
+      <td>24-Mar-24</td>
+      <td>1</td>
+      <td>05-May-24</td>
+      <td>20-Sep-24</td>
+      <td>19-Dec-24</td>
+      <td>19-Mar-25</td>
+      <td>15-Sep-25</td>
+      <td>14-Mar-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>201</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Sharie siakonomba</td>
+      <td>M</td>
+      <td>29-Jun-24</td>
+      <td>1</td>
+      <td>10-Aug-24</td>
+      <td>26-Dec-24</td>
+      <td>26-Mar-25</td>
+      <td>24-Jun-25</td>
+      <td>21-Dec-25</td>
+      <td>19-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>202</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Patience mwansa</td>
+      <td>F</td>
+      <td>09-Apr-24</td>
+      <td>1</td>
+      <td>21-May-24</td>
+      <td>06-Oct-24</td>
+      <td>04-Jan-25</td>
+      <td>04-Apr-25</td>
+      <td>01-Oct-25</td>
+      <td>30-Mar-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>203</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Ezra munjunga</td>
+      <td>F</td>
+      <td>03-Jul-24</td>
+      <td>1</td>
+      <td>14-Aug-24</td>
+      <td>30-Dec-24</td>
+      <td>30-Mar-25</td>
+      <td>28-Jun-25</td>
+      <td>25-Dec-25</td>
+      <td>23-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>204</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Phiri owen</td>
+      <td>M</td>
+      <td>26-Jul-24</td>
+      <td>1</td>
+      <td>06-Sep-24</td>
+      <td>22-Jan-25</td>
+      <td>22-Apr-25</td>
+      <td>21-Jul-25</td>
+      <td>17-Jan-26</td>
+      <td>16-Jul-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>205</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Kabwe beatrice</td>
+      <td>F</td>
+      <td>14-Jun-24</td>
+      <td>1</td>
+      <td>26-Jul-24</td>
+      <td>11-Dec-24</td>
+      <td>11-Mar-25</td>
+      <td>09-Jun-25</td>
+      <td>06-Dec-25</td>
+      <td>04-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>206</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>natasha_musonda</td>
+      <td>Elijah mutale</td>
+      <td>M</td>
+      <td>02-Oct-24</td>
+      <td>1</td>
+      <td>13-Nov-24</td>
+      <td>31-Mar-25</td>
+      <td>29-Jun-25</td>
+      <td>27-Sep-25</td>
+      <td>26-Mar-26</td>
+      <td>22-Sep-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>207</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>natasha_musonda</td>
+      <td>Elijah mutale</td>
+      <td>M</td>
+      <td>02-Oct-24</td>
+      <td>1</td>
+      <td>13-Nov-24</td>
+      <td>31-Mar-25</td>
+      <td>29-Jun-25</td>
+      <td>27-Sep-25</td>
+      <td>26-Mar-26</td>
+      <td>22-Sep-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>208</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Mutale faith</td>
+      <td>F</td>
+      <td>01-May-24</td>
+      <td>1</td>
+      <td>12-Jun-24</td>
+      <td>28-Oct-24</td>
+      <td>26-Jan-25</td>
+      <td>26-Apr-25</td>
+      <td>23-Oct-25</td>
+      <td>21-Apr-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>209</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Maya kaputo</td>
+      <td>F</td>
+      <td>29-Jun-24</td>
+      <td>1</td>
+      <td>10-Aug-24</td>
+      <td>26-Dec-24</td>
+      <td>26-Mar-25</td>
+      <td>24-Jun-25</td>
+      <td>21-Dec-25</td>
+      <td>19-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>210</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Faith zulu</td>
+      <td>F</td>
+      <td>24-Apr-24</td>
+      <td>1</td>
+      <td>05-Jun-24</td>
+      <td>21-Oct-24</td>
+      <td>19-Jan-25</td>
+      <td>19-Apr-25</td>
+      <td>16-Oct-25</td>
+      <td>14-Apr-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>211</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Phiri esther</td>
+      <td>F</td>
+      <td>21-Mar-24</td>
+      <td>1</td>
+      <td>02-May-24</td>
+      <td>17-Sep-24</td>
+      <td>16-Dec-24</td>
+      <td>16-Mar-25</td>
+      <td>12-Sep-25</td>
+      <td>11-Mar-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>212</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>chitambala_stanslous</td>
+      <td>Grace Mubanga</td>
+      <td>F</td>
+      <td>26-Jun-23</td>
+      <td>2</td>
+      <td>07-Aug-23</td>
+      <td>23-Dec-23</td>
+      <td>22-Mar-24</td>
+      <td>20-Jun-24</td>
+      <td>17-Dec-24</td>
+      <td>15-Jun-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>213</th>
+      <td>Malaika Clinic</td>
+      <td>joe_nyanga</td>
+      <td>Ngoma kelvin</td>
+      <td>M</td>
+      <td>17-Jul-23</td>
+      <td>2</td>
+      <td>28-Aug-23</td>
+      <td>13-Jan-24</td>
+      <td>12-Apr-24</td>
+      <td>11-Jul-24</td>
+      <td>07-Jan-25</td>
+      <td>06-Jul-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>214</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>chitambala_stanslous</td>
+      <td>Chimwemwe Mwaba</td>
+      <td>F</td>
+      <td>05-Dec-23</td>
+      <td>2</td>
+      <td>16-Jan-24</td>
+      <td>02-Jun-24</td>
+      <td>31-Aug-24</td>
+      <td>29-Nov-24</td>
+      <td>28-May-25</td>
+      <td>24-Nov-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>215</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>tembo_ireen</td>
+      <td>MULENGA SUNDAY</td>
+      <td>M</td>
+      <td>29-Jan-23</td>
+      <td>2</td>
+      <td>12-Mar-23</td>
+      <td>28-Jul-23</td>
+      <td>26-Oct-23</td>
+      <td>24-Jan-24</td>
+      <td>22-Jul-24</td>
+      <td>18-Jan-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>216</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>tembo_ireen</td>
+      <td>DANIEL NZALA</td>
+      <td>M</td>
+      <td>31-Mar-23</td>
+      <td>2</td>
+      <td>12-May-23</td>
+      <td>27-Sep-23</td>
+      <td>26-Dec-23</td>
+      <td>25-Mar-24</td>
+      <td>21-Sep-24</td>
+      <td>20-Mar-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>217</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>tembo_ireen</td>
+      <td>ISAAC M MUYANI</td>
+      <td>M</td>
+      <td>24-May-24</td>
+      <td>1</td>
+      <td>05-Jul-24</td>
+      <td>20-Nov-24</td>
+      <td>18-Feb-25</td>
+      <td>19-May-25</td>
+      <td>15-Nov-25</td>
+      <td>14-May-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>218</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>tembo_ireen</td>
+      <td>ZULU ISAAC</td>
+      <td>M</td>
+      <td>25-May-24</td>
+      <td>1</td>
+      <td>06-Jul-24</td>
+      <td>21-Nov-24</td>
+      <td>19-Feb-25</td>
+      <td>20-May-25</td>
+      <td>16-Nov-25</td>
+      <td>15-May-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>219</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>tembo_ireen</td>
+      <td>GRACE ZUZE</td>
+      <td>F</td>
+      <td>26-Aug-24</td>
+      <td>1</td>
+      <td>07-Oct-24</td>
+      <td>22-Feb-25</td>
+      <td>23-May-25</td>
+      <td>21-Aug-25</td>
+      <td>17-Feb-26</td>
+      <td>16-Aug-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>220</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>makashini_christopher</td>
+      <td>KASALWE KAWEME</td>
+      <td>F</td>
+      <td>01-Sep-23</td>
+      <td>2</td>
+      <td>13-Oct-23</td>
+      <td>28-Feb-24</td>
+      <td>28-May-24</td>
+      <td>26-Aug-24</td>
+      <td>22-Feb-25</td>
+      <td>21-Aug-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>221</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>gondwe_fanny</td>
+      <td>Abraham Kunda</td>
+      <td>M</td>
+      <td>12-Sep-23</td>
+      <td>2</td>
+      <td>24-Oct-23</td>
+      <td>10-Mar-24</td>
+      <td>08-Jun-24</td>
+      <td>06-Sep-24</td>
+      <td>05-Mar-25</td>
+      <td>01-Sep-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>222</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>gondwe_fanny</td>
+      <td>Divine Mwaba</td>
+      <td>F</td>
+      <td>10-Feb-23</td>
+      <td>2</td>
+      <td>24-Mar-23</td>
+      <td>09-Aug-23</td>
+      <td>07-Nov-23</td>
+      <td>05-Feb-24</td>
+      <td>03-Aug-24</td>
+      <td>30-Jan-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>223</th>
+      <td>Thompson District Hospital</td>
+      <td>kabesha_mary</td>
+      <td>Teddy Mweshi</td>
+      <td>M</td>
+      <td>15-May-23</td>
+      <td>2</td>
+      <td>26-Jun-23</td>
+      <td>11-Nov-23</td>
+      <td>09-Feb-24</td>
+      <td>09-May-24</td>
+      <td>05-Nov-24</td>
+      <td>04-May-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>224</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>mwaba_rodgers</td>
+      <td>KEZAYA CHILESHE</td>
+      <td>F</td>
+      <td>19-Jun-24</td>
+      <td>1</td>
+      <td>31-Jul-24</td>
+      <td>16-Dec-24</td>
+      <td>16-Mar-25</td>
+      <td>14-Jun-25</td>
+      <td>11-Dec-25</td>
+      <td>09-Jun-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>225</th>
+      <td>Mpatamatu Section 26 Clinic</td>
+      <td>gondwe_fanny</td>
+      <td>Chilufya Oxullia</td>
+      <td>F</td>
+      <td>25-Jan-23</td>
+      <td>2</td>
+      <td>08-Mar-23</td>
+      <td>24-Jul-23</td>
+      <td>22-Oct-23</td>
+      <td>20-Jan-24</td>
+      <td>18-Jul-24</td>
+      <td>14-Jan-25</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>226</th>
+      <td>Thompson District Hospital</td>
+      <td>sakala_veronica</td>
+      <td>Mulenga Sharon</td>
+      <td>F</td>
+      <td>29-Oct-23</td>
+      <td>2</td>
+      <td>10-Dec-23</td>
+      <td>26-Apr-24</td>
+      <td>25-Jul-24</td>
+      <td>23-Oct-24</td>
+      <td>21-Apr-25</td>
+      <td>18-Oct-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>227</th>
+      <td>Malaika Clinic</td>
+      <td>matildah_kunda</td>
+      <td>Trust chobela</td>
+      <td>M</td>
+      <td>06-Oct-23</td>
+      <td>2</td>
+      <td>17-Nov-23</td>
+      <td>03-Apr-24</td>
+      <td>02-Jul-24</td>
+      <td>30-Sep-24</td>
+      <td>29-Mar-25</td>
+      <td>25-Sep-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>228</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>soteli_winfridah</td>
+      <td>Sharon Nakempe</td>
+      <td>F</td>
+      <td>11-Nov-24</td>
+      <td>1</td>
+      <td>23-Dec-24</td>
+      <td>10-May-25</td>
+      <td>08-Aug-25</td>
+      <td>06-Nov-25</td>
+      <td>05-May-26</td>
+      <td>01-Nov-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>229</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>mwaba_rodgers</td>
+      <td>IILUNGA MPUNDU</td>
+      <td>M</td>
+      <td>30-Nov-23</td>
+      <td>2</td>
+      <td>11-Jan-24</td>
+      <td>28-May-24</td>
+      <td>26-Aug-24</td>
+      <td>24-Nov-24</td>
+      <td>23-May-25</td>
+      <td>19-Nov-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>230</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>chitambala_stanslous</td>
+      <td>Mphanso M</td>
+      <td>M</td>
+      <td>22-Mar-24</td>
+      <td>1</td>
+      <td>03-May-24</td>
+      <td>18-Sep-24</td>
+      <td>17-Dec-24</td>
+      <td>17-Mar-25</td>
+      <td>13-Sep-25</td>
+      <td>12-Mar-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>231</th>
+      <td>Thompson District Hospital</td>
+      <td>joshua_malole</td>
+      <td>Jessica chibata</td>
+      <td>F</td>
+      <td>24-Oct-23</td>
+      <td>2</td>
+      <td>05-Dec-23</td>
+      <td>21-Apr-24</td>
+      <td>20-Jul-24</td>
+      <td>18-Oct-24</td>
+      <td>16-Apr-25</td>
+      <td>13-Oct-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>232</th>
+      <td>Thompson District Hospital</td>
+      <td>emmanuel_kapambwe</td>
+      <td>Abel zulu</td>
+      <td>M</td>
+      <td>16-Jan-24</td>
+      <td>1</td>
+      <td>27-Feb-24</td>
+      <td>14-Jul-24</td>
+      <td>12-Oct-24</td>
+      <td>10-Jan-25</td>
+      <td>09-Jul-25</td>
+      <td>05-Jan-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>233</th>
+      <td>Thompson District Hospital</td>
+      <td>kumwenda_mary</td>
+      <td>Muyunda Gladys Inonge</td>
+      <td>F</td>
+      <td>06-Jun-24</td>
+      <td>1</td>
+      <td>18-Jul-24</td>
+      <td>03-Dec-24</td>
+      <td>03-Mar-25</td>
+      <td>01-Jun-25</td>
+      <td>28-Nov-25</td>
+      <td>27-May-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>234</th>
+      <td>Thompson District Hospital</td>
+      <td>kumwenda_mary</td>
+      <td>Chipili Maltidah</td>
+      <td>F</td>
+      <td>25-Apr-24</td>
+      <td>1</td>
+      <td>06-Jun-24</td>
+      <td>22-Oct-24</td>
+      <td>20-Jan-25</td>
+      <td>20-Apr-25</td>
+      <td>17-Oct-25</td>
+      <td>15-Apr-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>235</th>
+      <td>Thompson District Hospital</td>
+      <td>kumwenda_mary</td>
+      <td>Tembo Herny</td>
+      <td>M</td>
+      <td>22-Nov-23</td>
+      <td>2</td>
+      <td>03-Jan-24</td>
+      <td>20-May-24</td>
+      <td>18-Aug-24</td>
+      <td>16-Nov-24</td>
+      <td>15-May-25</td>
+      <td>11-Nov-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>236</th>
+      <td>Thompson District Hospital</td>
+      <td>kumwenda_mary</td>
+      <td>Chibuye Alice</td>
+      <td>F</td>
+      <td>25-Jul-24</td>
+      <td>1</td>
+      <td>05-Sep-24</td>
+      <td>21-Jan-25</td>
+      <td>21-Apr-25</td>
+      <td>20-Jul-25</td>
+      <td>16-Jan-26</td>
+      <td>15-Jul-26</td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <th>237</th>
+      <td>Thompson District Hospital</td>
+      <td>musa_joyce</td>
+      <td>Deborah Phiri</td>
+      <td>F</td>
+      <td>19-Sep-23</td>
+      <td>2</td>
+      <td>31-Oct-23</td>
+      <td>17-Mar-24</td>
+      <td>15-Jun-24</td>
+      <td>13-Sep-24</td>
+      <td>12-Mar-25</td>
+      <td>08-Sep-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>238</th>
+      <td>Thompson District Hospital</td>
+      <td>musa_joyce</td>
+      <td>Tokozile Phiri</td>
+      <td>F</td>
+      <td>14-Apr-23</td>
+      <td>2</td>
+      <td>26-May-23</td>
+      <td>11-Oct-23</td>
+      <td>09-Jan-24</td>
+      <td>08-Apr-24</td>
+      <td>05-Oct-24</td>
+      <td>03-Apr-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>239</th>
+      <td>Thompson District Hospital</td>
+      <td>janny_mutampuka</td>
+      <td>Felistus chisala</td>
+      <td>F</td>
+      <td>8-Jun-23</td>
+      <td>2</td>
+      <td>20-Jul-23</td>
+      <td>5-Dec-23</td>
+      <td>4-Mar-24</td>
+      <td>2-Jun-24</td>
+      <td>29-Nov-24</td>
+      <td>28-May-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>240</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>natasha_musonda</td>
+      <td>Adatha Chipili</td>
+      <td>F</td>
+      <td>15-Mar-24</td>
+      <td>1</td>
+      <td>26-Apr-24</td>
+      <td>11-Sep-24</td>
+      <td>10-Dec-24</td>
+      <td>10-Mar-25</td>
+      <td>6-Sep-25</td>
+      <td>5-Mar-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>241</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>natasha_musonda</td>
+      <td>Israel Nyirenda</td>
+      <td>M</td>
+      <td>1-Jan-24</td>
+      <td>1</td>
+      <td>12-Feb-24</td>
+      <td>29-Jun-24</td>
+      <td>27-Sep-24</td>
+      <td>26-Dec-24</td>
+      <td>24-Jun-25</td>
+      <td>21-Dec-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>242</th>
+      <td>Mikomfwa Health Centre</td>
+      <td>natasha_musonda</td>
+      <td>Ketty Chilumbwe</td>
+      <td>F</td>
+      <td>20-Mar-24</td>
+      <td>1</td>
+      <td>1-May-24</td>
+      <td>16-Sep-24</td>
+      <td>15-Dec-24</td>
+      <td>15-Mar-25</td>
+      <td>11-Sep-25</td>
+      <td>10-Mar-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>243</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>hellen_mwansa</td>
+      <td>Kasonde Mary</td>
+      <td>F</td>
+      <td>20-Jun-23</td>
+      <td>2</td>
+      <td>1-Aug-23</td>
+      <td>17-Dec-23</td>
+      <td>16-Mar-24</td>
+      <td>14-Jun-24</td>
+      <td>11-Dec-24</td>
+      <td>9-Jun-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>244</th>
+      <td>Roan A. Gen Hospital</td>
+      <td>hellen_mwansa</td>
+      <td>Nkumbu Casandra</td>
+      <td>F</td>
+      <td>19-Aug-23</td>
+      <td>2</td>
+      <td>30-Sep-23</td>
+      <td>15-Feb-24</td>
+      <td>15-May-24</td>
+      <td>13-Aug-24</td>
+      <td>9-Feb-25</td>
+      <td>8-Aug-25</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>245</th>
+      <td>Thompson District Hospital</td>
+      <td>janny_mutampuka</td>
+      <td>Musambili periz</td>
+      <td>M</td>
+      <td>24-Feb-24</td>
+      <td>1</td>
+      <td>6-Apr-24</td>
+      <td>22-Aug-24</td>
+      <td>20-Nov-24</td>
+      <td>18-Feb-25</td>
+      <td>17-Aug-25</td>
+      <td>13-Feb-26</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <th>246</th>
+      <td>Kawama Urban Health Centre (Lua)</td>
+      <td>aliyah_daka</td>
+      <td>CHAMBWA SHARON</td>
+      <td>F</td>
+      <td>8-Nov-23</td>
+      <td>2</td>
+      <td>20-Dec-23</td>
+      <td>6-May-24</td>
+      <td>4-Aug-24</td>
+      <td>2-Nov-24</td>
+      <td>1-May-25</td>
+      <td>28-Oct-25</td>
+      <td>NO</td>
+    </tr>       
+  <!-- add more rows as necessary paste above  -->
+    </tbody>
+</table>
+
+<script>
+    function filterTable() {
+        var ccwSelect = document.getElementById("ccwSelect").value.toLowerCase();
+        var facilitySelect = document.getElementById("facilitySelect").value.toLowerCase();
+        var suppresionSelect = document.getElementById("suppresionSelect").value.toLowerCase();
+        var ageBandSelect = document.getElementById("ageBandSelect").value.toLowerCase();
+        var hivStatusSelect = document.getElementById("hivStatusSelect").value.toLowerCase();
+
+        var table = document.getElementById("myTable");
+        var rows = table.getElementsByTagName("tr");
+
+        var rowCount = 0;
+
+        for (var i = 1; i < rows.length; i++) {
+            var ccwCell = rows[i].getElementsByTagName("td")[1];
+            var facilityCell = rows[i].getElementsByTagName("td")[0];
+            var suppresionCell = rows[i].getElementsByTagName("td")[3];
+            var ageBandCell = rows[i].getElementsByTagName("td")[5];
+            var hivStatusCell = rows[i].getElementsByTagName("td")[12];
+
+            var ccwText = ccwCell.textContent || ccwCell.innerText;
+            var facilityText = facilityCell.textContent || facilityCell.innerText;
+            var suppresionText = suppresionCell.textContent || suppresionCell.innerText;
+            var ageBandText = ageBandCell.textContent || ageBandCell.innerText;
+            var hivStatusText = hivStatusCell.textContent || hivStatusCell.innerText;
+
+            // Check if row matches the selected filters
+            if ((ccwText.toLowerCase() === ccwSelect || ccwSelect === "") &&
+                (facilityText.toLowerCase() === facilitySelect || facilitySelect === "") &&
+                (suppresionText.toLowerCase() === suppresionSelect || suppresionSelect === "") &&
+                (ageBandText.toLowerCase() === ageBandSelect || ageBandSelect === "") &&
+                (hivStatusText.toLowerCase() === hivStatusSelect || hivStatusSelect === "")) {
+                rows[i].style.display = "";
+                rowCount++;  // Increase count for visible rows
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+
+        // Display the count of visible rows
+        document.getElementById("rowCount").innerText = rowCount;
+    }
+</script>
+<footer>
+    
+   <p>&copy; BM Inc. 05-01-25.</p>
+</footer>
+</body>
+</html>

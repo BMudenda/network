@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>unsupressed</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;width: 10px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+
+        }
+        
+    </style>
+
+</head>
+<body>
+  <script>
+    var password = "pass12345";
+    (function passcodeprotect() {
+    var passcode = prompt("Enter PassCode");
+    while (passcode !== password) {
+    alert("Incorrect PassCode");
+    return passcodeprotect();
+    }
+    })();
+    alert('Welcome To The P1-unsupressed tracker..!');
+  </script>
+    <section>
+        <!-- ccw Filter Dropdown -->
+        <label for="ccwSelect">CCW:</label>
+        <select id="ccwSelect" onchange="filterTable()">
+            <option value="">Select All</option>
+            <option value="amos_kasonde">Amos Kasonde</option>
+            <option value="angela_mwenya">Angela Mwenya</option>
+            <option value="banda_david">Banda David</option>
+            <option value="banda_misozi">Banda Misozi</option>
+            <option value="brandina_tembo">Brandina Tembo</option>
+            <option value="martha_muchimba">Martha Muchimba</option>
+            <option value="chitambala_stanslous">Chitambala Stanslous</option>
+            <option value="matildah_kunda">Matildah Kunda</option>
+            <option value="emmanuel_kapambwe">Emmanuel Kapambwe</option>
+            <option value="gondwe_fanny">Gondwe Fanny</option>
+            <option value="grace_kebende">Grace Kebende</option>
+            <option value="hector_banda">Hector Banda</option>
+            <option value="hellen_mwansa">Hellen Mwansa</option>
+            <option value="jane_kasaka1">Jane Kasaka1</option>
+            <option value="janny_mutampuka">Janny Mutampuka</option>
+            <option value="joe_nyanga">Joe Nyanga</option>
+            <option value="aliyah_daka">Aliyah Daka</option>
+            <option value="joseph_kaimana">Joseph Kaimana</option>
+            <option value="joshua_malole">Joshua Malole</option>
+            <option value="kabesha_mary">Kabesha Mary</option>
+            <option value="kapasula_edith">Kapasula Edith</option>
+            <option value="kumwenda_mary">Kumwenda Mary</option>
+            <option value="makashini_christopher">Makashini Christopher</option>
+            <option value="mary_mwape">Mary Mwape</option>
+            <option value="mikabo_mildred">Mikabo Mildred</option>
+            <option value="musa_joyce">Musa Joyce</option>
+            <option value="mwaba_rodgers">Mwaba Rodgers</option>
+            <option value="natasha_musonda">Natasha Musonda</option>
+            <option value="sakala_veronica">Sakala Veronica</option>
+            <option value="moses_banda">Moses Banda</option>
+            <option value="soteli_winfridah">Soteli Winfridah</option>
+            <option value="tembo_ireen">Tembo Ireen</option>
+            <!-- Add more options here -->
+        </select>
+
+        <!-- facility Filter Dropdown -->
+        <label for="facilitySelect">FACILITY:</label>
+        <select id="facilitySelect" onchange="filterTable()">
+        <option value="">Select All</option>
+        <option value="Thompson District Hospital">Thompson</option>
+        <option value="Roan A. Gen Hospital">Roan</option>
+         <option value="Mpatamatu Section 26 Clinic">Section 26</option>
+        <option value="Malaika Clinic">Malaika</option>
+        <option value="Kawama Urban Health Centre (Lua)">Kawama</option>
+        <option value="Mikomfwa Health Centre">Mikonfwa</option>
+        <option value="Poleline (Baluba) Health Post">Baluba</option>
+            <!-- Add more options here -->
+        </select>
+
+        <!-- Gender Filter Dropdown -->
+        <label for="suppresionSelect">EAC:</label>
+        <select id="suppresionSelect" onchange="filterTable()">
+            <option value="">Select All</option>
+            <option value="YES">YES</option>
+            <option value="NO">NO</option>
+        </select>
+    <input id="myInput" type="text" placeholder="Search.."> 
+    </section>
+    <br>
+    <br>
+      
+    
+    <h2 style="color: red;">UNSUPRESSED</h2>
+    <p>Total Count: <span id="rowCount">0</span></p>
+    <table class="dataframe" id="myTable">
+      <thead>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+      <script>
+      $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+          var value = $(this).val().toLowerCase();
+          $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+        });
+      });
+      </script>
+        <tr style="text-align: right;">
+          <th></th>
+          <th>Facility</th>
+          <th>CCW</th>
+          <th>Date of the latest case conferencing if conducted</th>
+          <th>Date When EAC was commenced if commenced</th>
+          <th>VCA full names</th>
+          <th>Comment</th>
+        </tr>
+      </thead>
+      <tbody>
+    <!-- tr down  -->
+        
+        <tr>
+          <th>1</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>chitambala_stanslous\n</td>
+          <td>NaN</td>
+          <td>30-Jul-24</td>
+          <td>Kamuzati Banda</td>
+          <td>NO lastest EAC No Case-conferencing</td>
+        </tr>
+        
+        <tr>
+          <th>2</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>Jane_kasaka1</td>
+          <td>NaN</td>
+          <td>Nan</td>
+          <td>Sylveness Kamfwa</td>
+          <td>NO lastest EAC No Case-conferencing</td>
+        </tr>
+        
+        
+        <tr>
+          <th>4</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>gondwe_fanny</td>
+          <td>Nan</td>
+          <td>Nan</td>
+          <td>Brian Banda</td>
+          <td>No Case Conferencing</td>
+        </tr>
+        <tr>
+          <th>5</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>banda_david</td>
+          <td>08-May-24</td>
+          <td>08-May-24</td>
+          <td>Messia Mumba</td>
+          <td>outdated EAC and Out Date Case-Conferencing</td>
+        </tr>
+        <tr>
+          <th>6</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>banda_david</td>
+          <td>19-Jun-24</td>
+          <td>19-Jun-24</td>
+          <td>Chungu Kakoma</td>
+          <td>NaN</td>
+        </tr>
+      
+        <tr>
+          <th>7</th>
+          <td>Thompson District Hospital</td>
+          <td>janny_mutampuka</td>
+          <td>11-Sep-24</td>
+          <td>11-Sep-24</td>
+          <td>Bukata Mbewe</td>
+          <td>NO lastest EAC No Case-conferencing</td>
+        </tr>
+        <tr>
+          <th>8</th>
+          <td>Thompson District Hospital</td>
+          <td>joseph_kaimana</td>
+          <td>NaN❗</td>
+          <td>NaN❗</td>
+          <td>Promise Chisulo</td>
+          <td>NO lastest EAC No Case-conferencing</td>
+        </tr>
+        <tr>
+          <th>9</th>
+          <td>Thompson District Hospital</td>
+          <td>emmanuel_kapambwe</td>
+          <td>NaN❗</td>
+          <td>NaN❗</td>
+          <td>Charles Chibale</td>
+          <td>NO lastest EAC No Case-conferencing</td>
+        </tr>
+        <tr>
+          <th>10</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>natasha_musonda</td>
+          <td>NaN</td>
+          <td>17-July-24</td>
+          <td>Bright Mwale</td>
+          <td>Eac Restarted after Interuptions</td>
+        </tr>
+        <tr>
+          <th>11</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>mary_mwape</td>
+          <td>23-Aug-24</td>
+          <td>23-Aug-24</td>
+          <td>Oneal Nkandu</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>12</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>soteli_winfridah</td>
+          <td>NaN❗</td>
+          <td>NaN❗</td>
+          <td>Tasila Tembo</td>
+          <td>SPLTF</td>
+        </tr>
+        <tr>
+          <th>13</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>mwaba_rodgers</td>
+          <td>NaN</td>
+          <td>05/04/2024❗</td>
+          <td>Beatrice Kunda</td>
+          <td>NaN</td>
+        </tr>
+        <tr>
+          <th>14</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>banda_misozi </td>
+          <td>NaN</td>
+          <td>27-Jul-24</td>
+          <td>Samuel Mutale</td>
+          <td>NaN</td>
+        </tr>
+       
+          <tr>
+          <th>15</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>tembo_ireen</td>
+          <td>Nan</td>
+          <td>Nan</td>
+          <td>Isaac Chalwe</td>
+          <td>NaN</td>
+        </tr>
+          <tr>
+          <th>16</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>tembo_ireen</td>
+          <td>Nan</td>
+          <td>Nan</td>
+          <td>Confort Kasungula</td>
+          <td>NaN</td>
+        </tr>
+          <tr>
+          <th>17</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>Blessing Kamwavu</td>
+          <td>25-Sep-24</td>
+          <td>25-Sep-24</td>
+          <td>aliyah_daka</td>
+          <td>The Last EAC has Commenced</td>
+        </tr>
+          <tr>
+          <th>18</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>banda_misozi</td>
+          <td>NaN❗</td>
+          <td>NaN❗</td>
+          <td>Natashya Katongo</td>
+          <td></td>
+        </tr>
+          <tr>
+          <th>19</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>mikabo_mildred</td>
+          <td>NaN❗</td>
+          <td>NaN❗</td>
+          <td>Grace Mutale</td>
+          <td></td>
+        </tr>
+          <tr>
+          <th>20</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>mikabo_mildred</td>
+          <td>NaN❗</td>
+          <td>NaN❗</td>
+          <td>Sabina Mandawa</td>
+          <td></td>
+        </tr>
+      </tbody>
+</table>
+   
+
+<script>
+        function filterTable() {
+            var ccwSelect = document.getElementById("ccwSelect").value.toLowerCase();
+            var facilitySelect = document.getElementById("facilitySelect").value.toLowerCase();
+            var suppresionSelect = document.getElementById("suppresionSelect").value.toLowerCase();
+
+            var table = document.getElementById("myTable");
+            var rows = table.getElementsByTagName("tr");
+            var count = 0;
+
+            for (var i = 1; i < rows.length; i++) {
+                var ccwCell = rows[i].getElementsByTagName("td")[1];
+                var facilityCell = rows[i].getElementsByTagName("td")[0];
+                var suppresionCell = rows[i].getElementsByTagName("td")[4];
+
+                var ccwText = ccwCell.textContent || ccwCell.innerText;
+                var facilityText = facilityCell.textContent || facilityCell.innerText;
+                var suppresionText = suppresionCell.textContent || suppresionCell.innerText;
+
+                // Check if row matches the selected filters
+                if ((ccwText.toLowerCase() === ccwSelect || ccwSelect === "") &&
+                    (facilityText.toLowerCase() === facilitySelect || facilitySelect === "") &&
+                    (suppresionText.toLowerCase() === suppresionSelect || suppresionSelect === "")) {
+                    rows[i].style.display = "";
+                    count++;  // Count visible rows
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+
+            // Update the count display
+            document.getElementById("rowCount").innerText = count;
+        }
+
+        // Initialize the table to show the total count
+        filterTable();
+    </script>
+<footer>
+    
+   <p>&copy; BM Inc. 11-11-24.</p>
+</footer>
+
+
+</body>
+</html>

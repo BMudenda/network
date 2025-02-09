@@ -1,0 +1,2308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schoo Support materials</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        section {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        select:focus {
+            background-color: lightblue;
+        }
+        .dropbtn {
+            background-color: hsl(330, 96%, 69%);
+            color: white;
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f7fc;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(9, 6, 204, 0.2);
+            z-index: 1;
+            text-align: center;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #c1f5bc;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown:hover .dropbtn {
+            background-color: #f3f8f4;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <section>
+        <div class="dropdown">
+            <button class="dropbtn">SELECT HERE👈</button>
+            <div class="dropdown-content">
+                <br><br>
+            <!-- ccw Filter Dropdown -->
+              <!-- ccw Filter Dropdown -->
+              <label for="ccwSelect">CCW:</label>
+              <select id="ccwSelect" onchange="filterTable()">
+                  <option value="">Select All</option>
+                  <option value="amos_kasonde">Amos Kasonde</option>
+                  <option value="angela_mwenya">Angela Mwenya</option>
+                  <option value="banda_david">Banda David</option>
+                  <option value="banda_misozi">Banda Misozi</option>
+                  <option value="brandina_tembo">Brandina Tembo</option>
+                  <option value="martha_muchimba">Martha Muchimba</option>
+                  <option value="chitambala_stanslous">Chitambala Stanslous</option>
+                  <option value="matildah_kunda">Matildah Kunda</option>
+                  <option value="emmanuel_kapambwe">Emmanuel Kapambwe</option>
+                  <option value="gondwe_fanny">Gondwe Fanny</option>
+                  <option value="grace_kebende">Grace Kebende</option>
+                  <option value="hector_banda">Hector Banda</option>
+                  <option value="hellen_mwansa">Hellen Mwansa</option>
+                  <option value="jane_kasaka1">Jane Kasaka1</option>
+                  <option value="janny_mutampuka">Janny Mutampuka</option>
+                  <option value="joe_nyanga">Joe Nyanga</option>
+                  <option value="aliyah_daka">Aliyah Daka</option>
+                  <option value="joseph_kaimana">Joseph Kaimana</option>
+                  <option value="joshua_malole">Joshua Malole</option>
+                  <option value="kabesha_mary">Kabesha Mary</option>
+                  <option value="kapasula_edith">Kapasula Edith</option>
+                  <option value="kumwenda_mary">Kumwenda Mary</option>
+                  <option value="makashini_christopher">Makashini Christopher</option>
+                  <option value="mary_mwape">Mary Mwape</option>
+                  <option value="mikabo_mildred">Mikabo Mildred</option>
+                  <option value="musa_joyce">Musa Joyce</option>
+                  <option value="mwaba_rodgers">Mwaba Rodgers</option>
+                  <option value="natasha_musonda">Natasha Musonda</option>
+                  <option value="sakala_veronica">Sakala Veronica</option>
+                  <option value="moses_banda">Moses Banda</option>
+                  <option value="soteli_winfridah">Soteli Winfridah</option>
+                  <option value="tembo_ireen">Tembo Ireen</option>
+                  <!-- Add more options here -->
+              </select>
+                <!-- other options... -->
+            </select>
+            <br><br>
+            <!-- Facility Filter Dropdown -->
+            <label for="facilitySelect">FACILITY:</label>
+            <select id="facilitySelect" onchange="filterTable()">
+                <option value="">Select All</option>
+                <option value="Thompson District Hospital">Thompson</option>
+                <option value="Roan Antelope Referral Hospital">Roan</option>
+                 <option value="Mpatamatu Section 26 Urban Health Centre">Section 26</option>
+                <option value="Malaika Clinic">Malaika</option>
+                <option value="Kawama Urban Health Centre (Lua)">Kawama</option>
+                <option value="Mikomfwa Health Centre">Mikonfwa</option>
+                <option value="Poleline (Baluba) Health Post">Baluba</option>
+                <!-- other options... -->
+            </select>
+            <br><br>
+            <!-- Gender Filter Dropdown change femele male-->
+            <label for="suppresionSelect">GENDER TYPE:</label>
+            <select id="suppresionSelect" onchange="filterTable()">
+                <option value="">Select All</option>
+                <option value="M">M</option>
+                <option value="F">F</option>
+            </select>
+            <br><br>
+            <!-- Age Band Filter Dropdown create age band -->
+            <label for="ageBandSelect">AGE GROUP:</label>
+            <select id="ageBandSelect" onchange="filterTable()">
+                <option value="">Select All</option>
+                <option value="<1"><1</option>
+                <option value="1 to 4">1 to 4</option>
+                <option value="5 to 9">5 to 9</option>
+                <option value="10 to 14">10 to 14</option>
+                <option value="15 to 17">15 to 17</option>
+                <option value="18 to 20">18 to 20</option>
+                <option value="21+">21+</option>
+                <option value="incomplete">incomplete</option>
+                
+                <!-- add other age bands as necessary -->
+            </select>
+        <br><br>
+            <!-- HIV Status Filter Dropdown change to serv and create serv formula -->
+            <label for="hivStatusSelect">SERVED_Q1:</label>
+            <select id="hivStatusSelect" onchange="filterTable()">
+                <option value="">Select All</option>
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+                
+            </select>
+            <br><br>
+                <input id="myInput" type="text" placeholder="Search..." onkeyup="filterTable()">
+            <br><br>
+            </div>
+        </div>
+    </section>
+    <p>Total Rows: <span id="rowCount">0</span></p>
+    <h2>SCHOOL SUPPORT(MATERIALS)</h2>
+    <table id="myTable">
+        <thead>
+            <tr style="text-align: right;">
+                <th></th>
+                <th>SITE</th>
+                <th>NAME OF THE VCA OUT OF SCHOOL</th>
+                <th>SEX</th>
+                <th>AGE</th>
+                <th>GRADE</th>
+                <th>NAME OF PREFERED SCHOOL NEAR HOME FOR OUT OF SCHOOL VCA</th>
+                <th>SCHOOL SHOES DETAILS(SIZE)</th>
+                <th>Shirt Colour &amp; Size</th>
+                <th>Skirt/Trousers/Dress Color &amp; Size</th>
+                <th>Small Sizes Books Number</th>
+                <th>A4 Hardcover Books Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>0</th>
+                <td>Thompson District Hospital</td>
+                <td>JUBENDA SUNDAY</td>
+                <td>F</td>
+                <td>8</td>
+                <td>2</td>
+                <td>TWATEMWA</td>
+                <td>4</td>
+                <td>SKY BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>Not Applicable</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>1</th>
+                <td>Thompson District Hospital</td>
+                <td>MUNGANJO GRACE</td>
+                <td>F</td>
+                <td>8</td>
+                <td>2</td>
+                <td>MAZZERI</td>
+                <td>3</td>
+                <td>CHECK BLACK/WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>2</th>
+                <td>Thompson District Hospital</td>
+                <td>LUSOMBO CATHERINE</td>
+                <td>F</td>
+                <td>14</td>
+                <td>4</td>
+                <td>MALAIKA</td>
+                <td>3</td>
+                <td>RED</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>3</th>
+                <td>Thompson District Hospital</td>
+                <td>CHOLA COMFORT</td>
+                <td>F</td>
+                <td>11</td>
+                <td>4</td>
+                <td>TWATEMWA</td>
+                <td>3</td>
+                <td>SKY BLUE</td>
+                <td>NAVY BLUE JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>4</th>
+                <td>Thompson District Hospital</td>
+                <td>SIMPASA ANTHONY</td>
+                <td>M</td>
+                <td>15</td>
+                <td>6</td>
+                <td>FISENGE</td>
+                <td>5</td>
+                <td>SKY BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>5</th>
+                <td>Thompson District Hospital</td>
+                <td>SIWO BERTHA</td>
+                <td>F</td>
+                <td>11</td>
+                <td>5</td>
+                <td>CHIBANSA</td>
+                <td>37</td>
+                <td>CHECK BLUE/WHITE</td>
+                <td>BLUE JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>6</th>
+                <td>Thompson District Hospital</td>
+                <td>N'GAMBI EXILDA</td>
+                <td>F</td>
+                <td>10</td>
+                <td>2</td>
+                <td>CHIBANSA</td>
+                <td>36</td>
+                <td>SKY BLUE</td>
+                <td>BLUE JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>7</th>
+                <td>Thompson District Hospital</td>
+                <td>BANDA ANGELA</td>
+                <td>F</td>
+                <td>10</td>
+                <td>4</td>
+                <td>ST WILLIAM</td>
+                <td>34</td>
+                <td>CHECK GREEN/WHITE</td>
+                <td>GREEN JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>8</th>
+                <td>Thompson District Hospital</td>
+                <td>ZULU PATIENCE</td>
+                <td>F</td>
+                <td>8</td>
+                <td>2</td>
+                <td>MAZZERI</td>
+                <td>33</td>
+                <td>CHECK BLACK/WHITE</td>
+                <td>BLACK SKIRT</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>9</th>
+                <td>Thompson District Hospital</td>
+                <td>CHISENGA WILLIAM</td>
+                <td>M</td>
+                <td>6</td>
+                <td>1</td>
+                <td>KAMIRENDA</td>
+                <td>3</td>
+                <td>YELLOW</td>
+                <td>MAROON TROUSERS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>10</th>
+                <td>Thompson District Hospital</td>
+                <td>CHILIMUNA MAPALO</td>
+                <td>F</td>
+                <td>13</td>
+                <td>6</td>
+                <td>TOSIKANA</td>
+                <td>3</td>
+                <td>CHECK GREEN/WHITE</td>
+                <td>GREEN JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>11</th>
+                <td>Thompson District Hospital</td>
+                <td>MUTI MARY</td>
+                <td>F</td>
+                <td>12</td>
+                <td>5</td>
+                <td>TOSIKANA</td>
+                <td>3</td>
+                <td>CHECK GREEN/WHITE</td>
+                <td>GREEN JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>12</th>
+                <td>Thompson District Hospital</td>
+                <td>CHIMYA BRIDGET</td>
+                <td>F</td>
+                <td>12</td>
+                <td>4</td>
+                <td>MIPUNDU</td>
+                <td>4</td>
+                <td>LIGHT BLUE</td>
+                <td>DARK BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>13</th>
+                <td>Thompson District Hospital</td>
+                <td>CHISHIMBA JOSEPH</td>
+                <td>M</td>
+                <td>13</td>
+                <td>6</td>
+                <td>MUCHINSHI</td>
+                <td>3</td>
+                <td>WHITE</td>
+                <td>BROWN TROUSERS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>14</th>
+                <td>Thompson District Hospital</td>
+                <td>BANDA GEORGE</td>
+                <td>M</td>
+                <td>13</td>
+                <td>6</td>
+                <td>GHANDI</td>
+                <td>5</td>
+                <td>WHITE</td>
+                <td>BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>15</th>
+                <td>Thompson District Hospital</td>
+                <td>MULENGA EMMANUEL</td>
+                <td>M</td>
+                <td>11</td>
+                <td>5</td>
+                <td>MIPUNDU</td>
+                <td>3</td>
+                <td>LIGHT BLUE</td>
+                <td>DARK BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>16</th>
+                <td>Thompson District Hospital</td>
+                <td>NAMA MARTIN</td>
+                <td>M</td>
+                <td>14</td>
+                <td>5</td>
+                <td>CHIBANSA</td>
+                <td>6</td>
+                <td>LIGHT BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>17</th>
+                <td>Thompson District Hospital</td>
+                <td>CHIKWATI BENSON</td>
+                <td>M</td>
+                <td>7</td>
+                <td>1</td>
+                <td>MIPUNDU</td>
+                <td>22</td>
+                <td>LIGHT BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>18</th>
+                <td>Thompson District Hospital</td>
+                <td>NDEKELA BETHSHEBA</td>
+                <td>F</td>
+                <td>12</td>
+                <td>5</td>
+                <td>FISENGE</td>
+                <td>38</td>
+                <td>NAVY BLUE</td>
+                <td>LIGHT BLUE JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>19</th>
+                <td>Thompson District Hospital</td>
+                <td>NYAMBE SIANGA</td>
+                <td>M</td>
+                <td>10</td>
+                <td>5</td>
+                <td>MIPUNDU</td>
+                <td>3</td>
+                <td>LIGHT BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>20</th>
+                <td>Thompson District Hospital</td>
+                <td>CHAMA MARY</td>
+                <td>F</td>
+                <td>12</td>
+                <td>6</td>
+                <td>FISENGE</td>
+                <td>37</td>
+                <td>NAVY BLUE</td>
+                <td>LIGHT BLUE JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>21</th>
+                <td>Mikomfwa Health Centre</td>
+                <td>MWALE LUKE</td>
+                <td>M</td>
+                <td>10</td>
+                <td>5</td>
+                <td>NDELELA</td>
+                <td>6</td>
+                <td>BLUE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>22</th>
+                <td>Mikomfwa Health Centre</td>
+                <td>MULENGA EVELYN</td>
+                <td>F</td>
+                <td>14</td>
+                <td>6</td>
+                <td>MIPUNDU</td>
+                <td>5</td>
+                <td>LIGHT BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>23</th>
+                <td>Mikomfwa Health Centre</td>
+                <td>ABRAHAM BLESSING</td>
+                <td>M</td>
+                <td>14</td>
+                <td>6</td>
+                <td>NDELELA</td>
+                <td>5</td>
+                <td>CHECK BLACK/WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>24</th>
+                <td>Malaika Clinic</td>
+                <td>MUNGALU ANGEL</td>
+                <td>F</td>
+                <td>4</td>
+                <td>2</td>
+                <td>TWATEMWA</td>
+                <td>35</td>
+                <td>LIGHT BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>25</th>
+                <td>Malaika Clinic</td>
+                <td>MUNGALU MALICK</td>
+                <td>M</td>
+                <td>15</td>
+                <td>6</td>
+                <td>TWATEMWA</td>
+                <td>40</td>
+                <td>LIGHT BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>26</th>
+                <td>Malaika Clinic</td>
+                <td>LAMYA ALICE</td>
+                <td>F</td>
+                <td>17</td>
+                <td>6</td>
+                <td>MALAIKA</td>
+                <td>41</td>
+                <td>RED</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>27</th>
+                <td>Malaika Clinic</td>
+                <td>ZIMBA LACKSON</td>
+                <td>M</td>
+                <td>10</td>
+                <td>2</td>
+                <td>MIPUNDU</td>
+                <td>37</td>
+                <td>LIGHT BLUE</td>
+                <td>DARK BLUE TROUSERS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>28</th>
+                <td>Malaika Clinic</td>
+                <td>MWAPE JOHN</td>
+                <td>M</td>
+                <td>15</td>
+                <td>7</td>
+                <td>HARROLDS COMM</td>
+                <td>40</td>
+                <td>LIGHT BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>29</th>
+                <td>Malaika Clinic</td>
+                <td>BUMBA PATRICK</td>
+                <td>M</td>
+                <td>12</td>
+                <td>6</td>
+                <td>MALAIKA</td>
+                <td>38</td>
+                <td>RED</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>30</th>
+                <td>Malaika Clinic</td>
+                <td>CHIZAO MARGRET</td>
+                <td>F</td>
+                <td>7</td>
+                <td>2</td>
+                <td>MALAIKA</td>
+                <td>4</td>
+                <td>RED</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>31</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>KAPYOLOLO MARY</td>
+                <td>F</td>
+                <td>9</td>
+                <td>3</td>
+                <td>MPATAMATU PRIMARY</td>
+                <td>32</td>
+                <td>SKY BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>32</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>ZIMBA TRACY</td>
+                <td>F</td>
+                <td>13</td>
+                <td>6</td>
+                <td>MPATAMATU PRIMARY</td>
+                <td>35</td>
+                <td>SKY BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>33</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>KATOLO EVANS</td>
+                <td>M</td>
+                <td>7</td>
+                <td>1</td>
+                <td>CHAISA PRIMARY</td>
+                <td>1</td>
+                <td>LIGHT BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>34</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>ZULU LYNESS</td>
+                <td>F</td>
+                <td>12</td>
+                <td>3</td>
+                <td>ROAN PRIMARY</td>
+                <td>38</td>
+                <td>CHECK BLUE/WHITE</td>
+                <td>DARK BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>35</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>MWAMBA EMELY</td>
+                <td>F</td>
+                <td>15</td>
+                <td>9</td>
+                <td>FISANSA</td>
+                <td>6</td>
+                <td>BLUE</td>
+                <td>GREY</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>36</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>MUMBI GLORIA</td>
+                <td>F</td>
+                <td>6</td>
+                <td>1</td>
+                <td>FISANSA</td>
+                <td>2</td>
+                <td>BLUE</td>
+                <td>GREY</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>37</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>SIMWANZA MWILA</td>
+                <td>F</td>
+                <td>13</td>
+                <td>4</td>
+                <td>GHANDI</td>
+                <td>4</td>
+                <td>WHITE</td>
+                <td>BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>38</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>KATETE RICHARD</td>
+                <td>M</td>
+                <td>11</td>
+                <td>3</td>
+                <td>MPATAMATU PRIMARY</td>
+                <td>3</td>
+                <td>SKY BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>39</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>MWEETWA VICTORIA</td>
+                <td>F</td>
+                <td>13</td>
+                <td>6</td>
+                <td>KAMIRENDA</td>
+                <td>5</td>
+                <td>YELLOW</td>
+                <td>MAROON TROUSERS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>40</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>MALISAWA MUHAMMED</td>
+                <td>M</td>
+                <td>12</td>
+                <td>4</td>
+                <td>ROAN PRIMARY</td>
+                <td>4</td>
+                <td>CHECK WHITE/BLUE</td>
+                <td>DARK BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>41</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>KAPUTULA BENSON</td>
+                <td>M</td>
+                <td>9</td>
+                <td>1</td>
+                <td>KAWAMA PRIMARY</td>
+                <td>3</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>42</th>
+                <td>Kawama Urban Health Centre (Lua)</td>
+                <td>MUTASHA JENNIPHER</td>
+                <td>F</td>
+                <td>11</td>
+                <td>1</td>
+                <td>KAWAMA PRIMARY</td>
+                <td>3</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>43</th>
+                <td>Kawama Urban Health Centre (Lua)</td>
+                <td>MUTASHA LEONARD</td>
+                <td>M</td>
+                <td>9</td>
+                <td>1</td>
+                <td>KAWAMA PRIMARY</td>
+                <td>3</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>44</th>
+                <td>Kawama Urban Health Centre (Lua)</td>
+                <td>MUTASHA BWALYA</td>
+                <td>F</td>
+                <td>7</td>
+                <td>1</td>
+                <td>KAWAMA PRIMARY</td>
+                <td>2</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>45</th>
+                <td>Kawama Urban Health Centre (Lua)</td>
+                <td>CHIMIKA SOMEO</td>
+                <td>M</td>
+                <td>13</td>
+                <td>3</td>
+                <td>KAWAMA PRIMARY</td>
+                <td>6</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>46</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>ZULU MUTALE</td>
+                <td>F</td>
+                <td>9</td>
+                <td>2</td>
+                <td>TWALUBUKA COMM</td>
+                <td>28</td>
+                <td>BLUE</td>
+                <td>GREY DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>47</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>MUSHINGA PAUL</td>
+                <td>M</td>
+                <td>12</td>
+                <td>3</td>
+                <td>AGATHA COMM</td>
+                <td>39</td>
+                <td>CHECK WHITE/GREEN</td>
+                <td>GREEN SHORT</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>48</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>CHABU FOSTER</td>
+                <td>F</td>
+                <td>10</td>
+                <td>2</td>
+                <td>ST THOMAS COMM</td>
+                <td>34</td>
+                <td>CHECK WHITE/GREEN</td>
+                <td>GREEN JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>49</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>BWALYA ANGEL</td>
+                <td>M</td>
+                <td>9</td>
+                <td>3</td>
+                <td>TWALUBUKA COMM</td>
+                <td>33</td>
+                <td>CHECK WHITE/GREEN</td>
+                <td>GREEN TROUSERS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>50</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>BANDA JOSHUA</td>
+                <td>M</td>
+                <td>7</td>
+                <td>1</td>
+                <td>SILVER STONE ACADEMY</td>
+                <td>35</td>
+                <td>CHECK WHITE/BROWN</td>
+                <td>BROWN TROUSERS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>51</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>MWANSA MOSES</td>
+                <td>M</td>
+                <td>7</td>
+                <td>1</td>
+                <td>ST THOMAS COMM</td>
+                <td>28</td>
+                <td>CHECK WHITE/GREEN</td>
+                <td>GREEN SHORT</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>52</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>ZIMBA TAONGA</td>
+                <td>F</td>
+                <td>13</td>
+                <td>3</td>
+                <td>KAKUMBA PRIMARY</td>
+                <td>34</td>
+                <td>CHECK WHITE/GREEN</td>
+                <td>GREEN SKIRT</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>53</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>CHANDA VINCENT</td>
+                <td>M</td>
+                <td>10</td>
+                <td>3</td>
+                <td>ST THOMAS COMM</td>
+                <td>38</td>
+                <td>CHECK WHITE/GREEN</td>
+                <td>GREEN SHORT</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>54</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>KUNDA LEONARD</td>
+                <td>M</td>
+                <td>10</td>
+                <td>3</td>
+                <td>MAPOSA PRIMARY</td>
+                <td>38</td>
+                <td>BLUE</td>
+                <td>GREY SHORT</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>55</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>KANANGU EVALESS</td>
+                <td>F</td>
+                <td>13</td>
+                <td>3</td>
+                <td>ELOHIM</td>
+                <td>37</td>
+                <td>LIGHT BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>56</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>MUFINDA EMMANUEL</td>
+                <td>M</td>
+                <td>16</td>
+                <td>6</td>
+                <td>MUPE</td>
+                <td>7</td>
+                <td>PURPLE</td>
+                <td>GREY SHORT</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>57</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>MUMBA PRECIOUS</td>
+                <td>F</td>
+                <td>9</td>
+                <td>2</td>
+                <td>BALUBA PRIMARY</td>
+                <td>33</td>
+                <td>SKY BLUE</td>
+                <td>GREY JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>58</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>KATAMA JOSEPH</td>
+                <td>M</td>
+                <td>9</td>
+                <td>2</td>
+                <td>ELOHIM</td>
+                <td>34</td>
+                <td>LIGHT BLUE</td>
+                <td>NAVY BLUE SHORT</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>59</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>KACHINGWE KELVIN</td>
+                <td>M</td>
+                <td>9</td>
+                <td>3</td>
+                <td>NKAMBO PRIMARY</td>
+                <td>3</td>
+                <td>BLUE</td>
+                <td>GREY</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>60</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>KUNDA LISA</td>
+                <td>F</td>
+                <td>14</td>
+                <td>6</td>
+                <td>KALULU PRIMARY</td>
+                <td>5</td>
+                <td>BLUE</td>
+                <td>BLACK JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>61</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>MWENYA ANITA</td>
+                <td>F</td>
+                <td>12</td>
+                <td>6</td>
+                <td>MPATAMATU PRIMARY</td>
+                <td>5</td>
+                <td>SKY BLUE</td>
+                <td>BLUE JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>62</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>KUNDA NGOSA</td>
+                <td>M</td>
+                <td>15</td>
+                <td>4</td>
+                <td>NKAMBO PRIMARY</td>
+                <td>3</td>
+                <td>SKY BLUE</td>
+                <td>GREY TROUSERS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>63</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>CHIJAMBO JONATHAN</td>
+                <td>M</td>
+                <td>10</td>
+                <td>3</td>
+                <td>NKAMBO PRIMARY</td>
+                <td>38</td>
+                <td>BLUE</td>
+                <td>GREY TROUSERS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>64</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>SAKALA TIZA</td>
+                <td>F</td>
+                <td>7</td>
+                <td>1</td>
+                <td>MWASENI PRIMARY</td>
+                <td>33</td>
+                <td>WHITE</td>
+                <td>BLUE JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>65</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>NUBI JAMIRA</td>
+                <td>F</td>
+                <td>12</td>
+                <td>7</td>
+                <td>MWASENI PRIMARY</td>
+                <td>38</td>
+                <td>WHITE</td>
+                <td>BLUE JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>66</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>MWANSA JOSHUA</td>
+                <td>M</td>
+                <td>9</td>
+                <td>5</td>
+                <td>MPATAMATU PRIMARY</td>
+                <td>38</td>
+                <td>LIGHT BLUE</td>
+                <td>DARK BLUE TROUSERS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>67</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>CHANDA JEMAIMA</td>
+                <td>F</td>
+                <td>7</td>
+                <td>1</td>
+                <td>MPATAMATU PRIMARY</td>
+                <td>32</td>
+                <td>LIGHT BLUE</td>
+                <td>DARK BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>68</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>SHULA GLADYS</td>
+                <td>F</td>
+                <td>11</td>
+                <td>2</td>
+                <td>KAWAMA</td>
+                <td>37</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>69</th>
+                <td>Thompson District Hospital</td>
+                <td>KABWE IRAD</td>
+                <td>M</td>
+                <td>15</td>
+                <td>8</td>
+                <td>MIKOMFWA</td>
+                <td>5</td>
+                <td>APPLE GREEN</td>
+                <td>DARK GREEN TROUSERS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>70</th>
+                <td>Thompson District Hospital</td>
+                <td>MUTALE MARY</td>
+                <td>F</td>
+                <td>16</td>
+                <td>8</td>
+                <td>MAZZIERI</td>
+                <td>39</td>
+                <td>SKY BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>71</th>
+                <td>Thompson District Hospital</td>
+                <td>KALALA JOSEPH</td>
+                <td>M</td>
+                <td>14</td>
+                <td>9</td>
+                <td>MAZZIERI</td>
+                <td>38</td>
+                <td>SKY BLUE</td>
+                <td>NAVY BLUE TROUSERS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>72</th>
+                <td>Thompson District Hospital</td>
+                <td>BWALYA MOSES</td>
+                <td>M</td>
+                <td>15</td>
+                <td>8</td>
+                <td>MAZZIERI</td>
+                <td>39</td>
+                <td>SKY BLUE</td>
+                <td>NAVY BLUE TROUSERS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>73</th>
+                <td>Mikomfwa Health Centre</td>
+                <td>CHIBITA CHRISTOPHER</td>
+                <td>M</td>
+                <td>16</td>
+                <td>8</td>
+                <td>NDELELA</td>
+                <td>7</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>74</th>
+                <td>Mikomfwa Health Centre</td>
+                <td>MWANZA COLLINS</td>
+                <td>M</td>
+                <td>18</td>
+                <td>11</td>
+                <td>LYA SKILLS</td>
+                <td>7</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>75</th>
+                <td>Malaika Clinic</td>
+                <td>MUNGALA LISA</td>
+                <td>F</td>
+                <td>17</td>
+                <td>10</td>
+                <td>DON OTTAVIO</td>
+                <td>40</td>
+                <td>WHITE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>76</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>MUSANGO WILLIAM</td>
+                <td>M</td>
+                <td>18</td>
+                <td>8</td>
+                <td>TWASHUKA</td>
+                <td>36</td>
+                <td>GREEN</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>77</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>KANYAKULA MATHEWS</td>
+                <td>M</td>
+                <td>17</td>
+                <td>9</td>
+                <td>CHAISA</td>
+                <td>40</td>
+                <td>WHITE</td>
+                <td>BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>78</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>KAWEMBA PRINCE</td>
+                <td>M</td>
+                <td>20</td>
+                <td>11</td>
+                <td>RASS</td>
+                <td>42</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>79</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>CHABU MWANSA</td>
+                <td>M</td>
+                <td>20</td>
+                <td>11</td>
+                <td>MPELEMBE</td>
+                <td>44</td>
+                <td>BLUE</td>
+                <td>GREY</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>80</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>KAWEMBE FREDRICK</td>
+                <td>M</td>
+                <td>19</td>
+                <td>9</td>
+                <td>RASS</td>
+                <td>42</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>81</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>CHINYAMA FEBBY</td>
+                <td>F</td>
+                <td>22</td>
+                <td>9</td>
+                <td>RASS</td>
+                <td>36</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>82</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>ZULU MUKWAYAYA</td>
+                <td>M</td>
+                <td>15</td>
+                <td>8</td>
+                <td>MPATAMATU SEC</td>
+                <td>39</td>
+                <td>WHITE</td>
+                <td>GREY</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>83</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>MWEETWA  EMMANUEL</td>
+                <td>M</td>
+                <td>14</td>
+                <td>8</td>
+                <td>KAMIRENDA</td>
+                <td>39</td>
+                <td>YELLOW</td>
+                <td>MAROON</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>84</th>
+                <td>Kawama Urban Health Centre (Lua)</td>
+                <td>KAWAMA AUGUSTIN</td>
+                <td>M</td>
+                <td>16</td>
+                <td>8</td>
+                <td>KAWAMA</td>
+                <td>42</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>85</th>
+                <td>Kawama Urban Health Centre (Lua)</td>
+                <td>KAWAMA ABRAHAM</td>
+                <td>M</td>
+                <td>17</td>
+                <td>8</td>
+                <td>KAWAMA</td>
+                <td>42</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>86</th>
+                <td>Kawama Urban Health Centre (Lua)</td>
+                <td>MUKUKA BERNARD</td>
+                <td>M</td>
+                <td>18</td>
+                <td>8</td>
+                <td>KAWAMA</td>
+                <td>42</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>87</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>ZULU PRECIOUS</td>
+                <td>F</td>
+                <td>18</td>
+                <td>11</td>
+                <td>JONKEN</td>
+                <td>38</td>
+                <td>WHITE LONG SLEEV</td>
+                <td>CHARCOAL GREY SKIRT</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>88</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>MICHELO ICONS</td>
+                <td>M</td>
+                <td>17</td>
+                <td>8</td>
+                <td>MAPOSA PRIMARY</td>
+                <td>41</td>
+                <td>WHITE</td>
+                <td>GREY</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>89</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>MBOMENA GRACE</td>
+                <td>F</td>
+                <td>16</td>
+                <td>8</td>
+                <td>MAPOSA PRIMARY</td>
+                <td>39</td>
+                <td>BLUE</td>
+                <td>GREY</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>90</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>NJOBVU BEATRICE</td>
+                <td>F</td>
+                <td>16</td>
+                <td>9</td>
+                <td>JONKEN</td>
+                <td>39</td>
+                <td>WHITE LONG SLEEV</td>
+                <td>CHARCOAL GREY SKIRT</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>91</th>
+                <td>Poleline (Baluba) Health Post</td>
+                <td>MULENGA MARTHA</td>
+                <td>F</td>
+                <td>19</td>
+                <td>9</td>
+                <td>BALUBA COMBINED</td>
+                <td>41</td>
+                <td>WHITE  SHORT SLEEV</td>
+                <td>CHECK WHITE/GREY SKIRT</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>92</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>NANKOLOLWE SALIFYANJI</td>
+                <td>F</td>
+                <td>15</td>
+                <td>9</td>
+                <td>MPATAMATU SEC</td>
+                <td>6</td>
+                <td>BLUE</td>
+                <td>GREY</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>93</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>SINZUMWA DAVID</td>
+                <td>M</td>
+                <td>17</td>
+                <td>9</td>
+                <td>MWAISENI PRIMARY</td>
+                <td>8</td>
+                <td>WHITE</td>
+                <td>BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>94</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>SAKALA TAONGA</td>
+                <td>F</td>
+                <td>16</td>
+                <td>9</td>
+                <td>MPATAMATU PRIMARY</td>
+                <td>38</td>
+                <td>BLUE</td>
+                <td>GREY</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>95</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>BANDA JAMES</td>
+                <td>M</td>
+                <td>15</td>
+                <td>9</td>
+                <td>MPATAMATU PRIMARY</td>
+                <td>42</td>
+                <td>LIGHT BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>96</th>
+                <td>Thompson District Hospital</td>
+                <td>CHAMA BLESSING</td>
+                <td>M</td>
+                <td>13</td>
+                <td>8</td>
+                <td>FISENGE SEC</td>
+                <td>39</td>
+                <td>WHITE</td>
+                <td>COFFEE BROWN</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>97</th>
+                <td>Thompson District Hospital</td>
+                <td>CHAMA JOSEPH</td>
+                <td>M</td>
+                <td>15</td>
+                <td>9</td>
+                <td>FISENGE SEC</td>
+                <td>40</td>
+                <td>WHITE LONG SLEEV</td>
+                <td>COFFEE BROWN</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>98</th>
+                <td>Thompson District Hospital</td>
+                <td>NAMA ANTHONY</td>
+                <td>M</td>
+                <td>16</td>
+                <td>9</td>
+                <td>BWANANYINA</td>
+                <td>6</td>
+                <td>LIGHT BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>99</th>
+                <td>Thompson District Hospital</td>
+                <td>MILAMBO DAVID</td>
+                <td>M</td>
+                <td>17</td>
+                <td>11</td>
+                <td>LYA SKILLS</td>
+                <td>8</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>100</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>MBEWE DOMINIC</td>
+                <td>M</td>
+                <td>14</td>
+                <td>2</td>
+                <td>KALULU PRIMARY</td>
+                <td>38</td>
+                <td>BLUE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>101</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>KASONDE LUCKY</td>
+                <td>M</td>
+                <td>11</td>
+                <td>4</td>
+                <td>KAWAMA</td>
+                <td>37</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>102</th>
+                <td>Thompson District Hospital</td>
+                <td>PHIRI TIKOPNDANE</td>
+                <td>F</td>
+                <td>17</td>
+                <td>8</td>
+                <td>NDELELA</td>
+                <td>5</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>103</th>
+                <td>Thompson District Hospital</td>
+                <td>MWANZA GILBERT</td>
+                <td>M</td>
+                <td>13</td>
+                <td>8</td>
+                <td>MIPUNDU</td>
+                <td>4</td>
+                <td>SKY BLUE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>104</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>MUPAPANYA NELSON</td>
+                <td>M</td>
+                <td>17</td>
+                <td>8</td>
+                <td>KAWAMA</td>
+                <td>41</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>105</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>PHIRI ZANGOSE</td>
+                <td>F</td>
+                <td>15</td>
+                <td>8</td>
+                <td>KANSUMBI</td>
+                <td>38</td>
+                <td>WHITE</td>
+                <td>GREEN</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>106</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>CHIUMA NATHAN</td>
+                <td>M</td>
+                <td>18</td>
+                <td>9</td>
+                <td>MWASENI PRIMARY</td>
+                <td>41</td>
+                <td>WHITE</td>
+                <td>BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>107</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>SASHA MARVEL</td>
+                <td>M</td>
+                <td>14</td>
+                <td>9</td>
+                <td>MPELEMBE</td>
+                <td>39</td>
+                <td>LIGHT BLUE</td>
+                <td>GREY</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>108</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>MULENGA EVELYN</td>
+                <td>F</td>
+                <td>15</td>
+                <td>8</td>
+                <td>CHAISA</td>
+                <td>39</td>
+                <td>WHITE</td>
+                <td>BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>109</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>SAMPA GIFT</td>
+                <td>F</td>
+                <td>15</td>
+                <td>10</td>
+                <td>TWASHUKA</td>
+                <td>40</td>
+                <td>LIGHT GREEN</td>
+                <td>DARK GREEN</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>110</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>KAMPWA GIFT</td>
+                <td>M</td>
+                <td>14</td>
+                <td>9</td>
+                <td>ROAN PRIMARY</td>
+                <td>39</td>
+                <td>LIGHT BLUE</td>
+                <td>DARK BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>111</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>KAONGA LAWRENCE</td>
+                <td>M</td>
+                <td>16</td>
+                <td>8</td>
+                <td>ROAN PRIMARY</td>
+                <td>40</td>
+                <td>LIGHT BLUE</td>
+                <td>DARK BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>112</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>KAPEMBA EMMANUEL</td>
+                <td>M</td>
+                <td>16</td>
+                <td>8</td>
+                <td>ROAN PRIMARY</td>
+                <td>40</td>
+                <td>LIGHT BLUE</td>
+                <td>DARK BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>113</th>
+                <td>Thompson District Hospital</td>
+                <td>LONGA MERCY</td>
+                <td>F</td>
+                <td>9</td>
+                <td>3</td>
+                <td>NDELELA</td>
+                <td>37</td>
+                <td>CHECK WHITE/BLACK</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>114</th>
+                <td>Thompson District Hospital</td>
+                <td>MULENGA MERCY</td>
+                <td>F</td>
+                <td>12</td>
+                <td>5</td>
+                <td>MAMA ROSA</td>
+                <td>3</td>
+                <td>LIGHT BLUE</td>
+                <td>DARK BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>115</th>
+                <td>Thompson District Hospital</td>
+                <td>MUSONDA FAIDESS</td>
+                <td>F</td>
+                <td>10</td>
+                <td>6</td>
+                <td>MAMA ROSA</td>
+                <td>3</td>
+                <td>LIGHT BLUE</td>
+                <td>DARK BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>116</th>
+                <td>Thompson District Hospital</td>
+                <td>NGOMA CLEMENT</td>
+                <td>M</td>
+                <td>15</td>
+                <td>6</td>
+                <td>FISENGE</td>
+                <td>5</td>
+                <td>SKY BLUE</td>
+                <td>NAVY BLUE TROUSERS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>117</th>
+                <td>Thompson District Hospital</td>
+                <td>MWAPE TRUST</td>
+                <td>M</td>
+                <td>9</td>
+                <td>3</td>
+                <td>MIPUNDU</td>
+                <td>3</td>
+                <td>SKY BLUE</td>
+                <td>LIGHT BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>118</th>
+                <td>Thompson District Hospital</td>
+                <td>MUTALE JOSEPHINE</td>
+                <td>F</td>
+                <td>10</td>
+                <td>4</td>
+                <td>MAZZIERI</td>
+                <td>35</td>
+                <td>CHECK WHITE/BLACK</td>
+                <td>BLACK JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>119</th>
+                <td>Thompson District Hospital</td>
+                <td>KAMUSHE C.NAOMI</td>
+                <td>F</td>
+                <td>7</td>
+                <td>2</td>
+                <td>VINEYARD COMM</td>
+                <td>35</td>
+                <td>CHECK WHITE/BLACK</td>
+                <td>BLACK JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>120</th>
+                <td>Thompson District Hospital</td>
+                <td>BWALYA SARA</td>
+                <td>F</td>
+                <td>11</td>
+                <td>3</td>
+                <td>ST WILLIAM COMM</td>
+                <td>35</td>
+                <td>CHECK WHITE/GREEN</td>
+                <td>GREEN JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>121</th>
+                <td>Thompson District Hospital</td>
+                <td>MUKUKA FRIDAH</td>
+                <td>F</td>
+                <td>13</td>
+                <td>5</td>
+                <td>CHIBANSA</td>
+                <td>37</td>
+                <td>CHECK WHITE/BLUE</td>
+                <td>BLUE JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>122</th>
+                <td>Thompson District Hospital</td>
+                <td>LUNGU DANIEL</td>
+                <td>M</td>
+                <td>9</td>
+                <td>4</td>
+                <td>VINEYARD COMM</td>
+                <td>37</td>
+                <td>CHECK WHITE/BLACK</td>
+                <td>BLACK TROUSERS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>123</th>
+                <td>Thompson District Hospital</td>
+                <td>MWAPE JOYCE</td>
+                <td>F</td>
+                <td>10</td>
+                <td>5</td>
+                <td>VINEYARD COMM</td>
+                <td>37</td>
+                <td>CHECK WHITE/BLACK</td>
+                <td>BLACK JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>124</th>
+                <td>Thompson District Hospital</td>
+                <td>BANDA MOSES</td>
+                <td>M</td>
+                <td>14</td>
+                <td>5</td>
+                <td>TWATEMWA</td>
+                <td>3</td>
+                <td>SKY BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>125</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>SAKUPAULA OSWARD</td>
+                <td>M</td>
+                <td>14</td>
+                <td>6</td>
+                <td>MASANSA WEST</td>
+                <td>42</td>
+                <td>LIGHT BLUE</td>
+                <td>DARK BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>126</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>MBOLOMA PURITY</td>
+                <td>F</td>
+                <td>13</td>
+                <td>6</td>
+                <td>MWASENI PRIMARY</td>
+                <td>37</td>
+                <td>WHITE</td>
+                <td>BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>127</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>SAKALA JESSY</td>
+                <td>F</td>
+                <td>9</td>
+                <td>4</td>
+                <td>KALULU</td>
+                <td>36</td>
+                <td>BLUE</td>
+                <td>BLACK JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>128</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>KUNDA JACKSON</td>
+                <td>M</td>
+                <td>11</td>
+                <td>3</td>
+                <td>KALULU</td>
+                <td>33</td>
+                <td>BLUE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>129</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>BWALYA PHILIMON</td>
+                <td>M</td>
+                <td>9</td>
+                <td>3</td>
+                <td>MPATAMATU</td>
+                <td>33</td>
+                <td>SKY BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>130</th>
+                <td>Mpatamatu Section 26 Clinic</td>
+                <td>KAPINGA JOE</td>
+                <td>M</td>
+                <td>12</td>
+                <td>6</td>
+                <td>MPATAMATU</td>
+                <td>34</td>
+                <td>SKY BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>131</th>
+                <td>Thompson District Hospital</td>
+                <td>MEMORY NYANGU</td>
+                <td>F</td>
+                <td>9</td>
+                <td>4</td>
+                <td>MIPUNDU</td>
+                <td>3</td>
+                <td>SKY BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>132</th>
+                <td>Kawama Urban Health Centre (Lua)</td>
+                <td>SAKALA ESNART</td>
+                <td>F</td>
+                <td>9</td>
+                <td>4</td>
+                <td>KAWAMA</td>
+                <td>3</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>133</th>
+                <td>Kawama Urban Health Centre (Lua)</td>
+                <td>MWELWA ANNIE</td>
+                <td>F</td>
+                <td>14</td>
+                <td>7</td>
+                <td>KAWAMA</td>
+                <td>5</td>
+                <td>WHITE</td>
+                <td>BLACK</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>134</th>
+                <td>Thompson District Hospital</td>
+                <td>SAMPA BRODRICK</td>
+                <td>M</td>
+                <td>12</td>
+                <td>4</td>
+                <td>BWANANYINA</td>
+                <td>4</td>
+                <td>SKY BLUE</td>
+                <td>DARK BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>135</th>
+                <td>Thompson District Hospital</td>
+                <td>BANDA SARA</td>
+                <td>F</td>
+                <td>12</td>
+                <td>6</td>
+                <td>MAZZIERI</td>
+                <td>3</td>
+                <td>SKY BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>136</th>
+                <td>Thompson District Hospital</td>
+                <td>MAPALO CHILIMUNI</td>
+                <td>F</td>
+                <td>13</td>
+                <td>5</td>
+                <td>TOSIKANA</td>
+                <td>3</td>
+                <td>CHECK GREEN/WHITE</td>
+                <td>GREEN JIM DRESS</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>137</th>
+                <td>Thompson District Hospital</td>
+                <td>CHIPANGO ALOYCIOUS</td>
+                <td>M</td>
+                <td>7</td>
+                <td>1</td>
+                <td>MIPUNDU</td>
+                <td>37</td>
+                <td>SKY BLUE</td>
+                <td>LIGHT BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>138</th>
+                <td>Thompson District Hospital</td>
+                <td>MUSIBI NANGE</td>
+                <td>F</td>
+                <td>11</td>
+                <td>5</td>
+                <td>MIPUNDU</td>
+                <td>38</td>
+                <td>SKY BLUE</td>
+                <td>LIGHT BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>139</th>
+                <td>Thompson District Hospital</td>
+                <td>NAMUKOKO JENIPHER</td>
+                <td>F</td>
+                <td>13</td>
+                <td>2</td>
+                <td>BWANANYINA</td>
+                <td>31</td>
+                <td>SKY BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>140</th>
+                <td>Thompson District Hospital</td>
+                <td>NAKAMBA WENDI</td>
+                <td>F</td>
+                <td>17</td>
+                <td>6</td>
+                <td>CHIBANSA</td>
+                <td>5</td>
+                <td>CHECK WHITE /BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>141</th>
+                <td>Thompson District Hospital</td>
+                <td>NGANDWE BERTHA</td>
+                <td>F</td>
+                <td>10</td>
+                <td>3</td>
+                <td>MUCHINSHI</td>
+                <td>37</td>
+                <td>LIGHT BLUE</td>
+                <td>BROWN</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>142</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>MUMBI MARTHA</td>
+                <td>F</td>
+                <td>11</td>
+                <td>7</td>
+                <td>CHAISA</td>
+                <td>38</td>
+                <td>LIGHT BLUE</td>
+                <td>NAVY  BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>143</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>NGAMBI LUBUTO</td>
+                <td>M</td>
+                <td>12</td>
+                <td>7</td>
+                <td>ROAN PRIMARY</td>
+                <td>38</td>
+                <td>CHECK WHITE/BLUE</td>
+                <td>DARK BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>144</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>MUPAKILE PAULINE</td>
+                <td>F</td>
+                <td>10</td>
+                <td>5</td>
+                <td>MAKOMA</td>
+                <td>37</td>
+                <td>CHECKED MAROON</td>
+                <td>MAROON</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>145</th>
+                <td>Roan A. Gen Hospital</td>
+                <td>BWALYA GRAHAM</td>
+                <td>M</td>
+                <td>13</td>
+                <td>5</td>
+                <td>BUTEKO</td>
+                <td>39</td>
+                <td>CHECKED GREEN</td>
+                <td>GREEN</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>146</th>
+                <td>Thompson District Hospital</td>
+                <td>KUMBUTSO ZULU</td>
+                <td>M</td>
+                <td>8</td>
+                <td>2</td>
+                <td>HARROLDS COMM</td>
+                <td>34</td>
+                <td>LIGHT BLUE</td>
+                <td>NAVY BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <th>147</th>
+                <td>Thompson District Hospital</td>
+                <td>KAFULA PETER</td>
+                <td>M</td>
+                <td>12</td>
+                <td>5</td>
+                <td>MIPUNDU</td>
+                <td>37</td>
+                <td>LIGHT BLUE</td>
+                <td>DARK BLUE</td>
+                <td>NaN</td>
+                <td>10</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <script>
+        function filterTable() {
+            let searchValue = document.getElementById("myInput").value.toLowerCase();
+            let ccwSelect = document.getElementById("ccwSelect").value.toLowerCase();
+            let facilitySelect = document.getElementById("facilitySelect").value.toLowerCase();
+            let genderSelect = document.getElementById("suppresionSelect").value.toLowerCase();
+            let ageBandSelect = document.getElementById("ageBandSelect").value.toLowerCase();
+            let hivStatusSelect = document.getElementById("hivStatusSelect").value.toLowerCase();
+            
+            let table = document.getElementById("myTable");
+            let rows = table.getElementsByTagName("tr");
+            let count = 0;
+            
+            for (let i = 1; i < rows.length; i++) {
+                let cols = rows[i].getElementsByTagName("td");
+                if (cols.length < 4) continue;
+                
+                let rowText = rows[i].textContent.toLowerCase();
+                let ccwText = cols[9].textContent.toLowerCase();
+                let facilityText = cols[0].textContent.toLowerCase();
+                let genderText = cols[2].textContent.toLowerCase();
+                let ageBandText = cols[5].textContent.toLowerCase();
+                let hivStatusText = cols[7].textContent.toLowerCase();
+                
+                let isVisible = rowText.includes(searchValue) &&
+                    (ccwSelect === "" || ccwText === ccwSelect) &&
+                    (facilitySelect === "" || facilityText === facilitySelect) &&
+                    (genderSelect === "" || genderText === genderSelect) &&
+                    (ageBandSelect === "" || ageBandText === ageBandSelect) &&
+                    (hivStatusSelect === "" || hivStatusText === hivStatusSelect);
+                
+                rows[i].style.display = isVisible ? "" : "none";
+                if (isVisible) count++;
+            }
+            document.getElementById("rowCount").textContent = count;
+        }
+    </script>
+</body>
+</html>

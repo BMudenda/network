@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Task Manager</title>
+	<style>
+		table { width: 100%; border-collapse: collapse; }
+		table, th, td { border: 1px solid black; }
+		th, td { padding: 8px; text-align: left; }
+		th { background-color: #f2f2f2; }
+		body { font-family: Arial, sans-serif; }
+		.container { 
+			width: 50%; 
+			margin: 40px auto; 
+			padding: 20px; 
+			border: 1px solid #ddd; 
+			border-radius: 10px; 
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+		}
+		label { 
+			display: block; 
+			margin-bottom: 10px; 
+		}
+		select { 
+			width: 100%; 
+			height: 40px; 
+			margin-bottom: 20px; 
+			padding: 10px; 
+			border: 1px solid #ccc; 
+			border-radius: 5px; 
+		}
+		button { 
+			background-color: #4CAF50; 
+			color: #fff; 
+			padding: 10px 20px; 
+			border: none; 
+			border-radius: 5px; 
+			cursor: pointer; 
+		}
+		button:hover { 
+			background-color: #3e8e41; 
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>Task Manager</h2>
+		<form>
+			<label for="task">Task:</label>
+			<select id="task" onchange="filterTasks()">
+				<option value="">Select Task</option>
+				<option value="Pay Rentals">Pay Rentals</option>
+				<option value="Write Reports">Write Reports</option>
+				<option  value ="IST Repairs">IST work</option>
+				<option value ="Claim Reports">Claim Reports </option>
+				<option value="Other">Other</option>
+			</select>
+			<label for="status">Status:</label>
+			<select id="status" onchange="filterTasks()">
+				<option value="">Select Status</option>
+				<option value="Pending">Pending</option>
+				<option value="Completed">Completed</option>
+			</select>
+			<button>Filter Tasks</button>
+		</form>
+		
+		<table id="taskTable">
+			<thead>
+				<tr>
+					<th>Task</th>
+					<th>Start Date</th>
+					<th>Due Date</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody id="taskTableBody">
+				<!-- Tasks will be populated here -->
+			</tbody>
+		</table>
+	</div>
+	
+	<script>
+		// Sample task data write or edit
+		const tasks = [
+			{ task: "Pay Rentals", startDate: "2024-01-01", dueDate: "2024-09-01", status: "Pending" },
+			
+			{ task: "Pay Rentals", startDate: "2024-03-01", dueDate: "2024-03-01", status: "Pending" },
+			{ task: "Pay Rentals", startDate: "2024-05-01", dueDate: "2024-05-01", status: "Pending" },
+			{ task: "Pay Rentals", startDate: "2024-07-01", dueDate: "2024-07-01", status: "Pending" },
+			
+			{ task: "Pay Rentals", startDate: "2024-09-01", dueDate: "2024-09-01", status: "Pending" },
+			{ task: "Write Reports", startDate: "2024-09-28", dueDate: "2024-09-30", status: "Pending" },
+			{ task: "Pay Rentals", startDate: "2024-11-01", dueDate: "2024-11-01", status: "Pending" },
+			{ task: "IST Repairs", startDate: "2024-09-10", dueDate: "2024-10-30", status: "Pending" },
+                        { task: "Claim Report", startDate: "2024-09-10", dueDate: "2024-10-30", status: "Pending" },
+
+			{ task: "Other", startDate: "2024-07-01", dueDate: "2024-07-15", status: "Pending" },
+		];
+		
+		// Function to filter tasks
+		function filterTasks() {
+			const taskSelect = document.getElementById("task").value;
+			const statusSelect = document.getElementById("status").value;
+			const taskTableBody = document.getElementById("taskTableBody");
+			
+			// Clear table body
+			taskTableBody.innerHTML = "";
+			
+			// Filter tasks
+			tasks.forEach((task) => {
+				if (
+					(task.task === taskSelect || taskSelect === "") &&
+					(task.status === statusSelect || statusSelect === "")
+				) {
+					const row = document.createElement("tr");
+					row.innerHTML = `
+						<td>${task.task}</td>
+						<td>${task.startDate}</td>
+						<td>${task.dueDate}</td>
+						<td>${task.status}</td>
+					`;
+					taskTableBody.appendChild(row);
+				}
+			});
+		}
+		
+		// Initialize table with all tasks
+		filterTasks();
+	</script>
+</body>
+</html>

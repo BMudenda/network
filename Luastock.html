@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        #stock-form {
+            margin-bottom: 20px;
+        }
+        
+        #stock-table {
+            border-collapse: collapse;
+            width: 80%;
+        }
+        
+        #stock-table th, #stock-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+	   
+        
+        select:focus {
+            background-color: lightblue;
+        }
+
+		.dropbtn {
+    background-color: hsl(107, 82%, 89%);
+    color: white;
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f7fc;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(9, 6, 204, 0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+  }
+  
+  .dropdown-content a:hover {background-color: #c1f5bc}
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .dropdown:hover .dropbtn {
+    background-color: #f3f8f4;
+  }
+    </style>
+</head>
+<body>
+    <h1>Stock Tracker</h1>
+	<div class="dropdown">
+		<button class="dropbtn" style="border-radius:8px;">CLICK👈</button>
+		<div class="dropdown-content" style="text-align: center;">
+		  
+		   <br><br>
+    <form id="stock-form">
+			
+        <label>Stock Name:</label>
+        <input list="stock-names" id="stock-name" required placeholder="Select or Enter Stock">
+        <datalist id="stock-names"></datalist>
+		<br><br>
+        <label>Quantity:</label>
+        <input type="number" id="quantity" required>
+		<br><br>
+        <label>Date:</label><br>
+        <input type="date" id="stock-date" required>
+		<br><br>
+        <label>Action By:</label><br>
+        <select id="action-by" required>
+            <option value="Brian">Brian</option>
+            <option value="Favour">Favour</option>
+            <option value="Other">Other</option>
+        </select>
+		<br><br>
+        <button type="button" id="add-stock">Add Stock</button><br><br>
+        <button type="button" id="remove-stock">Remove Stock</button><br><br>
+        <button type="button" id="clear-all">Clear All</button><br><br>
+	
+    </form>
+		</div>
+	</div>
+	<br><br>
+    <table id="stock-table">
+        <thead>
+            <tr>
+                <th>Stock Name</th>
+                <th>Quantity</th>
+                <th>Date</th>
+                <th>Transaction</th>
+                <th>Action By</th>
+                <th>Total</th>
+				<th>Sign</th>
+            </tr>
+        </thead>
+        <tbody id="stock-list">
+        </tbody>
+    </table>
+
+    <script>
+        // Get elements
+        const stockNameInput = document.getElementById('stock-name');
+        const stockNamesDatalist = document.getElementById('stock-names');
+        const quantityInput = document.getElementById('quantity');
+        const stockDateInput = document.getElementById('stock-date');
+        const actionByInput = document.getElementById('action-by');
+        const addStockButton = document.getElementById('add-stock');
+        const removeStockButton = document.getElementById('remove-stock');
+        const clearAllButton = document.getElementById('clear-all');
+        const stockList = document.getElementById('stock-list');
+
+        // Initialize local storage
+        let stockData = JSON.parse(localStorage.getItem('stockData')) || {};
+        let stockNames = JSON.parse(localStorage.getItem('stockNames')) || [];
+
+        // Function to update local storage
+        function updateLocalStorage() {
+            localStorage.setItem('stockData', JSON.stringify(stockData));
+            localStorage.setItem('stockNames', JSON.stringify(stockNames));
+        }
+
+        // Function to add stock
+        function addStock() {
+            const stockName = stockNameInput.value.trim();
+            const quantity = parseInt(quantityInput.value);
+            const stockDate = stockDateInput.value;
+            const actionBy = actionByInput.value;
+
+            if (stockName && quantity && stockDate && actionBy) {
+                if (!stockData[stockName]) {
+                    stockData[stockName] = { total: 0, dates: {} };
+                    if (!stockNames.includes(stockName)) {
+                        stockNames.push(stockName);
+                        updateStockDatalist();
+                    }
+                }
+
+                stockData[stockName].total += quantity;
+
+                if (stockData[stockName].dates[stockDate]) {
+                    stockData[stockName].dates[stockDate].quantity += quantity;
+                    stockData[stockName].dates[stockDate].transaction = 'Addition';
+                } else {
+                    stockData[stockName].dates[stockDate] = {
+                        quantity: quantity,
+                        transaction: 'Addition',
+                        actionBy: actionBy
+                    };
+                }
+
+                updateLocalStorage();
+                renderStockList();
+                clearForm();
+            }
+        }
+
+        // Function to remove stock
+        function removeStock() {
+            const stockName = stockNameInput.value.trim();
+            const quantity = parseInt(quantityInput.value);
+            const stockDate = stockDateInput.value;
+            const actionBy = actionByInput.value;
+			
+            if (stockName && quantity && stockDate && actionBy ) {
+                if (!stockData[stockName]) {
+                    stockData[stockName] = { total: 0, dates: {} };
+                    if (!stockNames.includes(stockName)) {
+                        stockNames.push(stockName);
+                        updateStockDatalist();
+                    }
+                }
+
+                stockData[stockName].total -= quantity;
+
+                if (stockData[stockName].dates[stockDate]) {
+                    stockData[stockName].dates[stockDate].quantity -= quantity;
+                    stockData[stockName].dates[stockDate].transaction = 'Removal';
+                } else {
+                    stockData[stockName].dates[stockDate] = {
+                        quantity: -quantity,
+                        transaction: 'Removal',
+                        actionBy: actionBy
+                    };
+                }
+
+                updateLocalStorage();
+                renderStockList();
+                clearForm();
+            }
+        }
+
+        // Function to clear the entire stock list
+        function clearAll() {
+            if (confirm('Are you sure you want to clear all stock data?')) {
+                stockData = {};
+                stockNames = [];
+                updateLocalStorage();
+                renderStockList();
+                updateStockDatalist();
+            }
+        }
+
+        // Function to render stock list
+        function renderStockList() {
+            stockList.innerHTML = '';
+            for (const stockName in stockData) {
+                for (const stockDate in stockData[stockName].dates) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${stockName}</td>
+                        <td>${stockData[stockName].dates[stockDate].quantity}</td>
+                        <td>${stockDate}</td>
+                        <td>${stockData[stockName].dates[stockDate].transaction}</td>
+                        <td>${stockData[stockName].dates[stockDate].actionBy}</td>
+                        <td>${stockData[stockName].total}</td>
+						<td></td>
+						
+                    `;
+                    stockList.appendChild(row);
+                }
+            }
+        }
+
+        // Function to update the stock name dropdown using a datalist
+        function updateStockDatalist() {
+            stockNamesDatalist.innerHTML = '';
+            stockNames.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                stockNamesDatalist.appendChild(option);
+            });
+        }
+
+        // Function to clear form inputs
+        function clearForm() {
+            stockNameInput.value = '';
+            quantityInput.value = '';
+            stockDateInput.value = '';
+            actionByInput.value = 'Brian';
+        }
+
+        // Event listeners
+        addStockButton.addEventListener('click', addStock);
+        removeStockButton.addEventListener('click', removeStock);
+        clearAllButton.addEventListener('click', clearAll);
+
+        // Initial setup
+        updateStockDatalist();
+        renderStockList();
+    </script>
+</body>
+</html>

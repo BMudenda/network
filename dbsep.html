@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indicator Tracking Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;width: 10px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+
+        }
+        
+    </style>
+
+</head>
+<body>
+
+    <label for="selectOption">Select by Site:</label>
+    <select name="selectOption" id="selectOption" onchange="filterTable()">
+        <option value="non"></option>
+        <option value="Thompson District Hospital">Thompson</option>
+        <option value="Roan A. Gen Hospital">Roan</option>
+        <option value="Mpatamatu Section 26 Clinic">Section 26</option>
+        <option value="Malaika Clinic">Malaika</option>
+        <option value="Kawama Urban Health Centre (Lua)">Kawama</option>
+        <option value="Mikomfwa Health Centre">Mikonfwa</option>
+        <option value="Poleline (Baluba) Health Post">Baluba</option>
+        
+    </select>
+    <br>
+    <br>
+      
+    
+    <h2>DBS-DUES-IN SEP 24</h2>
+    <table class="dataframe" id="myTable">
+      <thead>
+        <tr style="text-align: right;">
+          <th></th>
+          <th>SITE</th>
+          <th>CCW</th>
+          <th>HEI</th>
+          <th>SEX</th>
+          <th>DOB</th>
+          <th>AGE</th>
+          <th>6WEEKS</th>
+          <th>6MONTH</th>
+          <th>9MONTHS</th>
+          <th>12MONTHS</th>
+          <th>18MONTHS</th>
+          <th>24MONTHS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>0</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>aliyah_daka</td>
+          <td>BLESSINGS  NANYIZA</td>
+          <td>F</td>
+          <td>4-Aug-24</td>
+          <td>0</td>
+          <td>15-Sep-24</td>
+          <td>31-Jan-25</td>
+          <td>1-May-25</td>
+          <td>30-Jul-25</td>
+          <td>26-Jan-26</td>
+          <td>25-Jul-26</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>amos_kasonde</td>
+          <td>Judith gondwe</td>
+          <td>F</td>
+          <td>27-Sep-23</td>
+          <td>1</td>
+          <td>8-Nov-23</td>
+          <td>25-Mar-24</td>
+          <td>23-Jun-24</td>
+          <td>21-Sep-24</td>
+          <td>20-Mar-25</td>
+          <td>16-Sep-25</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>amos_kasonde</td>
+          <td>Isaac j chisenga</td>
+          <td>M</td>
+          <td>26-Dec-23</td>
+          <td>1</td>
+          <td>6-Feb-24</td>
+          <td>23-Jun-24</td>
+          <td>21-Sep-24</td>
+          <td>20-Dec-24</td>
+          <td>18-Jun-25</td>
+          <td>15-Dec-25</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>angela_mwenya</td>
+          <td>Mulenga Daniel</td>
+          <td>M</td>
+          <td>30-Sep-22</td>
+          <td>2</td>
+          <td>11-Nov-22</td>
+          <td>29-Mar-23</td>
+          <td>27-Jun-23</td>
+          <td>25-Sep-23</td>
+          <td>23-Mar-24</td>
+          <td>19-Sep-24</td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>angela_mwenya</td>
+          <td>Mbene Jofrey</td>
+          <td>M</td>
+          <td>30-Sep-22</td>
+          <td>2</td>
+          <td>11-Nov-22</td>
+          <td>29-Mar-23</td>
+          <td>27-Jun-23</td>
+          <td>25-Sep-23</td>
+          <td>23-Mar-24</td>
+          <td>19-Sep-24</td>
+        </tr>
+        <tr>
+          <th>5</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>banda_david</td>
+          <td>GRACIOUS CHOLA</td>
+          <td>F</td>
+          <td>23-Jul-24</td>
+          <td>0</td>
+          <td>3-Sep-24</td>
+          <td>19-Jan-25</td>
+          <td>19-Apr-25</td>
+          <td>18-Jul-25</td>
+          <td>14-Jan-26</td>
+          <td>13-Jul-26</td>
+        </tr>
+        <tr>
+          <th>6</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>banda_misozi</td>
+          <td>Christopher Mwansa</td>
+          <td>M</td>
+          <td>1-Aug-24</td>
+          <td>0</td>
+          <td>12-Sep-24</td>
+          <td>28-Jan-25</td>
+          <td>28-Apr-25</td>
+          <td>27-Jul-25</td>
+          <td>23-Jan-26</td>
+          <td>22-Jul-26</td>
+        </tr>
+        <tr>
+          <th>7</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>hector_banda</td>
+          <td>Moses Mambwe</td>
+          <td>M</td>
+          <td>5-Apr-23</td>
+          <td>1</td>
+          <td>17-May-23</td>
+          <td>2-Oct-23</td>
+          <td>31-Dec-23</td>
+          <td>30-Mar-24</td>
+          <td>26-Sep-24</td>
+          <td>25-Mar-25</td>
+        </tr>
+        <tr>
+          <th>8</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>hector_banda</td>
+          <td>Sakala Esnart</td>
+          <td>F</td>
+          <td>12-Dec-23</td>
+          <td>1</td>
+          <td>23-Jan-24</td>
+          <td>9-Jun-24</td>
+          <td>7-Sep-24</td>
+          <td>6-Dec-24</td>
+          <td>4-Jun-25</td>
+          <td>1-Dec-25</td>
+        </tr>
+        <tr>
+          <th>9</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>hector_banda</td>
+          <td>Olipa Mwansa</td>
+          <td>F</td>
+          <td>6-Oct-23</td>
+          <td>1</td>
+          <td>17-Nov-23</td>
+          <td>3-Apr-24</td>
+          <td>2-Jul-24</td>
+          <td>30-Sep-24</td>
+          <td>29-Mar-25</td>
+          <td>25-Sep-25</td>
+        </tr>
+        <tr>
+          <th>10</th>
+          <td>Malaika Clinic</td>
+          <td>joe_nyanga</td>
+          <td>Tiana mulenga</td>
+          <td>F</td>
+          <td>27-Mar-24</td>
+          <td>0</td>
+          <td>8-May-24</td>
+          <td>23-Sep-24</td>
+          <td>22-Dec-24</td>
+          <td>22-Mar-25</td>
+          <td>18-Sep-25</td>
+          <td>17-Mar-26</td>
+        </tr>
+        <tr>
+          <th>11</th>
+          <td>Malaika Clinic</td>
+          <td>joe_nyanga</td>
+          <td>Innocent meleki</td>
+          <td>M</td>
+          <td>24-Mar-24</td>
+          <td>0</td>
+          <td>5-May-24</td>
+          <td>20-Sep-24</td>
+          <td>19-Dec-24</td>
+          <td>19-Mar-25</td>
+          <td>15-Sep-25</td>
+          <td>14-Mar-26</td>
+        </tr>
+        <tr>
+          <th>12</th>
+          <td>Malaika Clinic</td>
+          <td>joe_nyanga</td>
+          <td>Ndanj nakawala</td>
+          <td>F</td>
+          <td>24-Mar-24</td>
+          <td>0</td>
+          <td>5-May-24</td>
+          <td>20-Sep-24</td>
+          <td>19-Dec-24</td>
+          <td>19-Mar-25</td>
+          <td>15-Sep-25</td>
+          <td>14-Mar-26</td>
+        </tr>
+        <tr>
+          <th>13</th>
+          <td>Malaika Clinic</td>
+          <td>joe_nyanga</td>
+          <td>Kalobwe Hope</td>
+          <td>M</td>
+          <td>27-Sep-22</td>
+          <td>2</td>
+          <td>8-Nov-22</td>
+          <td>26-Mar-23</td>
+          <td>24-Jun-23</td>
+          <td>22-Sep-23</td>
+          <td>20-Mar-24</td>
+          <td>16-Sep-24</td>
+        </tr>
+        <tr>
+          <th>14</th>
+          <td>Malaika Clinic</td>
+          <td>joe_nyanga</td>
+          <td>Joyce mulenga</td>
+          <td>M</td>
+          <td>22-Sep-22</td>
+          <td>2</td>
+          <td>3-Nov-22</td>
+          <td>21-Mar-23</td>
+          <td>19-Jun-23</td>
+          <td>17-Sep-23</td>
+          <td>15-Mar-24</td>
+          <td>11-Sep-24</td>
+        </tr>
+        <tr>
+          <th>15</th>
+          <td>Thompson District Hospital</td>
+          <td>joseph_kaimana</td>
+          <td>Hope Chambwe</td>
+          <td>F</td>
+          <td>15-Mar-23</td>
+          <td>1</td>
+          <td>26-Apr-23</td>
+          <td>11-Sep-23</td>
+          <td>10-Dec-23</td>
+          <td>9-Mar-24</td>
+          <td>5-Sep-24</td>
+          <td>4-Mar-25</td>
+        </tr>
+        <tr>
+          <th>16</th>
+          <td>Thompson District Hospital</td>
+          <td>joshua_malole</td>
+          <td>Sichiwesa izukanji</td>
+          <td>M</td>
+          <td>13-Dec-23</td>
+          <td>1</td>
+          <td>24-Jan-24</td>
+          <td>10-Jun-24</td>
+          <td>8-Sep-24</td>
+          <td>7-Dec-24</td>
+          <td>5-Jun-25</td>
+          <td>2-Dec-25</td>
+        </tr>
+        <tr>
+          <th>17</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>makashini_christopher</td>
+          <td>JOSEPH CHISANGA</td>
+          <td>M</td>
+          <td>17-Mar-23</td>
+          <td>1</td>
+          <td>28-Apr-23</td>
+          <td>13-Sep-23</td>
+          <td>12-Dec-23</td>
+          <td>11-Mar-24</td>
+          <td>7-Sep-24</td>
+          <td>6-Mar-25</td>
+        </tr>
+        <tr>
+          <th>18</th>
+          <td>Malaika Clinic</td>
+          <td>matildah_kunda</td>
+          <td>Phiri Esther</td>
+          <td>F</td>
+          <td>21-Mar-24</td>
+          <td>0</td>
+          <td>2-May-24</td>
+          <td>17-Sep-24</td>
+          <td>16-Dec-24</td>
+          <td>16-Mar-25</td>
+          <td>12-Sep-25</td>
+          <td>11-Mar-26</td>
+        </tr>
+        <tr>
+          <th>19</th>
+          <td>Malaika Clinic</td>
+          <td>matildah_kunda</td>
+          <td>Owen phiri</td>
+          <td>M</td>
+          <td>26-Jul-24</td>
+          <td>0</td>
+          <td>6-Sep-24</td>
+          <td>22-Jan-25</td>
+          <td>22-Apr-25</td>
+          <td>21-Jul-25</td>
+          <td>17-Jan-26</td>
+          <td>16-Jul-26</td>
+        </tr>
+        <tr>
+          <th>20</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>tembo_ireen</td>
+          <td>MUBANGA TRINITY</td>
+          <td>M</td>
+          <td>15-Sep-23</td>
+          <td>1</td>
+          <td>27-Oct-23</td>
+          <td>13-Mar-24</td>
+          <td>11-Jun-24</td>
+          <td>9-Sep-24</td>
+          <td>8-Mar-25</td>
+          <td>4-Sep-25</td>
+        </tr>
+        <tr>
+          <th>21</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>martha_muchimba</td>
+          <td>Matthews chomba</td>
+          <td>M</td>
+          <td>4-Jan-24</td>
+          <td>0</td>
+          <td>15-Feb-24</td>
+          <td>2-Jul-24</td>
+          <td>30-Sep-24</td>
+          <td>29-Dec-24</td>
+          <td>27-Jun-25</td>
+          <td>24-Dec-25</td>
+        </tr>
+        <tr>
+          <th>22</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>mary_mwape</td>
+          <td>Lubuto kalingane</td>
+          <td>M</td>
+          <td>11-Dec-23</td>
+          <td>1</td>
+          <td>22-Jan-24</td>
+          <td>8-Jun-24</td>
+          <td>6-Sep-24</td>
+          <td>5-Dec-24</td>
+          <td>3-Jun-25</td>
+          <td>30-Nov-25</td>
+        </tr>
+        <tr>
+          <th>23</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>mary_mwape</td>
+          <td>Abigail Chimwemwe</td>
+          <td>F</td>
+          <td>26-Sep-23</td>
+          <td>1</td>
+          <td>7-Nov-23</td>
+          <td>24-Mar-24</td>
+          <td>22-Jun-24</td>
+          <td>20-Sep-24</td>
+          <td>19-Mar-25</td>
+          <td>15-Sep-25</td>
+        </tr>
+        <tr>
+          <th>24</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>mary_mwape</td>
+          <td>Peter Chibale</td>
+          <td>M</td>
+          <td>28-Jul-24</td>
+          <td>0</td>
+          <td>8-Sep-24</td>
+          <td>24-Jan-25</td>
+          <td>24-Apr-25</td>
+          <td>23-Jul-25</td>
+          <td>19-Jan-26</td>
+          <td>18-Jul-26</td>
+        </tr>
+        <tr>
+          <th>25</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>mary_mwape</td>
+          <td>Lubuto Kasonde</td>
+          <td>M</td>
+          <td>7-Dec-23</td>
+          <td>1</td>
+          <td>18-Jan-24</td>
+          <td>4-Jun-24</td>
+          <td>2-Sep-24</td>
+          <td>1-Dec-24</td>
+          <td>30-May-25</td>
+          <td>26-Nov-25</td>
+        </tr>
+        <tr>
+          <th>26</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>natasha_musonda</td>
+          <td>Deborah Phiri</td>
+          <td>F</td>
+          <td>19-Sep-23</td>
+          <td>1</td>
+          <td>31-Oct-23</td>
+          <td>17-Mar-24</td>
+          <td>15-Jun-24</td>
+          <td>13-Sep-24</td>
+          <td>12-Mar-25</td>
+          <td>8-Sep-25</td>
+        </tr>
+        <tr>
+          <th>27</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>soteli_winfridah</td>
+          <td>Christian mutambo</td>
+          <td>F</td>
+          <td>23-Jul-24</td>
+          <td>0</td>
+          <td>3-Sep-24</td>
+          <td>19-Jan-25</td>
+          <td>19-Apr-25</td>
+          <td>18-Jul-25</td>
+          <td>14-Jan-26</td>
+          <td>13-Jul-26</td>
+        </tr>
+        <tr>
+          <th>28</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>chitambala_stanslous</td>
+          <td>Sampa Hope</td>
+          <td>F</td>
+          <td>6-Oct-22</td>
+          <td>2</td>
+          <td>17-Nov-22</td>
+          <td>4-Apr-23</td>
+          <td>3-Jul-23</td>
+          <td>1-Oct-23</td>
+          <td>29-Mar-24</td>
+          <td>25-Sep-24</td>
+        </tr>
+      </tbody>
+</table>
+   
+
+<script>
+function filterTable() {
+        var selectElement = document.getElementById("selectOption");
+        var selectedValue = selectElement.options[selectElement.selectedIndex].value.toLowerCase();
+        var table = document.getElementById("myTable");
+        var rows = table.getElementsByTagName("tr");
+
+        for (var i = 0; i < rows.length; i++) {
+            var site = rows[i].getElementsByTagName("td")[0];
+            if (site) {
+                var siteText = site.textContent || site.innerText;
+                if (siteText.toLowerCase() === selectedValue) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+
+</body>
+</html>

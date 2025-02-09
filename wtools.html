@@ -1,0 +1,661 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Working tools</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+  <label for="siteFilter">SITE:</label>
+  <select id="siteFilter" onchange="filterTable()">
+      <option value="">All</option>
+      <option value="Thompson District Hospital">Thompson</option>
+                <option value="Roan A. Gen Hospital">Roan</option>
+                 <option value="Mpatamatu Section 26 Clinic">Section 26</option>
+                <option value="Malaika Clinic">Malaika</option>
+                <option value="Kawama Urban Health Centre (Lua)">Kawama</option>
+                <option value="Mikomfwa Health Centre">Mikonfwa</option>
+                <option value="Poleline (Baluba) Health Post">Baluba</option>
+  </select>
+  
+  <label for="custodianFilter">Custodian:</label>
+  <select id="custodianFilter" onchange="filterTable()">
+      <option value="">All</option>
+      <option value="amos_kasonde">Amos Kasonde</option>
+                  <option value="angela_mwenya">Angela Mwenya</option>
+                  <option value="banda_david">Banda David</option>
+                  <option value="banda_misozi">Banda Misozi</option>
+                  <option value="brandina_tembo">Brandina Tembo</option>
+                  <option value="martha_muchimba">Martha Muchimba</option>
+                  <option value="chitambala_stanslous">Chitambala Stanslous</option>
+                  <option value="matildah_kunda">Matildah Kunda</option>
+                  <option value="emmanuel_kapambwe">Emmanuel Kapambwe</option>
+                  <option value="gondwe_fanny">Gondwe Fanny</option>
+                  <option value="grace_kebende">Grace Kebende</option>
+                  <option value="hector_banda">Hector Banda</option>
+                  <option value="hellen_mwansa">Hellen Mwansa</option>
+                  <option value="jane_kasaka1">Jane Kasaka1</option>
+                  <option value="janny_mutampuka">Janny Mutampuka</option>
+                  <option value="joe_nyanga">Joe Nyanga</option>
+                  <option value="aliyah_daka">Aliyah Daka</option>
+                  <option value="joseph_kaimana">Joseph Kaimana</option>
+                  <option value="joshua_malole">Joshua Malole</option>
+                  <option value="kabesha_mary">Kabesha Mary</option>
+                  <option value="kapasula_edith">Kapasula Edith</option>
+                  <option value="kumwenda_mary">Kumwenda Mary</option>
+                  <option value="makashini_christopher">Makashini Christopher</option>
+                  <option value="mary_mwape">Mary Mwape</option>
+                  <option value="mikabo_mildred">Mikabo Mildred</option>
+                  <option value="musa_joyce">Musa Joyce</option>
+                  <option value="mwaba_rodgers">Mwaba Rodgers</option>
+                  <option value="natasha_musonda">Natasha Musonda</option>
+                  <option value="sakala_veronica">Sakala Veronica</option>
+                  <option value="moses_banda">Moses Banda</option>
+                  <option value="soteli_winfridah">Soteli Winfridah</option>
+                  <option value="tembo_ireen">Tembo Ireen</option>
+                  <!-- Add more options here -->
+  </select>
+
+  <label for="positionFilter">Position:</label>
+  <select id="positionFilter" onchange="filterTable()">
+      <option value="">All</option>
+      <option value="CCW">CCW</option>
+      <option value="CESPF">CESPF</option>
+      <option value="coach">coach</option>
+      <option value="mentor">mentor</option>
+  </select>
+
+  <label for="bicycleFilter">Bicycle:</label>
+    <select id="bicycleFilter" onchange="filterTable()">
+        <option value="">All</option>
+        <option value="NA">NA</option>
+        <option value="VPR">VPR</option>
+        <option value="NO">NO</option>
+        <option value="YES">YES</option>
+    </select>
+
+    <label for="tabletFilter">Tablet:</label>
+    <select id="tabletFilter" onchange="filterTable()">
+        <option value="">All</option>
+        <option value="NA">NA</option>
+        <option value="VPR">VPR</option>
+        <option value="NO">NO</option>
+        <option value="YES">YES</option>
+    </select>
+    <label for="pbankFilter">Power Bank:</label>
+    <select id="pbankFilter" onchange="filterTable()">
+        <option value="">All</option>
+        <option value="NA">NA</option>
+        <option value="VPR">VPR</option>
+        <option value="NO">NO</option>
+        <option value="YES">YES</option>
+    </select>
+    <br><br>
+    <input id="myInput" type="text" placeholder="Search.." onkeyup="filterTable()">
+    <p>Total Rows: <span id="rowCount">0</span></p>
+
+    <h2>collected working tools</h2>
+    <table id="myTable">
+      <thead>
+        <tr style="text-align: right;">
+          <th></th>
+          <th>SITE</th>
+          <th>Custodian</th>
+          <th>position</th>
+          <th>Bicyclye</th>
+          <th>TABLET</th>
+          <th>Pbank</th>
+          <th>Comment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>0</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>angela_mwenya</td>
+          <td>CCW</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>aliyah_daka</td>
+          <td>CCW</td>
+          <td>NaN</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>Malaika Clinic</td>
+          <td>joe_nyanga</td>
+          <td>CCW</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>Malaika Clinic</td>
+          <td>matildah_kunda</td>
+          <td>CCW</td>
+          <td>YES</td>
+          <td>VPR</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>martha_muchimba</td>
+          <td>CCW</td>
+          <td>NaN</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>5</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>natasha_musonda</td>
+          <td>CCW</td>
+          <td>YES</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>6</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>mary_mwape</td>
+          <td>CCW</td>
+          <td>NaN</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>7</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>banda_david</td>
+          <td>CCW</td>
+          <td>YES</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>8</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>tembo_ireen</td>
+          <td>CCW</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>9</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>makashini_christopher</td>
+          <td>CCW</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>10</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>gondwe_fanny</td>
+          <td>CCW</td>
+          <td>YES</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>11</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>amos_kasonde</td>
+          <td>CCW</td>
+          <td>VPR</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>12</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>hector_banda</td>
+          <td>CCW</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>13</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>grace_kebende</td>
+          <td>CCW</td>
+          <td>VPR</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>14</th>
+          <td>Roan Antelope General Hospital</td>
+          <td>banda_misozi</td>
+          <td>CCW</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>15</th>
+          <td>Roan Antelope General Hospital</td>
+          <td>mikabo_mildred</td>
+          <td>CCW</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>16</th>
+          <td>Roan Antelope General Hospital</td>
+          <td>soteli_winfridah</td>
+          <td>CCW</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>17</th>
+          <td>Roan Antelope General Hospital</td>
+          <td>mwaba_rodgers</td>
+          <td>CCW</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>18</th>
+          <td>Roan Antelope General Hospital</td>
+          <td>brandina_tembo</td>
+          <td>CCW</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>19</th>
+          <td>Roan Antelope General Hospital</td>
+          <td>chitambala_stanslous</td>
+          <td>CCW</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>20</th>
+          <td>Roan Antelope General Hospital</td>
+          <td>kapasula_edith</td>
+          <td>CCW</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>21</th>
+          <td>Roan Antelope General Hospital</td>
+          <td>hellen_mwansa</td>
+          <td>CCW</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>22</th>
+          <td>Roan Antelope General Hospital</td>
+          <td>jane_kasaka1</td>
+          <td>CCW</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>23</th>
+          <td>Roan Antelope General Hospital</td>
+          <td>moses_banda</td>
+          <td>CCW</td>
+          <td>NaN</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>24</th>
+          <td>Thompson District Hospital</td>
+          <td>janny_mutampuka</td>
+          <td>CCW</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>25</th>
+          <td>Thompson District Hospital</td>
+          <td>joseph_kaimana</td>
+          <td>CCW</td>
+          <td>YES</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>26</th>
+          <td>Thompson District Hospital</td>
+          <td>kumwenda_mary</td>
+          <td>CCW</td>
+          <td>YES</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>27</th>
+          <td>Thompson District Hospital</td>
+          <td>musa_joyce</td>
+          <td>CCW</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>28</th>
+          <td>Thompson District Hospital</td>
+          <td>kabesha_mary</td>
+          <td>CCW</td>
+          <td>YES</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>29</th>
+          <td>Thompson District Hospital</td>
+          <td>joshua_malole</td>
+          <td>CCW</td>
+          <td>VPR</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>30</th>
+          <td>Thompson District Hospital</td>
+          <td>emmanuel_kapambwe</td>
+          <td>CCW</td>
+          <td>VPR</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>31</th>
+          <td>Thompson District Hospital</td>
+          <td>sakala_veronica</td>
+          <td>CCW</td>
+          <td>VPR</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>32</th>
+          <td>Luanshya</td>
+          <td>swift_mwale</td>
+          <td>DESPF</td>
+          <td>NO</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>33</th>
+          <td>Luanshya</td>
+          <td>Racheal_mulenga</td>
+          <td>CESPF</td>
+          <td>NO</td>
+          <td>NaN</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>34</th>
+          <td>Luanshya</td>
+          <td>catherine_katuta</td>
+          <td>CESPF</td>
+          <td>NO</td>
+          <td>NaN</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>35</th>
+          <td>Luanshya</td>
+          <td>catherine_nkhoma</td>
+          <td>CESPF</td>
+          <td>YES</td>
+          <td>NaN</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>36</th>
+          <td>Luanshya</td>
+          <td>john_mwila</td>
+          <td>CESPF</td>
+          <td>VPR</td>
+          <td>NaN</td>
+          <td>NaN</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>37</th>
+          <td>mpongwe</td>
+          <td>mentor1</td>
+          <td>mentor</td>
+          <td>NaN</td>
+          <td>YES</td>
+          <td>YES</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>38</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>mentor2</td>
+          <td>mentor</td>
+          <td>NaN</td>
+          <td>YES</td>
+          <td>YES</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>39</th>
+          <td>Luanshya</td>
+          <td>mentor3</td>
+          <td>mentor</td>
+          <td>NaN</td>
+          <td>YES</td>
+          <td>YES</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>40</th>
+          <td>Luanshya</td>
+          <td>mentor4</td>
+          <td>mentor</td>
+          <td>NaN</td>
+          <td>YES</td>
+          <td>YES</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>41</th>
+          <td>Luanshya</td>
+          <td>mentor5</td>
+          <td>mentor</td>
+          <td>NaN</td>
+          <td>YES</td>
+          <td>YES</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>42</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>coach1</td>
+          <td>coach</td>
+          <td>NaN</td>
+          <td>YES</td>
+          <td>NO</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>43</th>
+          <td>Luanshya</td>
+          <td>coach2</td>
+          <td>coach</td>
+          <td>NaN</td>
+          <td>YES</td>
+          <td>NO</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>44</th>
+          <td>Luanshya</td>
+          <td>coach3</td>
+          <td>coach</td>
+          <td>NaN</td>
+          <td>YES</td>
+          <td>YES</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>45</th>
+          <td>Luanshya</td>
+          <td>coach4</td>
+          <td>coach</td>
+          <td>NaN</td>
+          <td>YES</td>
+          <td>YES</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>46</th>
+          <td>Luanshya</td>
+          <td>coach5</td>
+          <td>coach</td>
+          <td>NaN</td>
+          <td>YES</td>
+          <td>YES</td>
+          <td>NIL</td>
+        </tr>
+        <tr>
+          <th>47</th>
+          <td>Luanshya</td>
+          <td>coach6</td>
+          <td>coach</td>
+          <td>NaN</td>
+          <td>YES</td>
+          <td>YES</td>
+          <td>NIL</td>
+        </tr>
+      </tbody>
+    </table>
+<script>
+function filterTable() {
+    var siteValue = document.getElementById("siteFilter").value.toUpperCase();
+    var custodianValue = document.getElementById("custodianFilter").value.toUpperCase();
+    var positionValue = document.getElementById("positionFilter").value.toUpperCase();
+    var bicycleValue = document.getElementById("bicycleFilter").value.toUpperCase();
+    var tabletValue = document.getElementById("tabletFilter").value.toUpperCase();
+    var pbankValue = document.getElementById("pbankFilter").value.toUpperCase();
+    var searchValue = document.getElementById("myInput").value.toLowerCase();
+
+    var table = document.getElementById("myTable");
+    var rows = table.getElementsByTagName("tr");
+
+    var count = 0; // Counter for visible rows
+
+    for (var i = 1; i < rows.length; i++) {
+        var cols = rows[i].getElementsByTagName("td");
+        if (cols.length < 4) continue; // Skip empty rows
+        
+        var siteText = cols[0].textContent.toUpperCase();
+        var custodianText = cols[1].textContent.toUpperCase();
+        var positionText = cols[2].textContent.toUpperCase();
+        var bicycleText = cols[3].textContent.toUpperCase();
+        var tabletText = cols[4].textContent.toUpperCase();
+        var pbankText = cols[5].textContent.toUpperCase();
+        var rowText = rows[i].textContent.toLowerCase();
+        
+        var matchesSite = (siteValue === "" || siteText === siteValue);
+        var matchesCustodian = (custodianValue === "" || custodianText === custodianValue);
+        var matchesPosition = (positionValue === "" || positionText === positionValue);
+        var matchesBicycle = (bicycleValue === "" || bicycleText === bicycleValue);
+        var matchesTablet = (tabletValue === "" || tabletText === tabletValue);
+        var matchesPbank = (pbankValue === "" || pbankText === pbankValue);
+        var matchesSearch = rowText.includes(searchValue);
+
+        if (matchesSite && matchesCustodian && matchesPosition && matchesBicycle && matchesTablet && matchesPbank && matchesSearch) {
+            rows[i].style.display = "";
+            count++; // Count visible rows
+        } else {
+            rows[i].style.display = "none";
+        }
+    }
+    document.getElementById("rowCount").textContent = count; // Update count
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indicator discription</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #cbfab8;
+        }
+        tr:nth-child(even) {
+            background-color: #cbfab8;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+
+    
+    
+    <input id="myInput" type="text" placeholder="Search.." onkeyup="filterTable()">
+    <p>Total Rows: <span id="rowCount">0</span></p>
+
+    <h2>INDICATOR DESCRIPTION</h2>
+    <table id="myTable">
+        <thead>
+            <tr style="text-align: right;">
+                <th></th>
+                <th>TYPE</th>
+                <th>CODE</th>
+                <th>INDICATOR DESCRIPTION</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>0</th>
+                <td>MER</td>
+                <td>OVC_SERV_COM</td>
+                <td># of beneficiaries served by PEPFAR OVC programs for children and families affected by HIV (Comprehensive Program)</td>
+              </tr>
+              <tr>
+                <th>1</th>
+                <td>MER</td>
+                <td>OVC_SERV_PREV</td>
+                <td># of beneficiaries served by PEPFAR OVC programs for children and families affected by HIV (Preventive Program)</td>
+              </tr>
+              <tr>
+                <th>2</th>
+                <td>MER</td>
+                <td>OVC_SERV</td>
+                <td># of beneficiaries served by PEPFAR OVC programs for children and families affected by HIV (Comprehensive &amp; Preventive Program)</td>
+              </tr>
+              <tr>
+                <th>3</th>
+                <td>MER</td>
+                <td>OVC_HIVSTAT</td>
+                <td># of OVC (&lt;18 years old) enrolled in the OVC comprehensive program with HIV status reported to implementing partner</td>
+              </tr>
+              <tr>
+                <th>4</th>
+                <td>MER</td>
+                <td>OVC_HIVSTAT_POS</td>
+                <td># of OVC (&lt;18 years old) enrolled in the OVC comprehensive program with HIV Positive status reported to implementing partner</td>
+              </tr>
+              <tr>
+                <th>5</th>
+                <td>Custom</td>
+                <td>OVC_TST_ASSESS</td>
+                <td># of children and adolescents (&lt;18 years old) served by an OVC comprehensive program who were risk assessed for HIV risk and determined if HIV testing is needed</td>
+              </tr>
+              <tr>
+                <th>6</th>
+                <td>Custom</td>
+                <td>OVC_TST_RISK</td>
+                <td># of children and adolescents (&lt;18 years old) served by an OVC comprehensive program who were risk assessed and determined to need an HIV test</td>
+              </tr>
+              <tr>
+                <th>7</th>
+                <td>Custom</td>
+                <td>OVC_TST_REFER</td>
+                <td># of children and adolescents (&lt;18 years old) served by an OVC comprehensive program who reported an HIV test result to the IP after being referred for HTS</td>
+              </tr>
+              <tr>
+                <th>8</th>
+                <td>MER</td>
+                <td>HTS_TST</td>
+                <td># of individuals provided with HIV Testing Services and received their test results</td>
+              </tr>
+              <tr>
+                <th>9</th>
+                <td>MER</td>
+                <td>HTS_TST_POS</td>
+                <td># of individuals provided with HIV Testing Services and received their HIV Positive test results</td>
+              </tr>
+              <tr>
+                <th>10</th>
+                <td>USAID</td>
+                <td>OVC_OFFER</td>
+                <td># of children and adolescents living with HIV (C/ALHIV) on ART in the PEPFAR clinical settings offered enrollment in the OVC program</td>
+              </tr>
+              <tr>
+                <th>11</th>
+                <td>USAID</td>
+                <td>OVC_ENROLL</td>
+                <td># of children and adolescents living with HIV (C/ALHIV) on ART in the PEPFAR clinical settings enrolled on the OVC comprehensive program after having been offered enrollment</td>
+              </tr>
+              <tr>
+                <th>12</th>
+                <td>USAID</td>
+                <td>OVC_VL_ELIGIBLE</td>
+                <td># of children and adolescents living with HIV (C/ALHIV) on ART in the PEPFAR clinical setting who are served on the OVC comprehensive program who are eligible for viral load testing</td>
+              </tr>
+              <tr>
+                <th>13</th>
+                <td>USAID</td>
+                <td>OVC_VLR</td>
+                <td># of children and adolescents living with HIV (C/ALHIV) on ART in the PEPFAR clinical settings served on the OVC comprehensive program with a known documented viral load test in the previous 12 months</td>
+              </tr>
+              <tr>
+                <th>14</th>
+                <td>USAID</td>
+                <td>OVC_VLS</td>
+                <td># of children and adolescents living with HIV (C/ALHIV) on ART in the PEPFAR clinical settings served on the OVC comprehensive program who are virally suppressed (&lt;1,000 copies/ml)</td>
+              </tr>
+              <tr>
+                <th>15</th>
+                <td>Custom</td>
+                <td>VCA_STABLE</td>
+                <td># of caregivers who pay school fees and medical costs for children and adolescents (&lt;20 y/o) without selling productive assets</td>
+              </tr>
+              <tr>
+                <th>16</th>
+                <td>Custom</td>
+                <td>VCA_REACH</td>
+                <td># of VCA and caregivers reached with social welfare services</td>
+              </tr>
+              <tr>
+                <th>17</th>
+                <td>Custom</td>
+                <td>VCA_ENROLLED</td>
+                <td># of VCA enrolled in school</td>
+              </tr>
+              <tr>
+                <th>18</th>
+                <td>Custom</td>
+                <td>VCA_SCHOOL</td>
+                <td># of VCA who regularly attended school and progressed during the last years</td>
+              </tr>
+              <tr>
+                <th>19</th>
+                <td>Custom</td>
+                <td>ECAP I_HHPP</td>
+                <td># of children and adolescents and caregivers reached who completed a standardized healthy home parenting program (HHPP)/sinovuyu teen prevention intervention</td>
+              </tr>
+              <tr>
+                <th>20</th>
+                <td>Custom</td>
+                <td>ECAP I_ANC</td>
+                <td># of mothers who report that they had four or more antenatal visits while they were pregnant with their youngest child</td>
+              </tr>
+              <tr>
+                <th>21</th>
+                <td>Custom</td>
+                <td>ECAP I_POST_ANC</td>
+                <td># of mothers and children (aged 0-23 months) who received at least 2 post-natal visits from a trained health care worker during the first week after birth</td>
+              </tr>
+              <tr>
+                <th>22</th>
+                <td>Custom</td>
+                <td>ECAP I_NUTRI_ASS</td>
+                <td># of children and adolescents and caregivers who were nutritionally assessed and received nutrition counselling and support</td>
+              </tr>
+              <tr>
+                <th>23</th>
+                <td>Custom</td>
+                <td>ECAP I_NUTRI</td>
+                <td># of children 12-59 months with mid-upper arm circumference greater than 125mm</td>
+              </tr>
+              <tr>
+                <th>24</th>
+                <td>Custom</td>
+                <td>ECAP I_WORTH</td>
+                <td># of adolescents and caregivers who can save and access loans through their participation in community savings group</td>
+              </tr>
+              <tr>
+                <th>25</th>
+                <td>Custom</td>
+                <td>ECAP I_ACCESS</td>
+                <td># of caregivers households able to access money to pay for unexpected expenses</td>
+              </tr>
+              <tr>
+                <th>26</th>
+                <td>Custom</td>
+                <td>ECAP I_ES</td>
+                <td># of children and caregivers of economic strengthening program that report greater control over their livelihood</td>
+              </tr>
+              <tr>
+                <th>27</th>
+                <td>Custom</td>
+                <td>ECAP I_LIVESTOCK</td>
+                <td># of households that benefitted from small livestock pass-on program (initiated by USAID ECAP I/ALEJO CSP)</td>
+              </tr>
+              <tr>
+                <th>28</th>
+                <td>Custom</td>
+                <td>ECAP I_SOC_PRO</td>
+                <td># of VCA and caregivers reached with social protection services through linkage to safety net programs</td>
+              </tr>
+              <tr>
+                <th>29</th>
+                <td>Custom</td>
+                <td>ECAP I_SGBV</td>
+                <td># of individuals who receive sexual gender-based violence (SGBV)/HIV prevention messaging</td>
+              </tr>
+              <tr>
+                <th>30</th>
+                <td>Custom</td>
+                <td>ECAP I_PSS</td>
+                <td># of children and adolescents and caregivers provided with structured psychosocial support services</td>
+              </tr>
+              <tr>
+                <th>31</th>
+                <td>Custom</td>
+                <td>ECAP I_EDUC</td>
+                <td># of children and adolescents who receive educational support services</td>
+              </tr>
+              <tr>
+                <th>32</th>
+                <td>Custom</td>
+                <td>ECAP I_TUITION</td>
+                <td># of children and adolescents actively participating in tuition clubs</td>
+              </tr>
+            </tbody>
+            </table>
+    <script>
+        function filterTable() {
+            var searchValue = document.getElementById("myInput").value.toLowerCase();
+            var table = document.getElementById("myTable");
+            var rows = table.getElementsByTagName("tr");
+            var count = 0; // Counter for visible rows
+        
+            for (var i = 1; i < rows.length; i++) {
+                var rowText = rows[i].textContent.toLowerCase();
+        
+                if (rowText.includes(searchValue)) {
+                    rows[i].style.display = "";
+                    count++; // Count visible rows
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+            document.getElementById("rowCount").textContent = count; // Update count
+        }
+        </script>
+
+</body>
+</html>

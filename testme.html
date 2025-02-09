@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ride Booking - Uber/Yango Style</title>
+
+    <!-- Google Maps API (Replace YOUR_GOOGLE_MAPS_API_KEY) -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap" async defer></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 900px;
+            background: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Map Section */
+        .map-container {
+            position: relative;
+        }
+
+        #map {
+            width: 100%;
+            height: 400px;
+            background: #ddd;
+        }
+
+        .search-box {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 500px;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Booking Form Section */
+        .booking-form {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Vehicle Selection */
+        .vehicle-options {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .vehicle-option {
+            width: 32%;
+            text-align: center;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .vehicle-option img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 5px;
+        }
+
+        .vehicle-option.active {
+            border-color: #007bff;
+            background-color: #007bff;
+            color: white;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="map-container">
+            <input id="search-input" class="search-box" type="text" placeholder="Search for places...">
+            <div id="map"></div>
+        </div>
+
+        <!-- Booking Form Section -->
+        <div class="booking-form">
+            <h1>Book Your Ride</h1>
+            <form id="ride-booking-form">
+                <!-- Pickup Location -->
+                <div class="form-group">
+                    <label for="pickup-location">Pickup Location:</label>
+                    <input type="text" id="pickup-location" name="pickup-location" placeholder="Enter pickup address" required>
+                </div>
+
+                <!-- Drop-off Location -->
+                <div class="form-group">
+                    <label for="dropoff-location">Drop-off Location:</label>
+                    <input type="text" id="dropoff-location" name="dropoff-location" placeholder="Enter drop-off address" required>
+                </div>
+
+                <!-- Vehicle Type Selection -->
+                <div class="form-group">
+                    <label>Choose Vehicle:</label>
+                    <div class="vehicle-options">
+                        <div class="vehicle-option" data-type="economy">
+                            <img src="economy-car.png" alt="Economy Car">
+                            <span>Economy</span>
+                        </div>
+                        <div class="vehicle-option" data-type="comfort">
+                            <img src="comfort-car.png" alt="Comfort Car">
+                            <span>Comfort</span>
+                        </div>
+                        <div class="vehicle-option" data-type="premium">
+                            <img src="premium-car.png" alt="Premium Car">
+                            <span>Premium</span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="vehicle-type" name="vehicle-type" required>
+                </div>
+
+                <!-- Book Now Button -->
+                <button type="submit">Book Now</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 37.7749, lng: -122.4194 },
+                zoom: 12,
+            });
+            
+            const input = document.getElementById("search-input");
+            const searchBox = new google.maps.places.SearchBox(input);
+            map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+            
+            map.addListener("bounds_changed", () => {
+                searchBox.setBounds(map.getBounds());
+            });
+            
+            searchBox.addListener("places_changed", () => {
+                const places = searchBox.getPlaces();
+                if (places.length == 0) return;
+                const place = places[0].geometry.location;
+                map.setCenter(place);
+                map.setZoom(15);
+            });
+        }
+    </script>
+</body>
+</html>

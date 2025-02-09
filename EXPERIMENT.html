@@ -1,0 +1,882 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>indicator tracker</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+
+  <label for="siteFilter">Site</label>
+  <select id="siteFilter" onchange="filterTable()">
+    <option value="">Select All</option>
+    <option value="Thomson District Hospital">Thompson</option>
+    <option value="Roan Antelope Referral Hospital">Roan</option>
+     <option value="Mpatamatu Section 26 Urban Health Centre">Section 26</option>
+    <option value="Malaika Clinic">Malaika</option>
+    <option value="Kawama Urban Health Centre (Lua)">Kawama</option>
+    <option value="Mikomfwa Health Centre">Mikonfwa</option>
+    <option value="Poleline (Baluba) Health Post">Baluba</option>
+    <!-- other options... -->
+  </select>
+
+    <label for="indicatorFilter">Indicator</label>
+    <select id="indicatorFilter" onchange="filterTable()">
+      <option value="">Select All</option>
+      <option value="Graduation">Graduation</option>
+      <option value="TXCUR<20">TXCUR<20</option>
+      <option value="OVC_OFFER<20">OVC_OFFER<20</option>
+      <option value="OVC_SERV_ACTIVE">OVC_SERV_ACTIVE</option>
+      <option value="OVC_SERV_ACTIVE+GRADUATED">SERV ALL</option>
+      <option value="VLE">VLE</option>
+      <option value="VLR">VLR</option>
+      <option value="VLS">VLS</option>
+      <option value="HEI">HEI</option>
+      <option value="HIV_TST">HIV_TST</option>
+      <option value="STABKE">STABLE INDIVIDUALS</option>
+      <option value="SCH_REACH">SCH_REACH</option>
+      
+    </select>
+
+    <input id="myInput" type="text" placeholder="Search.." onkeyup="filterTable()">
+    <p>Total Rows: <span id="rowCount">0</span></p>
+
+    <h2>Targets vs Reach</h2>
+    <table id="myTable">
+      <thead>
+        <tr style="text-align: right;">
+          <th></th>
+          <th>site</th>
+          <th>Indicator</th>
+          <th>Reach</th>
+          <th>Target</th>
+          <th>Reach%</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>0</th>
+          <td>Thompson District Hospital</td>
+          <td>Graduation</td>
+          <td>84</td>
+          <td>198</td>
+          <td>42%</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>Graduation</td>
+          <td>0</td>
+          <td>187</td>
+          <td>0%</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>Graduation</td>
+          <td>44</td>
+          <td>65</td>
+          <td>68%</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>Malaika Clinic</td>
+          <td>Graduation</td>
+          <td>18</td>
+          <td>46</td>
+          <td>39%</td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>Graduation</td>
+          <td>28</td>
+          <td>63</td>
+          <td>44%</td>
+        </tr>
+        <tr>
+          <th>5</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>Graduation</td>
+          <td>17</td>
+          <td>27</td>
+          <td>63%</td>
+        </tr>
+        <tr>
+          <th>6</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>Graduation</td>
+          <td>9</td>
+          <td>43</td>
+          <td>21%</td>
+        </tr>
+        <tr>
+          <th>7</th>
+          <td>Luanshya</td>
+          <td>Graduation</td>
+          <td>200</td>
+          <td>629</td>
+          <td>32%</td>
+        </tr>
+        <tr>
+          <th>8</th>
+          <td>Thompson District Hospital</td>
+          <td>TXCUR&lt;20</td>
+          <td>168</td>
+          <td>174</td>
+          <td>97%</td>
+        </tr>
+        <tr>
+          <th>9</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>TXCUR&lt;20</td>
+          <td>183</td>
+          <td>189</td>
+          <td>97%</td>
+        </tr>
+        <tr>
+          <th>10</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>TXCUR&lt;20</td>
+          <td>66</td>
+          <td>67</td>
+          <td>99%</td>
+        </tr>
+        <tr>
+          <th>11</th>
+          <td>Malaika Clinic</td>
+          <td>TXCUR&lt;20</td>
+          <td>48</td>
+          <td>48</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>12</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>TXCUR&lt;20</td>
+          <td>55</td>
+          <td>61</td>
+          <td>90%</td>
+        </tr>
+        <tr>
+          <th>13</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>TXCUR&lt;20</td>
+          <td>33</td>
+          <td>33</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>14</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>TXCUR&lt;20</td>
+          <td>51</td>
+          <td>51</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>15</th>
+          <td>Luanshya</td>
+          <td>TXCUR&lt;20</td>
+          <td>604</td>
+          <td>623</td>
+          <td>97%</td>
+        </tr>
+        <tr>
+          <th>16</th>
+          <td>Thompson District Hospital</td>
+          <td>OVC_OFFER&lt;20</td>
+          <td>171</td>
+          <td>174</td>
+          <td>98%</td>
+        </tr>
+        <tr>
+          <th>17</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>OVC_OFFER&lt;20</td>
+          <td>186</td>
+          <td>189</td>
+          <td>98%</td>
+        </tr>
+        <tr>
+          <th>18</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>OVC_OFFER&lt;20</td>
+          <td>66</td>
+          <td>67</td>
+          <td>99%</td>
+        </tr>
+        <tr>
+          <th>19</th>
+          <td>Malaika Clinic</td>
+          <td>OVC_OFFER&lt;20</td>
+          <td>48</td>
+          <td>48</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>20</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>OVC_OFFER&lt;20</td>
+          <td>59</td>
+          <td>61</td>
+          <td>97%</td>
+        </tr>
+        <tr>
+          <th>21</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>OVC_OFFER&lt;20</td>
+          <td>33</td>
+          <td>33</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>22</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>OVC_OFFER&lt;20</td>
+          <td>51</td>
+          <td>51</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>23</th>
+          <td>Luanshya</td>
+          <td>OVC_OFFER&lt;20</td>
+          <td>614</td>
+          <td>623</td>
+          <td>99%</td>
+        </tr>
+        <tr>
+          <th>24</th>
+          <td>Thompson District Hospital</td>
+          <td>OVC_SERV_ACTIVE</td>
+          <td>1482</td>
+          <td>1697</td>
+          <td>87%</td>
+        </tr>
+        <tr>
+          <th>25</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>OVC_SERV_ACTIVE</td>
+          <td>1421</td>
+          <td>1595</td>
+          <td>89%</td>
+        </tr>
+        <tr>
+          <th>26</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>OVC_SERV_ACTIVE</td>
+          <td>696</td>
+          <td>558</td>
+          <td>125%</td>
+        </tr>
+        <tr>
+          <th>27</th>
+          <td>Malaika Clinic</td>
+          <td>OVC_SERV_ACTIVE</td>
+          <td>528</td>
+          <td>395</td>
+          <td>134%</td>
+        </tr>
+        <tr>
+          <th>28</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>OVC_SERV_ACTIVE</td>
+          <td>674</td>
+          <td>549</td>
+          <td>123%</td>
+        </tr>
+        <tr>
+          <th>29</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>OVC_SERV_ACTIVE</td>
+          <td>394</td>
+          <td>234</td>
+          <td>168%</td>
+        </tr>
+        <tr>
+          <th>30</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>OVC_SERV_ACTIVE</td>
+          <td>556</td>
+          <td>371</td>
+          <td>150%</td>
+        </tr>
+        <tr>
+          <th>31</th>
+          <td>Luanshya</td>
+          <td>OVC_SERV_ACTIVE</td>
+          <td>5751</td>
+          <td>5399</td>
+          <td>107%</td>
+        </tr>
+        <tr>
+          <th>32</th>
+          <td>Thompson District Hospital</td>
+          <td>OVC_SERV_ACTIVE+GRADUATED</td>
+          <td>1566</td>
+          <td>1896</td>
+          <td>83%</td>
+        </tr>
+        <tr>
+          <th>33</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>OVC_SERV_ACTIVE+GRADUATED</td>
+          <td>1421</td>
+          <td>1782</td>
+          <td>80%</td>
+        </tr>
+        <tr>
+          <th>34</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>OVC_SERV_ACTIVE+GRADUATED</td>
+          <td>740</td>
+          <td>623</td>
+          <td>119%</td>
+        </tr>
+        <tr>
+          <th>35</th>
+          <td>Malaika Clinic</td>
+          <td>OVC_SERV_ACTIVE+GRADUATED</td>
+          <td>546</td>
+          <td>441</td>
+          <td>124%</td>
+        </tr>
+        <tr>
+          <th>36</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>OVC_SERV_ACTIVE+GRADUATED</td>
+          <td>702</td>
+          <td>612</td>
+          <td>115%</td>
+        </tr>
+        <tr>
+          <th>37</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>OVC_SERV_ACTIVE+GRADUATED</td>
+          <td>411</td>
+          <td>261</td>
+          <td>157%</td>
+        </tr>
+        <tr>
+          <th>38</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>OVC_SERV_ACTIVE+GRADUATED</td>
+          <td>565</td>
+          <td>414</td>
+          <td>136%</td>
+        </tr>
+        <tr>
+          <th>39</th>
+          <td>Luanshya</td>
+          <td>OVC_SERV_ACTIVE+GRADUATED</td>
+          <td>5951</td>
+          <td>6029</td>
+          <td>99%</td>
+        </tr>
+        <tr>
+          <th>40</th>
+          <td>Thompson District Hospital</td>
+          <td>VLE</td>
+          <td>167</td>
+          <td>167</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>41</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>VLE</td>
+          <td>181</td>
+          <td>181</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>42</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>VLE</td>
+          <td>65</td>
+          <td>65</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>43</th>
+          <td>Malaika Clinic</td>
+          <td>VLE</td>
+          <td>48</td>
+          <td>48</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>44</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>VLE</td>
+          <td>52</td>
+          <td>52</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>45</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>VLE</td>
+          <td>33</td>
+          <td>33</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>46</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>VLE</td>
+          <td>51</td>
+          <td>51</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>47</th>
+          <td>Luanshya</td>
+          <td>VLE</td>
+          <td>597</td>
+          <td>597</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>48</th>
+          <td>Thompson District Hospital</td>
+          <td>VLR</td>
+          <td>161</td>
+          <td>167</td>
+          <td>96%</td>
+        </tr>
+        <tr>
+          <th>49</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>VLR</td>
+          <td>181</td>
+          <td>181</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>50</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>VLR</td>
+          <td>65</td>
+          <td>65</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>51</th>
+          <td>Malaika Clinic</td>
+          <td>VLR</td>
+          <td>48</td>
+          <td>48</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>52</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>VLR</td>
+          <td>52</td>
+          <td>52</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>53</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>VLR</td>
+          <td>33</td>
+          <td>33</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>54</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>VLR</td>
+          <td>51</td>
+          <td>51</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>55</th>
+          <td>Luanshya</td>
+          <td>VLR</td>
+          <td>591</td>
+          <td>597</td>
+          <td>99%</td>
+        </tr>
+        <tr>
+          <th>56</th>
+          <td>Thompson District Hospital</td>
+          <td>VLS</td>
+          <td>158</td>
+          <td>161</td>
+          <td>98%</td>
+        </tr>
+        <tr>
+          <th>57</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>VLS</td>
+          <td>176</td>
+          <td>181</td>
+          <td>97%</td>
+        </tr>
+        <tr>
+          <th>58</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>VLS</td>
+          <td>60</td>
+          <td>65</td>
+          <td>92%</td>
+        </tr>
+        <tr>
+          <th>59</th>
+          <td>Malaika Clinic</td>
+          <td>VLS</td>
+          <td>48</td>
+          <td>48</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>60</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>VLS</td>
+          <td>50</td>
+          <td>52</td>
+          <td>96%</td>
+        </tr>
+        <tr>
+          <th>61</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>VLS</td>
+          <td>32</td>
+          <td>33</td>
+          <td>97%</td>
+        </tr>
+        <tr>
+          <th>62</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>VLS</td>
+          <td>51</td>
+          <td>51</td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <th>63</th>
+          <td>Luanshya</td>
+          <td>VLS</td>
+          <td>575</td>
+          <td>591</td>
+          <td>97%</td>
+        </tr>
+        <tr>
+          <th>64</th>
+          <td>Thompson District Hospital</td>
+          <td>HEI</td>
+          <td>26</td>
+          <td>36</td>
+          <td>72%</td>
+        </tr>
+        <tr>
+          <th>65</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>HEI</td>
+          <td>29</td>
+          <td>38</td>
+          <td>76%</td>
+        </tr>
+        <tr>
+          <th>66</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>HEI</td>
+          <td>38</td>
+          <td>64</td>
+          <td>59%</td>
+        </tr>
+        <tr>
+          <th>67</th>
+          <td>Malaika Clinic</td>
+          <td>HEI</td>
+          <td>46</td>
+          <td>72</td>
+          <td>64%</td>
+        </tr>
+        <tr>
+          <th>68</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>HEI</td>
+          <td>35</td>
+          <td>60</td>
+          <td>58%</td>
+        </tr>
+        <tr>
+          <th>69</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>HEI</td>
+          <td>28</td>
+          <td>38</td>
+          <td>74%</td>
+        </tr>
+        <tr>
+          <th>70</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>HEI</td>
+          <td>41</td>
+          <td>46</td>
+          <td>89%</td>
+        </tr>
+        <tr>
+          <th>71</th>
+          <td>Luanshya</td>
+          <td>HEI</td>
+          <td>243</td>
+          <td>354</td>
+          <td>69%</td>
+        </tr>
+        <tr>
+          <th>72</th>
+          <td>Thompson District Hospital</td>
+          <td>HIV_TST</td>
+          <td>17</td>
+          <td>30</td>
+          <td>57%</td>
+        </tr>
+        <tr>
+          <th>73</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>HIV_TST</td>
+          <td>22</td>
+          <td>29</td>
+          <td>76%</td>
+        </tr>
+        <tr>
+          <th>74</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>HIV_TST</td>
+          <td>37</td>
+          <td>10</td>
+          <td>370%</td>
+        </tr>
+        <tr>
+          <th>75</th>
+          <td>Malaika Clinic</td>
+          <td>HIV_TST</td>
+          <td>22</td>
+          <td>7</td>
+          <td>314%</td>
+        </tr>
+        <tr>
+          <th>76</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>HIV_TST</td>
+          <td>15</td>
+          <td>10</td>
+          <td>150%</td>
+        </tr>
+        <tr>
+          <th>77</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>HIV_TST</td>
+          <td>40</td>
+          <td>4</td>
+          <td>1000%</td>
+        </tr>
+        <tr>
+          <th>78</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>HIV_TST</td>
+          <td>55</td>
+          <td>7</td>
+          <td>786%</td>
+        </tr>
+        <tr>
+          <th>79</th>
+          <td>Luanshya</td>
+          <td>HIV_TST</td>
+          <td>208</td>
+          <td>97</td>
+          <td>214%</td>
+        </tr>
+        <tr>
+          <th>80</th>
+          <td>Thompson District Hospital</td>
+          <td>STABLE</td>
+          <td>84</td>
+          <td>147</td>
+          <td>57%</td>
+        </tr>
+        <tr>
+          <th>81</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>STABLE</td>
+          <td>0</td>
+          <td>139</td>
+          <td>0%</td>
+        </tr>
+        <tr>
+          <th>82</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>STABLE</td>
+          <td>44</td>
+          <td>48</td>
+          <td>92%</td>
+        </tr>
+        <tr>
+          <th>83</th>
+          <td>Malaika Clinic</td>
+          <td>STABLE</td>
+          <td>18</td>
+          <td>34</td>
+          <td>53%</td>
+        </tr>
+        <tr>
+          <th>84</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>STABLE</td>
+          <td>28</td>
+          <td>47</td>
+          <td>60%</td>
+        </tr>
+        <tr>
+          <th>85</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>STABLE</td>
+          <td>17</td>
+          <td>20</td>
+          <td>85%</td>
+        </tr>
+        <tr>
+          <th>86</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>STABLE</td>
+          <td>9</td>
+          <td>32</td>
+          <td>28%</td>
+        </tr>
+        <tr>
+          <th>87</th>
+          <td>Luanshya</td>
+          <td>STABLE</td>
+          <td>200</td>
+          <td>467</td>
+          <td>43%</td>
+        </tr>
+        <tr>
+          <th>88</th>
+          <td>Thompson District Hospital</td>
+          <td>SCH_REACH</td>
+          <td>790</td>
+          <td>953</td>
+          <td>83%</td>
+        </tr>
+        <tr>
+          <th>89</th>
+          <td>Roan A. Gen Hospital</td>
+          <td>SCH_REACH</td>
+          <td>748</td>
+          <td>932</td>
+          <td>80%</td>
+        </tr>
+        <tr>
+          <th>90</th>
+          <td>Mpatamatu Section 26 Clinic</td>
+          <td>SCH_REACH</td>
+          <td>490</td>
+          <td>308</td>
+          <td>159%</td>
+        </tr>
+        <tr>
+          <th>91</th>
+          <td>Malaika Clinic</td>
+          <td>SCH_REACH</td>
+          <td>398</td>
+          <td>264</td>
+          <td>151%</td>
+        </tr>
+        <tr>
+          <th>92</th>
+          <td>Mikomfwa Health Centre</td>
+          <td>SCH_REACH</td>
+          <td>419</td>
+          <td>304</td>
+          <td>138%</td>
+        </tr>
+        <tr>
+          <th>93</th>
+          <td>Kawama Urban Health Centre (Lua)</td>
+          <td>SCH_REACH</td>
+          <td>211</td>
+          <td>97</td>
+          <td>218%</td>
+        </tr>
+        <tr>
+          <th>94</th>
+          <td>Poleline (Baluba) Health Post</td>
+          <td>SCH_REACH</td>
+          <td>425</td>
+          <td>191</td>
+          <td>223%</td>
+        </tr>
+        <tr>
+          <th>95</th>
+          <td>Luanshya</td>
+          <td>SCH_REACH</td>
+          <td>200</td>
+          <td>629</td>
+          <td>32%</td>
+        </tr>
+      </tbody>
+    </table>
+<script>
+function filterTable() {
+    var siteValue = document.getElementById("siteFilter").value.toUpperCase();
+    var indicatortValue = document.getElementById("indicatorFilter").value.toUpperCase();
+    var searchValue = document.getElementById("myInput").value.toLowerCase();
+
+    var table = document.getElementById("myTable");
+    var rows = table.getElementsByTagName("tr");
+
+    var count = 0; // Counter for visible rows
+
+    for (var i = 1; i < rows.length; i++) {
+        var cols = rows[i].getElementsByTagName("td");
+        if (cols.length < 4) continue; // Skip empty rows
+
+        var siteText = cols[0].textContent.toUpperCase();
+        var indicatorText = cols[1].textContent.toUpperCase();
+        var rowText = rows[i].textContent.toLowerCase();
+
+        var matchesSite = (siteValue === "" || siteText === siteValue);
+        var matchesIndicator = (indicatorValue === "" || indicatorText === indicatorValue);
+        var matchesSearch = rowText.includes(searchValue);
+
+        if (matchesSite && matchesIndicator && matchesSearch) {
+            rows[i].style.display = "";
+            count++; // Count visible rows
+        } else {
+            rows[i].style.display = "none";
+        }
+    }
+    document.getElementById("rowCount").textContent = count; // Update count
+}
+</script>
+
+</body>
+</html>
