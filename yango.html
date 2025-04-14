@@ -19,10 +19,8 @@
     }
     .container {
       display: flex;
-      flex-wrap: wrap;
-      padding: 1rem;
-      gap: 1rem;
       justify-content: center;
+      padding: 1rem;
     }
     .cart {
       border: 1px solid #ddd;
@@ -32,16 +30,15 @@
       max-width: 500px;
       width: 100%;
     }
-    .cart h2 {
-      margin-top: 0;
-    }
-    .address, .phone-input, .time-input, .people-input {
+    input, label {
+      display: block;
       width: 100%;
       padding: .5rem .5rem .5rem 2rem;
       margin-bottom: .5rem;
       background-repeat: no-repeat;
       background-size: 1rem;
       background-position: 0.5rem center;
+      box-sizing: border-box;
     }
     #start {
       background-image: url('https://img.icons8.com/ios-filled/50/000000/home.png');
@@ -57,6 +54,7 @@
       cursor: pointer;
       padding: 0.5rem;
       margin-top: 0.5rem;
+      width: 100%;
     }
     button:disabled {
       background: #aaa;
@@ -84,16 +82,14 @@
   <div class="container">
     <div class="cart">
       <h2>Taxi Hire Request</h2>
-      <input id="start" class="address" placeholder="Where from" />
-      <input id="end" class="address" placeholder="Where to" />
-      <input id="phone" class="phone-input" placeholder="Enter your phone number" />
+      <input id="start" placeholder="Where from" />
+      <input id="end" placeholder="Where to" />
+      <input id="phone" placeholder="Enter your phone number" />
       <label for="pickup-time">Start Off Time</label>
-      <input id="pickup-time" class="time-input" type="time" placeholder="Pickup time" />
+      <input id="pickup-time" type="time" />
       <label for="passengers">Number of Passengers</label>
-      <input id="passengers" class="people-input" type="number" min="1" value="1" />
-      <label>
-        <input type="checkbox" id="has-luggage" /> I have luggage
-      </label>
+      <input id="passengers" type="number" min="1" value="1" />
+      <label><input type="checkbox" id="has-luggage" /> I have luggage</label>
       <button onclick="estimateFare()">Estimate Fare</button>
       <p id="eta"></p>
       <p id="cart-total"><strong>Estimated Fare:</strong> K0.00</p>
@@ -187,9 +183,6 @@
       if (!start || !end || !phone || !time || !latestFare)
         return alert("Fill all fields and estimate fare first");
 
-      const existing = localStorage.getItem('activeBooking');
-      if (existing && !confirm('You already have an active booking. Do you want to proceed with a new one?')) return;
-
       const extraPassengers = passengers - 1;
       const extraCharge = extraPassengers * (latestFare / 2);
       const luggageCharge = hasLuggage ? 10 : 0;
@@ -198,20 +191,19 @@
       const booking = { phone, start, end, time, fare: totalFare.toFixed(2), passengers, hasLuggage };
       localStorage.setItem('activeBooking', JSON.stringify(booking));
 
-      // SEND TO GOOGLE SHEET
-      fetch("YOUR_WEB_APP_URL", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(booking)
-      }).then(response => response.text())
-        .then(data => console.log("Sent to Google Sheet:", data))
-        .catch(error => console.error("Error sending to Google Sheet:", error));
-
       document.getElementById('booking-msg').innerText = 'Booking Confirmed!';
       document.getElementById('active-booking').innerText = `Active Booking: ${phone}, ${start} to ${end} at ${time}`;
       document.getElementById('cancel-booking').style.display = 'inline-block';
+
+      // Send to Google Sheet
+      fetch("https://script.google.com/macros/s/AKfycbxy3eUjHDcOCr-cEpihTTrTnixw_6rE2B_w_25UxK2SnTXPYvT0f44jM3Ud1A2yEXKB_A/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(booking)
+      })
+      .then(response => response.text())
+      .then(data => console.log("Sent to Google Sheet:", data))
+      .catch(error => console.error("Error sending to Google Sheet:", error));
     }
 
     function cancelBooking() {
@@ -229,8 +221,6 @@
       }
     }
   </script>
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap">
-  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap"></script>
 </body>
 </html>
