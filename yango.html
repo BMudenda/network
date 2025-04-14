@@ -1,114 +1,86 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Luanshya Taxi Hire</title>
+  <title>Luanshya Yango</title>
   <style>
-    /* styles.css */
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-  background: red;
-}
-
-header {
-  background: #8B0000;
-  color: white;
-  padding: 1rem;
-  text-align: center;
-}
-
-.container {
-  display: flex;
-  justify-content: center;
-  padding: 1rem;
-  flex-wrap: wrap;
-}
-
-.cart {
-  background: #f9f9f9;
-  border-radius: .5rem;
-  padding: 1rem;
-  max-width: 500px;
-  width: 100%;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-input.address,
-.phone-input,
-.time-input,
-.people-input {
-  width: 100%;
-  padding: .75rem .5rem .75rem 2.5rem;
-  margin-bottom: .5rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: .25rem;
-  background-color: #fff;
-  background-repeat: no-repeat;
-  background-size: 1.2rem;
-  background-position: 0.75rem center;
-}
-
-#start {
-  background-image: url('https://img.icons8.com/ios-filled/50/000000/home.png');
-}
-
-#end {
-  background-image: url('https://img.icons8.com/ios-filled/50/000000/car.png');
-}
-
-label {
-  display: block;
-  margin-top: 0.5rem;
-  font-weight: bold;
-}
-
-button {
-  width: 100%;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: .25rem;
-  background: #4CAF50;
-  color: white;
-  cursor: pointer;
-  margin-top: 0.5rem;
-}
-
-button:disabled {
-  background: #aaa;
-  cursor: not-allowed;
-}
-
-#map {
-  width: 100%;
-  height: 400px;
-  margin-top: 1rem;
-}
-
-.booking-confirmed {
-  color: green;
-  font-weight: bold;
-  margin-top: .5rem;
-}
-
-.booking-active {
-  color: blue;
-  font-weight: bold;
-  margin-top: .5rem;
-}
-      
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background: red;
+    }
+    header {
+      background: #8B0000;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 1rem;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .cart {
+      border: 1px solid #ddd;
+      border-radius: .5rem;
+      padding: 1rem;
+      background: #f9f9f9;
+      max-width: 500px;
+      width: 100%;
+    }
+    .cart h2 {
+      margin-top: 0;
+    }
+    .address, .phone-input, .time-input, .people-input {
+      width: 100%;
+      padding: .5rem .5rem .5rem 2rem;
+      margin-bottom: .5rem;
+      background-repeat: no-repeat;
+      background-size: 1rem;
+      background-position: 0.5rem center;
+    }
+    #start {
+      background-image: url('https://img.icons8.com/ios-filled/50/000000/home.png');
+    }
+    #end {
+      background-image: url('https://img.icons8.com/ios-filled/50/000000/car.png');
+    }
+    button {
+      border: none;
+      background: #4CAF50;
+      color: white;
+      border-radius: .25rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+    #map {
+      width: 100%;
+      height: 400px;
+      margin-top: 1rem;
+    }
+    .booking-confirmed {
+      color: green;
+      font-weight: bold;
+      margin-top: .5rem;
+    }
+    .booking-active {
+      color: blue;
+      margin-top: .5rem;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
-  <header><h1>Luanshya Taxi Hire</h1></header>
+  <header><h1>Luanshya Yango</h1></header>
   <div class="container">
     <div class="cart">
       <h2>Taxi Hire Request</h2>
@@ -226,6 +198,17 @@ button:disabled {
       const booking = { phone, start, end, time, fare: totalFare.toFixed(2), passengers, hasLuggage };
       localStorage.setItem('activeBooking', JSON.stringify(booking));
 
+      // SEND TO GOOGLE SHEET
+      fetch("YOUR_WEB_APP_URL", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(booking)
+      }).then(response => response.text())
+        .then(data => console.log("Sent to Google Sheet:", data))
+        .catch(error => console.error("Error sending to Google Sheet:", error));
+
       document.getElementById('booking-msg').innerText = 'Booking Confirmed!';
       document.getElementById('active-booking').innerText = `Active Booking: ${phone}, ${start} to ${end} at ${time}`;
       document.getElementById('cancel-booking').style.display = 'inline-block';
@@ -246,6 +229,8 @@ button:disabled {
       }
     }
   </script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap"></script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap">
+  </script>
 </body>
 </html>
