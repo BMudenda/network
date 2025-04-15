@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luanshya Taxi Booking</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: red;
+      font-family: 'Roboto', sans-serif;
       margin: 0;
-      padding: 0;
+      background-color: #B22222;
+      color: #333;
     }
     header {
       background: #8B0000;
@@ -17,37 +17,58 @@
       padding: 1rem;
       text-align: center;
     }
-    .form-container {
-      max-width: 500px;
-      margin: 1rem auto;
-      background: #fff;
-      padding: 1rem;
-      border-radius: 8px;
+    .container {
+      max-width: 600px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      font-weight: bold;
+      margin-top: 1rem;
+      display: block;
     }
     input, select, button {
       width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      box-sizing: border-box;
-      border-radius: 4px;
+      padding: 0.75rem;
+      margin-top: 0.25rem;
+      margin-bottom: 1rem;
+      border-radius: 6px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    .row {
+      display: flex;
+      gap: 1rem;
+    }
+    .row input {
+      flex: 1;
     }
     button {
-      background: navy;
+      background-color: #4CAF50;
       color: white;
-      border: none;
+      font-size: 1rem;
       cursor: pointer;
+      transition: 0.3s ease;
+    }
+    button:hover {
+      background-color: #45a049;
     }
     #map {
-      height: 300px;
       width: 100%;
-      margin-top: 10px;
-      border-radius: 8px;
+      height: 300px;
+      border-radius: 10px;
+      margin-top: 1rem;
     }
-    #message {
-      margin-top: 10px;
+    .confirmation {
+      color: green;
       font-weight: bold;
-      text-align: center;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -55,137 +76,111 @@
   <header>
     <h1>Luanshya Taxi Booking</h1>
   </header>
-  <div class="form-container">
-    <input id="from" placeholder="Where from" />
-    <input id="to" placeholder="Where to" />
-    <input id="time" type="time" />
-    <select id="luggage">
-      <option value="no">Luggage? No</option>
-      <option value="yes">Luggage? Yes</option>
-    </select>
-    <input id="phone" placeholder="Phone number" />
-    <input id="distance" placeholder="Estimated Distance (km)" readonly />
-    <input id="duration" placeholder="Estimated Time (min)" readonly />
-    <input id="fare" placeholder="Estimated Cost (K)" readonly />
-    
-    <button onclick="calculateTrip()">Estimate Fare</button>
-    <button onclick="confirmBooking()">Confirm Request</button>
-    <button onclick="cancelBooking()">Cancel Request</button>
-    <button onclick="sendBooking()">Send Request</button>
+  <div class="container">
+    <label for="from">Where From</label>
+    <input id="from" placeholder="Enter pickup location"><label for="to">Where To</label>
+<input id="to" placeholder="Enter dropoff location">
 
-    <p id="message"></p>
-    <div id="map"></div>
-  </div>
+<label for="time">Start Time</label>
+<input id="time" type="time">
 
-  <script>
-    let map, geocoder, distanceService, directionsService, directionsRenderer;
-    let latestBooking = null;
+<label for="luggage">Luggage</label>
+<select id="luggage">
+  <option value="no">No</option>
+  <option value="yes">Yes</option>
+</select>
+
+<div class="row">
+  <input id="distance" placeholder="Distance (KM)" readonly>
+  <input id="duration" placeholder="Time (Min)" readonly>
+</div>
+
+<input id="cost" placeholder="Estimated Cost (K)" readonly>
+
+<label for="phone">Phone Number</label>
+<input id="phone" placeholder="Enter your phone number">
+
+<button onclick="estimateFare()">Estimate Fare</button>
+<button onclick="confirmBooking()">Confirm Request</button>
+<button onclick="sendToSheet()">Send Request</button>
+<button onclick="cancelRequest()" style="background-color: red;">Cancel Request</button>
+
+<p id="msg" class="confirmation"></p>
+<div id="map"></div>
+
+  </div>  <script>
+    let map, service;
+    let fare = 0;
 
     function initMap() {
-      geocoder = new google.maps.Geocoder();
-      distanceService = new google.maps.DistanceMatrixService();
-      directionsService = new google.maps.DirectionsService();
-      directionsRenderer = new google.maps.DirectionsRenderer();
-
       map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 13,
-        center: { lat: -13.1339, lng: 28.4000 } // Luanshya
+        center: { lat: -13.1339, lng: 28.4000 },
+        zoom: 13
       });
-      directionsRenderer.setMap(map);
 
-      new google.maps.places.Autocomplete(document.getElementById("from"));
-      new google.maps.places.Autocomplete(document.getElementById("to"));
+      const fromInput = document.getElementById("from");
+      const toInput = document.getElementById("to");
+      new google.maps.places.Autocomplete(fromInput);
+      new google.maps.places.Autocomplete(toInput);
+      service = new google.maps.DistanceMatrixService();
     }
 
-    function calculateTrip() {
-      const origin = document.getElementById("from").value;
-      const destination = document.getElementById("to").value;
+    function estimateFare() {
+      const from = document.getElementById("from").value;
+      const to = document.getElementById("to").value;
+      const luggage = document.getElementById("luggage").value === "yes";
 
-      if (!origin || !destination) {
-        alert("Please enter both origin and destination");
-        return;
-      }
+      if (!from || !to) return alert("Please enter both locations.");
 
-      distanceService.getDistanceMatrix({
-        origins: [origin],
-        destinations: [destination],
+      service.getDistanceMatrix({
+        origins: [from],
+        destinations: [to],
         travelMode: 'DRIVING'
-      }, (response, status) => {
+      }, (res, status) => {
         if (status === 'OK') {
-          const result = response.rows[0].elements[0];
-          const distanceKm = result.distance.value / 1000;
-          const durationMin = result.duration.value / 60;
-          const hasLuggage = document.getElementById("luggage").value === "yes";
-          let baseCost = (distanceKm / 4) * 20;
-          const luggageFee = hasLuggage ? 10 : 0;
-          const totalCost = baseCost + luggageFee;
+          const data = res.rows[0].elements[0];
+          const distance = data.distance.value / 1000;
+          const duration = data.duration.value / 60;
+          const baseFare = distance * 15;
+          const luggageCharge = luggage ? 10 : 0;
 
-          document.getElementById("distance").value = distanceKm.toFixed(2) + " km";
-          document.getElementById("duration").value = durationMin.toFixed(0) + " min";
-          document.getElementById("fare").value = "K" + totalCost.toFixed(2);
+          fare = baseFare + luggageCharge;
 
-          directionsService.route({
-            origin,
-            destination,
-            travelMode: 'DRIVING'
-          }, (result, status) => {
-            if (status === 'OK') directionsRenderer.setDirections(result);
-          });
-        } else {
-          alert("Failed to calculate route");
+          document.getElementById("distance").value = distance.toFixed(1);
+          document.getElementById("duration").value = duration.toFixed(0);
+          document.getElementById("cost").value = fare.toFixed(2);
         }
       });
     }
 
     function confirmBooking() {
-      const phone = document.getElementById("phone").value;
-      if (!phone) return alert("Enter phone number first");
+      document.getElementById("msg").innerText = "Booking confirmed. You can now send it.";
+    }
 
-      latestBooking = {
+    function cancelRequest() {
+      document.getElementById("msg").innerText = "Request cancelled.";
+    }
+
+    function sendToSheet() {
+      const data = {
         from: document.getElementById("from").value,
         to: document.getElementById("to").value,
         time: document.getElementById("time").value,
         luggage: document.getElementById("luggage").value,
         distance: document.getElementById("distance").value,
         duration: document.getElementById("duration").value,
-        fare: document.getElementById("fare").value,
-        phone
+        cost: document.getElementById("cost").value,
+        phone: document.getElementById("phone").value
       };
-
-      localStorage.setItem("booking", JSON.stringify(latestBooking));
-      document.getElementById("message").innerText = "Booking Confirmed!";
-    }
-
-    function cancelBooking() {
-      localStorage.removeItem("booking");
-      latestBooking = null;
-      document.getElementById("message").innerText = "Booking Cancelled.";
-    }
-
-    function sendBooking() {
-      const booking = latestBooking || JSON.parse(localStorage.getItem("booking") || "null");
-      if (!booking) {
-        document.getElementById("message").innerText = "No booking to send.";
-        return;
-      }
 
       fetch("https://script.google.com/macros/s/AKfycbxy3eUjHDcOCr-cEpihTTrTnixw_6rE2B_w_25UxK2SnTXPYvT0f44jM3Ud1A2yEXKB_A/exec", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(booking)
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' }
       })
       .then(res => res.text())
-      .then(() => {
-        document.getElementById("message").innerText = "Request sent successfully!";
-      })
-      .catch(() => {
-        document.getElementById("message").innerText = "Failed to send request.";
-      });
+      .then(() => document.getElementById("msg").innerText = "Request sent successfully!")
+      .catch(() => document.getElementById("msg").innerText = "Failed to send request.");
     }
-  </script>
-
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap">
-  </script>
-</body>
+  </script>  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap"></script></body>
 </html>
