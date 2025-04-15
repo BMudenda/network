@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Luanshya Taxi Booking</title>
   <style>
     body {
@@ -20,6 +20,7 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
     h2 { text-align: center; }
+
     input, select, button {
       width: 100%;
       margin-bottom: 1rem;
@@ -42,14 +43,15 @@
       color: white;
       cursor: pointer;
     }
-    #from { background-image: url('https://img.icons8.com/ios-filled/24/000000/home.png'); }
-    #to   { background-image: url('https://img.icons8.com/ios-filled/24/000000/car.png'); }
-    #phone{ background-image: url('https://img.icons8.com/ios-filled/24/000000/phone.png'); }
+    #from    { background-image: url('https://img.icons8.com/ios-filled/24/000000/home.png'); }
+    #to      { background-image: url('https://img.icons8.com/ios-filled/24/000000/car.png'); }
+    #phone   { background-image: url('https://img.icons8.com/ios-filled/24/000000/phone.png'); }
     #luggage {
       background-image: url('https://img.icons8.com/ios-filled/24/000000/suitcase.png');
       background-position: 0.5rem center;
       padding-left: 2.5rem;
     }
+
     .time-wrapper {
       position: relative;
       margin-bottom: 1rem;
@@ -64,7 +66,7 @@
       background-size: 1.2rem;
     }
     .time-wrapper::before {
-      content: attr(data-placeholder);
+      content: 'Start off time';
       position: absolute;
       right: 1rem;
       top: 50%;
@@ -72,10 +74,6 @@
       color: #999;
       pointer-events: none;
       font-size: 1rem;
-    }
-    .time-wrapper input[value] + .time-wrapper::before,
-    .time-wrapper input:focus + .time-wrapper::before {
-      display: none;
     }
     .inline-group {
       display: flex;
@@ -91,12 +89,13 @@
 <body>
   <div class="container">
     <h2>Luanshya Taxi Booking</h2>
+
     <input id="from" placeholder="Where from" />
     <input id="to" placeholder="Where to" />
     <input id="phone" placeholder="Phone Number" />
 
-    <div class="time-wrapper" data-placeholder="Start Off Time">
-      <input id="time" type="time" value="" oninput="this.setAttribute('value', this.value)" />
+    <div class="time-wrapper">
+      <input id="time" type="time" />
     </div>
 
     <select id="luggage">
@@ -105,14 +104,15 @@
     </select>
 
     <div class="inline-group">
-      <input id="duration" placeholder="Estimated Time" readonly />
-      <input id="distance" placeholder="Distance" readonly />
-      <input id="fare" placeholder="Estimated Cost" readonly />
+      <input id="duration" placeholder="Estimated Time (e.g. 10min)" readonly />
+      <input id="distance" placeholder="Distance (e.g. 12km)" readonly />
+      <input id="fare" placeholder="Estimated Cost (e.g. K25.50)" readonly />
     </div>
 
     <button onclick="calculateFare()">Estimate Fare</button>
     <button onclick="confirmBooking()">Confirm Request</button>
     <button onclick="sendBooking()">Send Booking</button>
+    <button onclick="cancelBooking()">Cancel Booking</button>
     <p id="status"></p>
   </div>
 
@@ -136,6 +136,7 @@
       const from = document.getElementById('from').value;
       const to = document.getElementById('to').value;
       if (!from || !to) return alert("Enter both locations");
+
       directionsService.route({
         origin: from,
         destination: to,
@@ -144,10 +145,10 @@
         if (status === 'OK') {
           directionsRenderer.setDirections(result);
           const leg = result.routes[0].legs[0];
-          const distanceKm = (leg.distance.value/1000).toFixed(1) + 'km';
-          const durationMin = Math.round(leg.duration.value/60) + 'min';
-          const luggageFee = document.getElementById('luggage').value==='Yes'?10:0;
-          const costKw = (((leg.distance.value/1000)/4)*20 + luggageFee).toFixed(2);
+          const distanceKm = (leg.distance.value / 1000).toFixed(1) + 'km';
+          const durationMin = Math.round(leg.duration.value / 60) + 'min';
+          const luggageFee = document.getElementById('luggage').value === 'Yes' ? 10 : 0;
+          const costKw = (((leg.distance.value / 1000) / 4) * 20 + luggageFee).toFixed(2);
           const fareText = 'K' + costKw;
 
           document.getElementById('distance').value = distanceKm;
@@ -172,17 +173,32 @@
         duration: document.getElementById('duration').value,
         fare: document.getElementById('fare').value
       };
-      fetch("https://script.google.com/macros/s/AKfycbzp5VklD2HpwLijnSa0MgmIzbLgJGsdy2m3lgQb3vvRqArMVBM-jybbfCuIegSAM0RM/exec", {
+
+      fetch("https://script.google.com/macros/s/AKfycbztfuWeqwvSK03wpNzRGJktxjc_7tRdn4pyOESU85U/dev", {
         method: "POST",
-        headers: {"Content-Type":"application/json"},
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data)
       })
-      .then(r=>r.text())
-      .then(_=>document.getElementById('status').innerText="Booking sent!")
-      .catch(_=>document.getElementById('status').innerText="Failed to send.");
+      .then(r => r.text())
+      .then(_ => document.getElementById('status').innerText = "Booking sent!")
+      .catch(_ => document.getElementById('status').innerText = "Failed to send.");
+    }
+
+    function cancelBooking() {
+      document.getElementById('from').value = '';
+      document.getElementById('to').value = '';
+      document.getElementById('phone').value = '';
+      document.getElementById('time').value = '';
+      document.getElementById('luggage').value = 'No';
+      document.getElementById('distance').value = '';
+      document.getElementById('duration').value = '';
+      document.getElementById('fare').value = '';
+      document.getElementById('status').innerText = "Booking cancelled.";
+      if (directionsRenderer) directionsRenderer.set('directions', null);
     }
   </script>
-  <script async defer 
+
+  <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap">
   </script>
 </body>
