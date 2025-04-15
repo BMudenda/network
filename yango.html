@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luanshya Taxi Booking</title>
   <style>
     body {
       font-family: sans-serif;
-      background: red;
+      background: #f5f5f5;
       margin: 0;
       padding: 0;
     }
@@ -19,7 +19,10 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
-    h2 { text-align: center; }
+    h2 {
+      text-align: center;
+      color: navy;
+    }
     input, select, button {
       width: 100%;
       margin-bottom: 1rem;
@@ -41,10 +44,16 @@
       background: navy;
       color: white;
       cursor: pointer;
+      font-weight: bold;
+      padding: 0.75rem;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #001f4d;
     }
     #from { background-image: url('https://img.icons8.com/ios-filled/24/000000/home.png'); }
-    #to   { background-image: url('https://img.icons8.com/ios-filled/24/000000/car.png'); }
-    #phone{ background-image: url('https://img.icons8.com/ios-filled/24/000000/phone.png'); }
+    #to { background-image: url('https://img.icons8.com/ios-filled/24/000000/marker.png'); }
+    #phone { background-image: url('https://img.icons8.com/ios-filled/24/000000/phone.png'); }
     #luggage {
       background-image: url('https://img.icons8.com/ios-filled/24/000000/suitcase.png');
       background-position: 0.5rem center;
@@ -81,37 +90,77 @@
       padding-left: 0.75rem;
       background-image: none;
     }
+    .loading {
+      display: none;
+      text-align: center;
+      margin: 1rem 0;
+    }
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border-left-color: navy;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    #status {
+      min-height: 50px;
+      padding: 0.5rem;
+      border-radius: 5px;
+      margin-top: 1rem;
+    }
+    .success {
+      color: green;
+      background-color: #e8f5e9;
+      border: 1px solid #c8e6c9;
+    }
+    .error {
+      color: red;
+      background-color: #ffebee;
+      border: 1px solid #ffcdd2;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>Luanshya Taxi Booking</h2>
-    <input id="from" placeholder="Where from" />
-    <input id="to" placeholder="Where to" />
-    <input id="phone" placeholder="Phone Number" />
-    <div class="time-wrapper" data-placeholder="Start Off Time">
-      <input id="time" type="time" value="" oninput="this.setAttribute('value', this.value)" />
+    <input id="from" placeholder="Pickup location" required>
+    <input id="to" placeholder="Destination" required>
+    <input id="phone" placeholder="Phone number" required type="tel">
+    <div class="time-wrapper" data-placeholder="Pickup time">
+      <input id="time" type="time" value="" oninput="this.setAttribute('value', this.value)">
     </div>
     <select id="luggage">
       <option value="No">No Luggage</option>
       <option value="Yes">Yes - with Luggage</option>
     </select>
     <div class="inline-group">
-      <input id="duration" placeholder="Estimated Time (min)" readonly />
-      <input id="distance" placeholder="Distance (km)" readonly />
-      <input id="fare" placeholder="Estimated Cost (K)" readonly />
+      <input id="duration" placeholder="Duration (min)" readonly>
+      <input id="distance" placeholder="Distance (km)" readonly>
+      <input id="fare" placeholder="Estimated Cost (K)" readonly>
     </div>
-    <button onclick="calculateFare()">Estimate Fare</button>
-    <button onclick="confirmBooking()">Confirm Request</button>
-    <button onclick="sendBooking()">Send Booking</button>
-    <button onclick="cancelBooking()">Cancel Request</button>
-    <p id="status"></p>
+    <button onclick="calculateFare()">Calculate Fare</button>
+    <button onclick="confirmBooking()">Confirm Booking</button>
+    <button onclick="sendBooking()">Submit Booking</button>
+    <button onclick="cancelBooking()">Cancel</button>
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p>Processing your booking...</p>
+    </div>
+    <div id="status"></div>
   </div>
 
   <div id="map" style="height:400px; width:100%; margin-top:1rem;"></div>
 
   <script>
+    // Google Maps and Google Sheets integration
     let map, directionsService, directionsRenderer;
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbztfuWeqwvSK03wpNzRGJktxjc_7tRdn4pyOESU85U/dev";
 
     function initMap() {
       directionsService = new google.maps.DirectionsService();
@@ -128,7 +177,12 @@
     function calculateFare() {
       const from = document.getElementById('from').value;
       const to = document.getElementById('to').value;
-      if (!from || !to) return alert("Enter both locations");
+      
+      if (!from || !to) {
+        showStatus("Please enter both pickup and destination locations", "error");
+        return;
+      }
+
       directionsService.route({
         origin: from,
         destination: to,
@@ -137,21 +191,92 @@
         if (status === 'OK') {
           directionsRenderer.setDirections(result);
           const leg = result.routes[0].legs[0];
-          const distanceKm = (leg.distance.value/1000).toFixed(1) + 'km';
-          const durationMin = Math.round(leg.duration.value/60) + 'min';
-          const luggageFee = document.getElementById('luggage').value==='Yes' ? 10 : 0;
+          const distanceKm = (leg.distance.value/1000).toFixed(1);
+          const durationMin = Math.round(leg.duration.value/60);
+          const luggageFee = document.getElementById('luggage').value === 'Yes' ? 10 : 0;
           const costKw = (((leg.distance.value/1000)/4)*20 + luggageFee).toFixed(2);
-          const fareText = 'K' + costKw;
-
-          document.getElementById('distance').value = distanceKm;
-          document.getElementById('duration').value = durationMin;
-          document.getElementById('fare').value = fareText;
+          
+          document.getElementById('distance').value = distanceKm + ' km';
+          document.getElementById('duration').value = durationMin + ' min';
+          document.getElementById('fare').value = 'K' + costKw;
+          
+          showStatus("Fare calculated successfully", "success");
+        } else {
+          showStatus("Could not calculate route. Please check locations and try again.", "error");
         }
       });
     }
 
     function confirmBooking() {
-      document.getElementById('status').innerText = "Request confirmed. Please proceed to Send Booking.";
+      const from = document.getElementById('from').value;
+      const to = document.getElementById('to').value;
+      const phone = document.getElementById('phone').value;
+      
+      if (!from || !to || !phone) {
+        showStatus("Please fill in all required fields (From, To, and Phone Number)", "error");
+        return;
+      }
+      
+      showStatus("Booking confirmed. Please submit to complete your request.", "success");
+    }
+
+    function sendBooking() {
+      const from = document.getElementById('from').value;
+      const to = document.getElementById('to').value;
+      const phone = document.getElementById('phone').value;
+      const time = document.getElementById('time').value;
+      const luggage = document.getElementById('luggage').value;
+      const distance = document.getElementById('distance').value;
+      const duration = document.getElementById('duration').value;
+      const fare = document.getElementById('fare').value;
+
+      if (!from || !to || !phone) {
+        showStatus("Please fill in all required fields (From, To, and Phone Number)", "error");
+        return;
+      }
+
+      document.getElementById('loading').style.display = "block";
+      const statusElement = document.getElementById('status');
+      statusElement.innerHTML = "";
+      
+      const payload = {
+        from: from,
+        to: to,
+        phone: phone,
+        time: time,
+        luggage: luggage,
+        distance: distance,
+        duration: duration,
+        fare: fare,
+        action: "addBooking"
+      };
+
+      const queryString = Object.keys(payload)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(payload[key])}`)
+        .join('&');
+      
+      fetch(`${SCRIPT_URL}?${queryString}`, {
+        method: 'GET',
+        redirect: 'follow'
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
+      .then(data => {
+        document.getElementById('loading').style.display = "none";
+        if (data.result === 'success') {
+          showStatus(`Booking submitted successfully! Reference: ${data.row}`, "success");
+          cancelBooking();
+        } else {
+          throw new Error(data.message || 'Unknown error occurred');
+        }
+      })
+      .catch(error => {
+        document.getElementById('loading').style.display = "none";
+        showStatus(`Error submitting booking: ${error.message}`, "error");
+        console.error('Error:', error);
+      });
     }
 
     function cancelBooking() {
@@ -163,9 +288,14 @@
       document.getElementById('distance').value = '';
       document.getElementById('duration').value = '';
       document.getElementById('fare').value = '';
-      document.getElementById('status').innerText = "Booking request canceled.";
+      document.getElementById('status').innerHTML = "";
     }
 
+    function showStatus(message, type) {
+      const statusElement = document.getElementById('status');
+      statusElement.textContent = message;
+      statusElement.className = type;
+    }
   </script>
   <script async defer 
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap">
