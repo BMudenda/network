@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Luanshya Yango</title>
+  <title>Luanshya Taxi Booking</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: Arial, sans-serif;
+      background: red;
       margin: 0;
       padding: 0;
-      background: red;
     }
     header {
       background: #8B0000;
@@ -17,104 +17,69 @@
       padding: 1rem;
       text-align: center;
     }
-    .container {
-      display: flex;
-      justify-content: center;
-      padding: 1rem;
-    }
-    .cart {
-      border: 1px solid #ddd;
-      border-radius: .5rem;
-      padding: 1rem;
-      background: #f9f9f9;
+    .form-container {
       max-width: 500px;
-      width: 100%;
+      margin: 1rem auto;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
     }
-    input, label {
-      display: block;
+    input, select, button {
       width: 100%;
-      padding: .5rem .5rem .5rem 2rem;
-      margin-bottom: .5rem;
-      background-repeat: no-repeat;
-      background-size: 1rem;
-      background-position: 0.5rem center;
+      padding: 10px;
+      margin-top: 10px;
       box-sizing: border-box;
-    }
-    #start {
-      background-image: url('https://img.icons8.com/ios-filled/50/000000/home.png');
-    }
-    #end {
-      background-image: url('https://img.icons8.com/ios-filled/50/000000/car.png');
+      border-radius: 4px;
+      border: 1px solid #ccc;
     }
     button {
-      border: none;
-      background: #4CAF50;
-      color: white;
-      border-radius: .25rem;
-      cursor: pointer;
-      padding: 0.5rem;
-      margin-top: 0.5rem;
-      width: 100%;
-    }
-    button:disabled {
-      background: #aaa;
-      cursor: not-allowed;
-    }
-    #send-booking {
       background: navy;
+      color: white;
+      border: none;
+      cursor: pointer;
     }
     #map {
+      height: 300px;
       width: 100%;
-      height: 400px;
-      margin-top: 1rem;
+      margin-top: 10px;
+      border-radius: 8px;
     }
-    .booking-confirmed {
-      color: green;
+    #message {
+      margin-top: 10px;
       font-weight: bold;
-      margin-top: .5rem;
-    }
-    .booking-active {
-      color: blue;
-      margin-top: .5rem;
-      font-weight: bold;
-    }
-    #notification {
-      color: green;
-      font-weight: bold;
-      margin-top: .5rem;
-      display: none;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <header><h1>yL</h1></header>
-  <div class="container">
-    <div class="cart">
-      <h2>TRL</h2>
-      <input id="start" placeholder="Where from" />
-      <input id="end" placeholder="Where to" />
-      <input id="phone" placeholder="Enter your phone number" />
-      <label for="pickup-time">Start Off Time</label>
-      <input id="pickup-time" type="time" />
-      <label for="passengers">Number of Passengers</label>
-      <input id="passengers" type="number" min="1" value="1" />
-      <label><input type="checkbox" id="has-luggage" /> I have luggage</label>
-      <button onclick="estimateFare()">Estimate Fare</button>
-      <p id="eta"></p>
-      <p id="cart-total"><strong>Estimated Fare:</strong> K0.00</p>
-      <button onclick="confirmBooking()">Confirm Booking</button>
-      <button id="send-booking" onclick="sendBookingToSheet()" style="display:none;">Send Request</button>
-      <p id="booking-msg" class="booking-confirmed"></p>
-      <p id="active-booking" class="booking-active"></p>
-      <p id="notification"></p>
-      <button id="cancel-booking" onclick="cancelBooking()" style="display:none; background: red;">Cancel Booking</button>
-    </div>
+  <header>
+    <h1>Luanshya Taxi Booking</h1>
+  </header>
+  <div class="form-container">
+    <input id="from" placeholder="Where from" />
+    <input id="to" placeholder="Where to" />
+    <input id="time" type="time" />
+    <select id="luggage">
+      <option value="no">Luggage? No</option>
+      <option value="yes">Luggage? Yes</option>
+    </select>
+    <input id="phone" placeholder="Phone number" />
+    <input id="distance" placeholder="Estimated Distance (km)" readonly />
+    <input id="duration" placeholder="Estimated Time (min)" readonly />
+    <input id="fare" placeholder="Estimated Cost (K)" readonly />
+    
+    <button onclick="calculateTrip()">Estimate Fare</button>
+    <button onclick="confirmBooking()">Confirm Request</button>
+    <button onclick="cancelBooking()">Cancel Request</button>
+    <button onclick="sendBooking()">Send Request</button>
+
+    <p id="message"></p>
+    <div id="map"></div>
   </div>
-  <div id="map"></div>
 
   <script>
     let map, geocoder, distanceService, directionsService, directionsRenderer;
-    let latestFare = 0;
+    let latestBooking = null;
 
     function initMap() {
       geocoder = new google.maps.Geocoder();
@@ -122,143 +87,105 @@
       directionsService = new google.maps.DirectionsService();
       directionsRenderer = new google.maps.DirectionsRenderer();
 
-      geocoder.geocode({ address: 'Luanshya District, Zambia' }, (results, status) => {
-        if (status === 'OK') {
-          map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 13,
-            center: results[0].geometry.location
-          });
-          directionsRenderer.setMap(map);
-
-          map.addListener('dblclick', (e) => {
-            const latLng = e.latLng;
-            if (!document.getElementById('start').value) {
-              document.getElementById('start').value = `${latLng.lat().toFixed(5)}, ${latLng.lng().toFixed(5)}`;
-            } else {
-              document.getElementById('end').value = `${latLng.lat().toFixed(5)}, ${latLng.lng().toFixed(5)}`;
-            }
-          });
-
-          new google.maps.places.Autocomplete(document.getElementById('start'));
-          new google.maps.places.Autocomplete(document.getElementById('end'));
-        }
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 13,
+        center: { lat: -13.1339, lng: 28.4000 } // Luanshya
       });
+      directionsRenderer.setMap(map);
 
-      checkExistingBooking();
+      new google.maps.places.Autocomplete(document.getElementById("from"));
+      new google.maps.places.Autocomplete(document.getElementById("to"));
     }
 
-    function estimateFare() {
-      const start = document.getElementById('start').value;
-      const end = document.getElementById('end').value;
-      const passengers = parseInt(document.getElementById('passengers').value) || 1;
-      const hasLuggage = document.getElementById('has-luggage').checked;
-      if (!start || !end) return alert("Enter both start and end locations");
+    function calculateTrip() {
+      const origin = document.getElementById("from").value;
+      const destination = document.getElementById("to").value;
+
+      if (!origin || !destination) {
+        alert("Please enter both origin and destination");
+        return;
+      }
 
       distanceService.getDistanceMatrix({
-        origins: [start],
-        destinations: [end],
+        origins: [origin],
+        destinations: [destination],
         travelMode: 'DRIVING'
       }, (response, status) => {
         if (status === 'OK') {
-          const element = response.rows[0].elements[0];
-          const km = element.distance.value / 1000;
-          const eta = element.duration.text;
-          latestFare = (km / 4) * 20;
-          const extraPassengers = passengers - 1;
-          const extraCharge = extraPassengers * (latestFare / 2);
-          const luggageCharge = hasLuggage ? 10 : 0;
-          const totalFare = latestFare + extraCharge + luggageCharge;
+          const result = response.rows[0].elements[0];
+          const distanceKm = result.distance.value / 1000;
+          const durationMin = result.duration.value / 60;
+          const hasLuggage = document.getElementById("luggage").value === "yes";
+          let baseCost = (distanceKm / 4) * 20;
+          const luggageFee = hasLuggage ? 10 : 0;
+          const totalCost = baseCost + luggageFee;
 
-          document.getElementById('cart-total').innerHTML = `<strong>Estimated Fare:</strong> K${totalFare.toFixed(2)}${hasLuggage ? ' (Includes luggage)' : ''}`;
-          document.getElementById('eta').innerText = `Distance: ${km.toFixed(1)} km, ETA: ${eta}`;
+          document.getElementById("distance").value = distanceKm.toFixed(2) + " km";
+          document.getElementById("duration").value = durationMin.toFixed(0) + " min";
+          document.getElementById("fare").value = "K" + totalCost.toFixed(2);
 
           directionsService.route({
-            origin: start,
-            destination: end,
+            origin,
+            destination,
             travelMode: 'DRIVING'
           }, (result, status) => {
             if (status === 'OK') directionsRenderer.setDirections(result);
           });
+        } else {
+          alert("Failed to calculate route");
         }
       });
     }
 
     function confirmBooking() {
-      const phone = document.getElementById('phone').value.trim();
-      const time = document.getElementById('pickup-time').value.trim();
-      const start = document.getElementById('start').value.trim();
-      const end = document.getElementById('end').value.trim();
-      const passengers = parseInt(document.getElementById('passengers').value) || 1;
-      const hasLuggage = document.getElementById('has-luggage').checked;
+      const phone = document.getElementById("phone").value;
+      if (!phone) return alert("Enter phone number first");
 
-      if (!start || !end || !phone || !time || !latestFare)
-        return alert("Fill all fields and estimate fare first");
+      latestBooking = {
+        from: document.getElementById("from").value,
+        to: document.getElementById("to").value,
+        time: document.getElementById("time").value,
+        luggage: document.getElementById("luggage").value,
+        distance: document.getElementById("distance").value,
+        duration: document.getElementById("duration").value,
+        fare: document.getElementById("fare").value,
+        phone
+      };
 
-      const extraPassengers = passengers - 1;
-      const extraCharge = extraPassengers * (latestFare / 2);
-      const luggageCharge = hasLuggage ? 10 : 0;
-      const totalFare = latestFare + extraCharge + luggageCharge;
-
-      const booking = { phone, start, end, time, fare: totalFare.toFixed(2), passengers, hasLuggage };
-      localStorage.setItem('activeBooking', JSON.stringify(booking));
-
-      document.getElementById('booking-msg').innerText = 'Booking Confirmed!';
-      document.getElementById('active-booking').innerText = `Active Booking: ${phone}, ${start} to ${end} at ${time}`;
-      document.getElementById('cancel-booking').style.display = 'inline-block';
-      document.getElementById('send-booking').style.display = 'inline-block';
+      localStorage.setItem("booking", JSON.stringify(latestBooking));
+      document.getElementById("message").innerText = "Booking Confirmed!";
     }
 
-    function sendBookingToSheet() {
-      const booking = JSON.parse(localStorage.getItem('activeBooking') || 'null');
-      if (!booking) return alert("No confirmed booking found");
+    function cancelBooking() {
+      localStorage.removeItem("booking");
+      latestBooking = null;
+      document.getElementById("message").innerText = "Booking Cancelled.";
+    }
 
-      const notification = document.getElementById('notification');
-      notification.style.display = 'block';
-      notification.innerText = 'Sending request...';
+    function sendBooking() {
+      const booking = latestBooking || JSON.parse(localStorage.getItem("booking") || "null");
+      if (!booking) {
+        document.getElementById("message").innerText = "No booking to send.";
+        return;
+      }
 
-      fetch("https://script.google.com/macros/s/AKfycby4jo0JsB0rZdV5FsAhft0IbDOQau5X5MUVpV6VMB1EzYF48LpNcb6k3UP2o2EiUjmBmQ/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbxy3eUjHDcOCr-cEpihTTrTnixw_6rE2B_w_25UxK2SnTXPYvT0f44jM3Ud1A2yEXKB_A/exec", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(booking)
       })
-      .then(response => {
-        if (!response.ok) throw new Error("Network response was not ok");
-        return response.text();
+      .then(res => res.text())
+      .then(() => {
+        document.getElementById("message").innerText = "Request sent successfully!";
       })
-      .then(data => {
-        notification.innerText = 'Request has been sent!';
-        setTimeout(() => {
-          notification.style.display = 'none';
-        }, 5000);
-      })
-      .catch(error => {
-        notification.innerText = 'Failed to send request.';
-        notification.style.color = 'red';
-        setTimeout(() => {
-          notification.style.display = 'none';
-          notification.style.color = 'green';
-        }, 5000);
-        console.error("Error sending to Google Sheet:", error);
+      .catch(() => {
+        document.getElementById("message").innerText = "Failed to send request.";
       });
     }
-
-    function cancelBooking() {
-      localStorage.removeItem('activeBooking');
-      document.getElementById('booking-msg').innerText = '';
-      document.getElementById('active-booking').innerText = 'Booking cancelled.';
-      document.getElementById('cancel-booking').style.display = 'none';
-      document.getElementById('send-booking').style.display = 'none';
-    }
-
-    function checkExistingBooking() {
-      const booking = JSON.parse(localStorage.getItem('activeBooking') || 'null');
-      if (booking) {
-        document.getElementById('active-booking').innerText = `Active Booking: ${booking.phone}, ${booking.start} to ${booking.end} at ${booking.time}`;
-        document.getElementById('cancel-booking').style.display = 'inline-block';
-        document.getElementById('send-booking').style.display = 'inline-block';
-      }
-    }
   </script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap"></script>
+
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap">
+  </script>
 </body>
 </html>
