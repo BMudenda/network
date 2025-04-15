@@ -60,6 +60,9 @@
       background: #aaa;
       cursor: not-allowed;
     }
+    #send-booking {
+      background: navy;
+    }
     #map {
       width: 100%;
       height: 400px;
@@ -74,6 +77,12 @@
       color: blue;
       margin-top: .5rem;
       font-weight: bold;
+    }
+    #notification {
+      color: green;
+      font-weight: bold;
+      margin-top: .5rem;
+      display: none;
     }
   </style>
 </head>
@@ -94,8 +103,10 @@
       <p id="eta"></p>
       <p id="cart-total"><strong>Estimated Fare:</strong> K0.00</p>
       <button onclick="confirmBooking()">Confirm Booking</button>
+      <button id="send-booking" onclick="sendBookingToSheet()" style="display:none;">Send Request</button>
       <p id="booking-msg" class="booking-confirmed"></p>
       <p id="active-booking" class="booking-active"></p>
+      <p id="notification"></p>
       <button id="cancel-booking" onclick="cancelBooking()" style="display:none; background: red;">Cancel Booking</button>
     </div>
   </div>
@@ -194,16 +205,41 @@
       document.getElementById('booking-msg').innerText = 'Booking Confirmed!';
       document.getElementById('active-booking').innerText = `Active Booking: ${phone}, ${start} to ${end} at ${time}`;
       document.getElementById('cancel-booking').style.display = 'inline-block';
+      document.getElementById('send-booking').style.display = 'inline-block';
+    }
 
-      // Send to Google Sheet
-      fetch("https://script.google.com/macros/s/AKfycbztfuWeqwvSK03wpNzRGJktxjc_7tRdn4pyOESU85U/dev", {
+    function sendBookingToSheet() {
+      const booking = JSON.parse(localStorage.getItem('activeBooking') || 'null');
+      if (!booking) return alert("No confirmed booking found");
+
+      const notification = document.getElementById('notification');
+      notification.style.display = 'block';
+      notification.innerText = 'Sending request...';
+
+      fetch("https://script.google.com/macros/s/AKfycbxy3eUjHDcOCr-cEpihTTrTnixw_6rE2B_w_25UxK2SnTXPYvT0f44jM3Ud1A2yEXKB_A/exec", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(booking)
       })
-      .then(response => response.text())
-      .then(data => console.log("Sent to Google Sheet:", data))
-      .catch(error => console.error("Error sending to Google Sheet:", error));
+      .then(response => {
+        if (!response.ok) throw new Error("Network response was not ok");
+        return response.text();
+      })
+      .then(data => {
+        notification.innerText = 'Request has been sent!';
+        setTimeout(() => {
+          notification.style.display = 'none';
+        }, 5000);
+      })
+      .catch(error => {
+        notification.innerText = 'Failed to send request.';
+        notification.style.color = 'red';
+        setTimeout(() => {
+          notification.style.display = 'none';
+          notification.style.color = 'green';
+        }, 5000);
+        console.error("Error sending to Google Sheet:", error);
+      });
     }
 
     function cancelBooking() {
@@ -211,6 +247,7 @@
       document.getElementById('booking-msg').innerText = '';
       document.getElementById('active-booking').innerText = 'Booking cancelled.';
       document.getElementById('cancel-booking').style.display = 'none';
+      document.getElementById('send-booking').style.display = 'none';
     }
 
     function checkExistingBooking() {
@@ -218,6 +255,7 @@
       if (booking) {
         document.getElementById('active-booking').innerText = `Active Booking: ${booking.phone}, ${booking.start} to ${booking.end} at ${booking.time}`;
         document.getElementById('cancel-booking').style.display = 'inline-block';
+        document.getElementById('send-booking').style.display = 'inline-block';
       }
     }
   </script>
