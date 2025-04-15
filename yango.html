@@ -166,32 +166,6 @@
       document.getElementById('status').innerText = "Booking request canceled.";
     }
 
-    function sendBooking() {
-      const data = {
-        from: document.getElementById('from').value,
-        to: document.getElementById('to').value,
-        phone: document.getElementById('phone').value,
-        time: document.getElementById('time').value,
-        luggage: document.getElementById('luggage').value,
-        distance: document.getElementById('distance').value,
-        duration: document.getElementById('duration').value,
-        fare: document.getElementById('fare').value
-      };
-      fetch("https://script.google.com/macros/s/AKfycbzp5VklD2HpwLijnSa0MgmIzbLgJGsdy2m3lgQb3vvRqArMVBM-jybbfCuIegSAM0RM/exec", {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify(data)
-      })
-      .then(r => r.text())
-      .then(resp => {
-        document.getElementById('status').innerText = "Booking sent successfully!";
-        console.log(resp);
-      })
-      .catch(err => {
-        document.getElementById('status').innerText = "Failed to send booking.";
-        console.error(err);
-      });
-    }
   </script>
   <script async defer 
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap">
