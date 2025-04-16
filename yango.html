@@ -206,7 +206,7 @@
           const distanceKm = (leg.distance.value / 1000).toFixed(1);
           const durationMin = Math.round(leg.duration.value / 60);
           const luggageFee = document.getElementById('luggage').value === 'Yes' ? 10 : 0;
-          const fare = (((distanceKm / 4) * 20) + luggageFee).toFixed(0);
+          const fare = (((distanceKm / 4) * 25) + luggageFee).toFixed(0);
 
           document.getElementById('distance').value = `${distanceKm} km`;
           document.getElementById('duration').value = `${durationMin} min`;
