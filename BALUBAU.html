@@ -102,7 +102,7 @@ input[type=email]:focus {
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    input, button {
+    input, select, button {
       width: 100%;
       padding: 10px;
       margin: 10px 0;
@@ -131,16 +131,22 @@ input[type=email]:focus {
         method="POST"
         action="https://script.google.com/macros/s/AKfycbytUJ-taezbOxcxnZTWwWjeFBH-gqshju9_g295Cu9wSpwtvlHHHNajxHxii8SxsUpe/exec">
 
-    <input name="From" type="text" placeholder="Total Household (From)" required>
-    <input name="To" type="text" placeholder="Total Beneficiary (To)" required>
-    <input name="Phone" type="text" placeholder="Phone Number" required>
-    <input name="HH" type="text" placeholder="HH ID / Count" required>
-    <input name="Time" type="text" placeholder="Time of Visit" required>
-    <input name="Luggage" type="text" placeholder="Additional Notes" required>
-    <input name="Distance" type="text" placeholder="Distance Travelled" required>
-    <input name="Duration" type="text" placeholder="Time Taken" required>
-    <input name="Fare" type="text" placeholder="Fare / Cost" required>
+    <input name="From" id="from" placeholder="Pickup location" required>
+    <input name="To" id="to" placeholder="Destination" required>
+    <input name="Phone" id="phone" placeholder="Phone number" required type="tel">
+    <input name="Time" id="time" type="time" required placeholder="Pickup time">
+    
+    <select name="Luggage" id="luggage" required>
+      <option value="">Select Luggage Option</option>
+      <option value="No">No Luggage</option>
+      <option value="Yes">Yes - with Luggage</option>
+    </select>
+    
+    <input name="Duration" id="duration" placeholder="Duration (min)" readonly>
+    <input name="Distance" id="distance" placeholder="Distance (km)" readonly>
+    <input name="Fare" id="fare" placeholder="Estimated Cost (K)" readonly>
 
+    <button type="button" onclick="calculateFare()">Calculate Fare</button>
     <button type="submit">Send</button>
   </form>
 
@@ -171,8 +177,14 @@ input[type=email]:focus {
         messageBox.innerHTML = `<p style="color:red;">Something went wrong. Try again.</p>`;
       });
     });
+
+    function calculateFare() {
+      // Dummy calculation logic — replace with actual logic
+      document.getElementById('distance').value = "10";
+      document.getElementById('duration').value = "20";
+      document.getElementById('fare').value = "100";
+    }
   </script>
 
 </body>
 </html>
-    
