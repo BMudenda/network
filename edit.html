@@ -12,17 +12,20 @@
       margin: 0;
       padding: 20px;
     }
+
     h1 {
       text-align: center;
       color: #38bdf8;
     }
+
     iframe {
       width: 100%;
-      height: 400px;
+      height: 600px; /* Adjust height as needed */
       border: none;
       border-radius: 10px;
       margin-bottom: 20px;
     }
+
     .checklist {
       max-width: 600px;
       margin: auto;
@@ -30,20 +33,24 @@
       padding: 20px;
       border-radius: 10px;
     }
+
     .checklist h2 {
       color: #38bdf8;
       margin-bottom: 20px;
     }
+
     .item {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 15px;
     }
+
     .item label {
       flex: 1;
       font-weight: bold;
     }
+
     .item select {
       background: #334155;
       color: #f8fafc;
@@ -52,6 +59,7 @@
       padding: 5px;
       width: 80px;
     }
+
     .result {
       text-align: center;
       margin-top: 20px;
@@ -62,82 +70,79 @@
 </head>
 <body>
 
-<h1>Aviator Predictor - Pattern Status</h1>
+  <h1>Aviator Predictor - Pattern Status</h1>
 
-<iframe src="https://www.betway.co.zm/lobby/Casino/featured/Aviator" height="500px" allow="autoplay; fullscreen"></iframe>
+  <iframe src="https://www.betway.co.zm/lobby/Casino/featured/Aviator" allow="autoplay; fullscreen"></iframe>
 
-<div class="checklist">
-  <h2>Condition Evaluation</h2>
+  <div class="checklist">
+    <h2>Condition Evaluation</h2>
 
-  <div class="item">
-    <label>Crash 1 (&lt; 2.0)</label>
-    <select id="result1">
-      <option value="No">No</option>
-      <option value="Yes">Yes</option>
-    </select>
+    <div class="item">
+      <label>Crash 1 (&lt; 2.0)</label>
+      <select id="result1">
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </select>
+    </div>
+
+    <div class="item">
+      <label>Crash 2 (2.0 - 10.0)</label>
+      <select id="result2">
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </select>
+    </div>
+
+    <div class="item">
+      <label>Crash 3 (&lt; 2.0)</label>
+      <select id="result3">
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </select>
+    </div>
+
+    <div class="item">
+      <label>Crash 4 (&gt; 2.0 &amp; ≥ 2×Crash 2)</label>
+      <select id="result4">
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </select>
+    </div>
+
+    <div class="result" id="predictionResult">Prediction Chance: 0%</div>
   </div>
 
-  <div class="item">
-    <label>Crash 2 (2.0 - 10.0)</label>
-    <select id="result2">
-      <option value="No">No</option>
-      <option value="Yes">Yes</option>
-    </select>
-  </div>
+  <script>
+    const selectors = ['result1', 'result2', 'result3', 'result4'];
 
-  <div class="item">
-    <label>Crash 3 (&lt; 2.0)</label>
-    <select id="result3">
-      <option value="No">No</option>
-      <option value="Yes">Yes</option>
-    </select>
-  </div>
+    function updatePrediction() {
+      const val1 = document.getElementById('result1').value;
+      const val2 = document.getElementById('result2').value;
+      const val3 = document.getElementById('result3').value;
+      const val4 = document.getElementById('result4').value;
 
-  <div class="item">
-    <label>Crash 4 (&gt; 2.0 &amp; ≥ 2×Crash 2)</label>
-    <select id="result4">
-      <option value="No">No</option>
-      <option value="Yes">Yes</option>
-    </select>
-  </div>
+      let chance = 0;
 
-  <div class="result" id="predictionResult">Prediction Chance: 0%</div>
-</div>
+      if (val1 === 'Yes' && val2 === 'Yes' && val3 === 'Yes' && val4 === 'Yes') {
+        chance = 100;
+      } else if (val1 === 'Yes' && val3 === 'Yes') {
+        chance = 75;
+      } else if (val1 === 'Yes' && val4 === 'Yes' && val2 === 'No' && val3 === 'No') {
+        chance = 25;
+      } else {
+        const yesCount = [val1, val2, val3, val4].filter(v => v === 'Yes').length;
+        chance = yesCount * 25;
+      }
 
-<script>
-  const selectors = ['result1', 'result2', 'result3', 'result4'];
-
-  function updatePrediction() {
-    const val1 = document.getElementById('result1').value;
-    const val2 = document.getElementById('result2').value;
-    const val3 = document.getElementById('result3').value;
-    const val4 = document.getElementById('result4').value;
-
-    let chance = 0;
-
-    // Custom combinations
-    if (val1 === 'Yes' && val2 === 'Yes' && val3 === 'Yes' && val4 === 'Yes') {
-      chance = 100;
-    } else if (val1 === 'Yes' && val3 === 'Yes') {
-      chance = 75;
-    } else if (val1 === 'Yes' && val4 === 'Yes' && val2 === 'No' && val3 === 'No') {
-      chance = 25;
-    } else {
-      const yesCount = [val1, val2, val3, val4].filter(v => v === 'Yes').length;
-      chance = yesCount * 25;
+      document.getElementById("predictionResult").textContent = `Prediction Chance: ${chance}%`;
     }
 
-    document.getElementById("predictionResult").textContent = `Prediction Chance: ${chance}%`;
-  }
+    selectors.forEach(id => {
+      document.getElementById(id).addEventListener('change', updatePrediction);
+    });
 
-  // Add event listeners
-  selectors.forEach(id => {
-    document.getElementById(id).addEventListener('change', updatePrediction);
-  });
-
-  // Initialize
-  updatePrediction();
-</script>
+    updatePrediction();
+  </script>
 
 </body>
 </html>
