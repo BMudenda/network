@@ -185,6 +185,42 @@ input[type=email]:focus {
       document.getElementById('fare').value = "100";
     }
   </script>
+    <!DOCTYPE html>
+<html>
+<head>
+  <title>Taxi Booking Calls</title>
+  <style>
+    body { font-family: Arial; margin: 20px; }
+    .booking { margin-bottom: 15px; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
+    a.call { font-weight: bold; color: green; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <h2>Bookings</h2>
+  <div id="bookings"></div>
+
+  <script>
+    fetch('https://script.google.com/macros/s/AKfycbwZH46itdUHUdLQRRcU0UtBNMgKDCuA7e0RCJq22Yh_/dev')
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('bookings');
+        data.forEach(booking => {
+          const div = document.createElement('div');
+          div.className = 'booking';
+          div.innerHTML = `
+            <strong>Date:</strong> ${booking.Date} <br>
+            <strong>From:</strong> ${booking.From} <br>
+            <strong>To:</strong> ${booking.To} <br>
+            <strong>Time:</strong> ${booking.Time} <br>
+            <strong>Fare:</strong> ${booking.Fare} <br>
+            <a class="call" href="tel:+260${booking.Phone}">Call ${booking.Phone}</a>
+          `;
+          container.appendChild(div);
+        });
+      });
+  </script>
+</body>
+</html>
 
 </body>
 </html>
