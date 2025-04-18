@@ -14,7 +14,13 @@
     .message { margin-top:10px }
     .error { color:red }
     .success { color:green }
-    .btn-group { display:flex; flex-direction:column; gap:8px }
+    .btn-group { display:flex; flex-direction:column; gap:8px; margin-top:10px }
+    .btn-row { display:flex; gap:8px }
+    .btn-row button { flex:1 }
+    @media (max-width: 400px) {
+      .btn-row { flex-direction:column }
+      .btn-row button { width:100% }
+    }
   </style>
 </head>
 <body>
@@ -35,14 +41,22 @@
 
 <div class="card">
   <div id="map">Loading map…</div>
+  
   <div class="btn-group">
-    <button id="startTracking">Start Live Tracking</button>
-    <button id="stopTracking" disabled>Stop Tracking</button>
-    <button id="currentLocationBtn">Get Current Location</button>
-    <button id="audioGuideBtn">Start Audio Guide</button>
-    <button id="resetBtn">Reset Fields</button>
-    <button id="calculateBtn">Calculate & Speak Directions</button>
+    <div class="btn-row">
+      <button id="startTracking">Start Tracking</button>
+      <button id="stopTracking" disabled>Stop Tracking</button>
+    </div>
+    <div class="btn-row">
+      <button id="currentLocationBtn">Get My Location</button>
+      <button id="audioGuideBtn">Toggle Audio Guide</button>
+    </div>
+    <div class="btn-row">
+      <button id="calculateBtn">Get Directions</button>
+      <button id="resetBtn">Clear All</button>
+    </div>
   </div>
+  
   <div id="accuracyMsg" class="message"></div>
 
   <input id="locationInput" placeholder="📍 Current Location (auto/manual)">
@@ -65,7 +79,7 @@
   <input type="hidden" name="Coordinates"            id="coords">
   <input type="hidden" name="Destination"            id="destination">
   <input type="hidden" name="Destination_Coordinates" id="destCoords">
-  <button type="submit">Send Location</button>
+  <button type="submit">Send Location Data</button>
   <div id="submitMsg" class="message"></div>
 </form>
 
@@ -146,7 +160,7 @@
     });
     el("audioGuideBtn").addEventListener("click",()=>{
       speechOn=!speechOn;
-      el("audioGuideBtn").textContent=speechOn?"Stop Audio Guide":"Start Audio Guide";
+      el("audioGuideBtn").textContent=speechOn?"Disable Audio":"Enable Audio";
       speak(speechOn?"Audio guide on":"Audio guide off");
     });
 
@@ -206,4 +220,4 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap" async defer></script>
 </body>
-</html>
+  </html>
