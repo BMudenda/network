@@ -1,25 +1,29 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Driver Location Update</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f9f9f9; max-width: 480px; margin: auto; }
+    body { font-family: Arial, sans-serif; margin: 0 auto; padding: 20px; background: #f9f9f9; max-width: 480px; }
     .card { background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     #map { height: 280px; width: 100%; border-radius: 8px; background: #e9e9e9; margin-bottom: 12px; }
     label, select, input, button { display: block; width: 100%; }
     select, input { padding: 8px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px; }
     input[readonly] { background: #f0f0f0; }
-    button { padding: 10px; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+    button { padding: 10px; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; margin-top: 8px; }
     button:hover { background: #0056b3; }
     button:disabled { background: #ccc; cursor: not-allowed; }
     .message { text-align: center; margin: 8px 0; }
     .error { color: #dc3545; }
     .success { color: #28a745; }
+    #loading { display: none; text-align: center; color: #555; }
   </style>
 </head>
 <body>
-  <h2>Driver Location Update</h2>  <div class="card">
+  <h2>Driver Location Update</h2>
+
+  <div class="card">
     <label for="vehicleSelect">Select Vehicle</label>
     <select id="vehicleSelect" required>
       <option value="">-- Select Your Vehicle --</option>
@@ -31,16 +35,26 @@
     <div><strong>Color:</strong> <span id="displayColor">-</span></div>
     <div><strong>Plate:</strong> <span id="displayPlate">-</span></div>
     <div><strong>Phone:</strong> <span id="displayPhone">-</span></div>
-  </div>  <div class="card">
+  </div>
+
+  <div class="card">
     <h3>Current Location</h3>
-    <div id="map">Loading map...</div>
+    <div id="map"></div>
     <button id="refreshBtn">Refresh Location</button>
     <div id="accuracy" class="message"></div>
-    <label for="locationName">Nearest Place</label>
-    <input type="text" id="locationName" readonly placeholder="Fetching place name..." />
-  </div>  <div id="loading" class="message">Processing...</div>
+
+    <label for="locationName">Nearest Place (Auto or Manual Search)</label>
+    <input type="text" id="locationName" placeholder="Enter location manually or click refresh..." />
+
+    <label for="coordsDisplay">Coordinates</label>
+    <input type="text" id="coordsDisplay" readonly />
+  </div>
+
+  <div id="loading" class="message">Processing...</div>
   <div id="error" class="message error"></div>
-  <div id="success" class="message success"></div>  <form id="locationForm">
+  <div id="success" class="message success"></div>
+
+  <form id="locationForm">
     <input type="hidden" name="Location" id="location">
     <input type="hidden" name="Coordinates" id="coords">
     <input type="hidden" name="Vehicle_Type" id="type">
@@ -48,27 +62,48 @@
     <input type="hidden" name="Vehicle_Registration" id="plate">
     <input type="hidden" name="Driver_Phone" id="phone">
     <button type="submit" id="submitBtn" disabled>Send Location</button>
-  </form>  <script>
+  </form>
+
+  <script>
+    const SCRIPT_URL = "YOUR_GOOGLE_SHEET_SCRIPT_URL";
     const vehicleDB = {
       "BAH1996": { type: "Toyota Camry", color: "White", phone: "+1-555-1234" },
       "XYZ7890": { type: "Honda Accord", color: "Black", phone: "+1-555-9876" },
       "DEF4567": { type: "Ford Transit", color: "Blue", phone: "+1-555-4567" }
     };
-    const el = id => document.getElementById(id);
-    let map, marker, geocoder;
 
-    function init() {
+    const el = id => document.getElementById(id);
+    let map, marker, geocoder, placesService, autocomplete;
+    let currentPosition = null;
+
+    function initMap() {
+      geocoder = new google.maps.Geocoder();
+      const input = el('locationName');
+      autocomplete = new google.maps.places.Autocomplete(input);
+      autocomplete.setFields(['geometry', 'name']);
+      autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        if (place.geometry) {
+          setPosition({
+            latitude: place.geometry.location.lat(),
+            longitude: place.geometry.location.lng(),
+            accuracy: 0
+          });
+          el('location').value = place.name;
+        }
+      });
+
       el('vehicleSelect').addEventListener('change', onVehicleChange);
       el('refreshBtn').addEventListener('click', e => { e.preventDefault(); locate(); });
       el('locationForm').addEventListener('submit', submitLocation);
-      geocoder = new google.maps.Geocoder();
+
       locate();
     }
 
     function onVehicleChange() {
       const key = this.value;
-      if (vehicleDB[key]) {
-        const v = vehicleDB[key];
+      const v = vehicleDB[key];
+      if (v) {
         el('displayType').textContent = v.type;
         el('displayColor').textContent = v.color;
         el('displayPlate').textContent = key;
@@ -82,38 +117,66 @@
     }
 
     function locate() {
-      showLoading(true); clearMsg();
+      showLoading(true);
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           pos => setPosition(pos.coords),
-          err => showError('GPS failed. Please try again.'),
-          { timeout:15000, enableHighAccuracy:true }
+          () => {
+            showError("Automatic location failed. Please enter location manually.");
+            showLoading(false);
+          },
+          { timeout: 10000, enableHighAccuracy: true }
         );
-      } else showError('Geolocation not supported.');
+      } else {
+        showError("Geolocation not supported.");
+        showLoading(false);
+      }
     }
 
     function setPosition({ latitude, longitude, accuracy }) {
-      showLoading(false);
       const lat = parseFloat(latitude.toFixed(6));
       const lng = parseFloat(longitude.toFixed(6));
-      const coords = `${lat},${lng}`;
-      el('coords').value = coords;
-      el('accuracy').textContent = `Accuracy: ±${Math.round(accuracy)}m`;
+      currentPosition = { lat, lng };
+
+      el('coords').value = `${lat},${lng}`;
+      el('coordsDisplay').value = `${lat}, ${lng}`;
+      el('accuracy').textContent = accuracy ? `Accuracy: ±${Math.round(accuracy)}m` : "";
 
       if (!map) {
-        map = new google.maps.Map(el('map'), { center: {lat, lng}, zoom: 15 });
+        map = new google.maps.Map(el('map'), {
+          center: currentPosition,
+          zoom: 15,
+          styles: [{ featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] }]
+        });
         marker = new google.maps.Marker({ map });
       }
-      const pos = { lat, lng };
-      map.setCenter(pos); marker.setPosition(pos);
 
-      reverseGeocode(pos);
+      map.setCenter(currentPosition);
+      marker.setPosition(currentPosition);
+
+      searchNearbyPlaces(currentPosition);
       checkReady();
+      showLoading(false);
+    }
+
+    function searchNearbyPlaces(pos) {
+      placesService = new google.maps.places.PlacesService(map);
+      const request = { location: pos, radius: 200, type: ['point_of_interest'] };
+      placesService.nearbySearch(request, (results, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK && results.length > 0) {
+          const topPlace = results[0];
+          const name = `${topPlace.name}, ${topPlace.vicinity}`;
+          el('locationName').value = name;
+          el('location').value = name;
+        } else {
+          reverseGeocode(pos);
+        }
+      });
     }
 
     function reverseGeocode(latlng) {
       geocoder.geocode({ location: latlng }, (results, status) => {
-        let place = latlng.lat + ',' + latlng.lng;
+        let place = `${latlng.lat},${latlng.lng}`;
         if (status === 'OK' && results[0]) place = results[0].formatted_address;
         el('locationName').value = place;
         el('location').value = place;
@@ -121,29 +184,55 @@
     }
 
     function checkReady() {
-      if (el('coords').value && el('vehicleSelect').value) el('submitBtn').disabled = false;
+      el('submitBtn').disabled = !(el('coords').value && el('vehicleSelect').value);
     }
 
     function submitLocation(e) {
-      e.preventDefault(); showLoading(true); clearMsg();
-      const data = new URLSearchParams(new FormData(el('locationForm'))).toString();
-      fetch('https://script.google.com/macros/s/AKfycbxy3eUjHDcOCr-cEpihTTrTnixw_6rE2B_w_25UxK2SnTXPYvT0f44jM3Ud1A2yEXKB_A/exec?' + data)
-        .then(() => showMsg('success', 'Location sent.'))
-        .catch(() => showMsg('error', 'Submit failed.'))
-        .finally(() => showLoading(false));
+      e.preventDefault();
+      showLoading(true);
+      clearMsg();
+
+      const formData = new FormData(el('locationForm'));
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.text();
+      })
+      .then(text => {
+        showMsg('success', "Location sent successfully.");
+        el('locationForm').reset();
+      })
+      .catch(err => {
+        console.error(err);
+        showMsg('error', "Submission failed. Try again.");
+      })
+      .finally(() => showLoading(false));
     }
 
-    function showLoading(on) { el('loading').style.display = on ? 'block' : 'none'; }
-    function clearMsg() { el('error').textContent=''; el('success').textContent=''; }
-    function showMsg(type, msg) { el(type).textContent = msg; }
-    function showError(msg) { showMsg('error', msg); }
-
-    function loadMaps() {
-      const s = document.createElement('script');
-      s.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=init';
-      s.async = true; s.defer = true;
-      document.head.appendChild(s);
+    function showLoading(show) {
+      el('loading').style.display = show ? "block" : "none";
+      el('submitBtn').disabled = show;
+      el('refreshBtn').disabled = show;
     }
-    window.onload = loadMaps;
-  </script></body>
+
+    function clearMsg() {
+      el('error').textContent = "";
+      el('success').textContent = "";
+    }
+
+    function showMsg(type, msg) {
+      el(type).textContent = msg;
+    }
+
+    // Load Google Maps API
+    const script = document.createElement("script");
+    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap";
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+  </script>
+</body>
 </html>
