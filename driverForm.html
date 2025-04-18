@@ -1,245 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Driver Live Location with Destination</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Driver Live Location with Audio & Directions</title>
   <style>
-    body { font-family: Arial; padding: 16px; background: #f4f4f4; max-width: 480px; margin: auto; }
-    .card { background: #fff; padding: 16px; border-radius: 8px; margin-bottom: 16px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    #map { height: 300px; border-radius: 8px; margin-bottom: 12px; }
-    input, select, button { width: 100%; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; }
-    button { background: #007bff; color: white; border: none; cursor: pointer; }
-    button:hover { background: #0056b3; }
-    .message { margin-top: 10px; text-align: center; }
-    .error { color: red; }
-    .success { color: green; }
+    body { font-family: Arial, sans-serif; padding:20px; background:#f0f0f0; max-width:500px; margin:auto }
+    .card { background:#fff; padding:16px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1); margin-bottom:16px }
+    #map { height:300px; border-radius:8px; margin-bottom:12px }
+    input, select, button { width:100%; margin-top:10px; padding:10px; border:1px solid #ccc; border-radius:6px }
+    button { background:#007bff; color:#fff; border:none; cursor:pointer }
+    button:hover { background:#0056b3 }
+    .message { margin-top:10px }
+    .error { color:red }
+    .success { color:green }
+    .btn-group { display:flex; flex-direction:column; gap:8px }
   </style>
 </head>
 <body>
-  <h2>Driver Live Location Update</h2>
 
-  <div class="card">
-    <label for="vehicle">Select Vehicle</label>
-    <select id="vehicle">
-      <option value="">-- Select Vehicle --</option>
-      <option value="BAH1996">BAH1996 - Camry</option>
-      <option value="XYZ7890">XYZ7890 - Accord</option>
-    </select>
-    <div><strong>Type:</strong> <span id="vtype">-</span></div>
-    <div><strong>Color:</strong> <span id="vcolor">-</span></div>
-    <div><strong>Phone:</strong> <span id="vphone">-</span></div>
-  </div>
+<h2>Driver Live Location</h2>
 
-  <div class="card">
-    <h3>Live Tracker & Destination</h3>
-    <div id="map">Loading map...</div>
+<div class="card">
+  <label for="vehicle">Select Vehicle</label>
+  <select id="vehicle">
+    <option value="">-- Select --</option>
+    <option value="BAH1996">BAH1996 – Camry</option>
+    <option value="XYZ7890">XYZ7890 – Accord</option>
+  </select>
+  <div><b>Type:</b> <span id="vtype">-</span></div>
+  <div><b>Color:</b> <span id="vcolor">-</span></div>
+  <div><b>Phone:</b> <span id="vphone">-</span></div>
+</div>
+
+<div class="card">
+  <div id="map">Loading map…</div>
+  <div class="btn-group">
     <button id="startTracking">Start Live Tracking</button>
     <button id="stopTracking" disabled>Stop Tracking</button>
-    <div id="accuracyMsg" class="message"></div>
-
-    <input type="text" id="locationInput" placeholder="📍 Current Location (auto/manual)" />
-    <input type="text" id="coordsInput" placeholder="📍 Current Coordinates (e.g., -15.4167, 28.2833)" readonly />
-
-    <hr>
-
-    <input type="text" id="destinationInput" placeholder="📍 Destination place name or area" />
-    <input type="text" id="destCoordsInput" placeholder="📍 Destination Coordinates (e.g., -15.4200, 28.3000)" />
-
-    <button id="calculateBtn">Calculate Distance</button>
-    <div id="routeInfo" class="message"></div>
-    <div id="manualMsg" class="message error"></div>
+    <button id="currentLocationBtn">Get Current Location</button>
+    <button id="audioGuideBtn">Start Audio Guide</button>
     <button id="resetBtn">Reset Fields</button>
+    <button id="calculateBtn">Calculate & Speak Directions</button>
   </div>
+  <div id="accuracyMsg" class="message"></div>
 
-  <form id="locationForm" class="card">
-    <input type="hidden" name="Vehicle_Registration" id="reg">
-    <input type="hidden" name="Vehicle_Type" id="type">
-    <input type="hidden" name="Vehicle_Color" id="color">
-    <input type="hidden" name="Driver_Phone" id="phone">
-    <input type="hidden" name="Location" id="location">
-    <input type="hidden" name="Coordinates" id="coords">
-    <input type="hidden" name="Destination" id="destination">
-    <input type="hidden" name="Destination_Coordinates" id="destCoords">
-    <button type="submit">Send Location</button>
-    <div id="submitMsg" class="message"></div>
-  </form>
+  <input id="locationInput" placeholder="📍 Current Location (auto/manual)">
+  <input id="coordsInput" placeholder="📍 Coordinates" readonly>
 
-  <script>
-    const el = id => document.getElementById(id);
-    let map, marker, geocoder, watchId, autocomplete, destAutocomplete;
-    let directionsService, directionsRenderer;
+  <hr>
 
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxy3eUjHDcOCr-cEpihTTrTnixw_6rE2B_w_25UxK2SnTXPYvT0f44jM3Ud1A2yEXKB_A/exec";
+  <input id="destinationInput" placeholder="📍 Destination (autocomplete or manual)">
+  <input id="destCoordsInput" placeholder="📍 Destination Coordinates">
 
-    const vehicleDB = {
-      "BAH1996": { type: "Toyota Camry", color: "White", phone: "+260-777-123456" },
-      "XYZ7890": { type: "Honda Accord", color: "Black", phone: "+260-777-987654" }
-    };
+  <div id="routeInfo" class="message"></div>
+</div>
 
-    function initMap() {
-      geocoder = new google.maps.Geocoder();
-      directionsService = new google.maps.DirectionsService();
-      directionsRenderer = new google.maps.DirectionsRenderer();
+<form id="locationForm" class="card">
+  <input type="hidden" name="Vehicle_Registration"   id="reg">
+  <input type="hidden" name="Vehicle_Type"           id="type">
+  <input type="hidden" name="Vehicle_Color"          id="color">
+  <input type="hidden" name="Driver_Phone"           id="phone">
+  <input type="hidden" name="Location"               id="location">
+  <input type="hidden" name="Coordinates"            id="coords">
+  <input type="hidden" name="Destination"            id="destination">
+  <input type="hidden" name="Destination_Coordinates" id="destCoords">
+  <button type="submit">Send Location</button>
+  <div id="submitMsg" class="message"></div>
+</form>
 
-      map = new google.maps.Map(el("map"), {
-        center: { lat: -15.4167, lng: 28.2833 },
-        zoom: 15
-      });
+<script>
+  const el = id => document.getElementById(id);
+  let map, marker, watchId, geocoder, directionsService, directionsRenderer;
+  let speechOn = false;
 
-      directionsRenderer.setMap(map);
-      marker = new google.maps.Marker({ map });
+  function speak(txt) {
+    if (!speechOn) return;
+    const u = new SpeechSynthesisUtterance(txt);
+    u.lang = 'en-US';
+    speechSynthesis.speak(u);
+  }
 
-      autocomplete = new google.maps.places.Autocomplete(el("locationInput"));
-      autocomplete.setFields(["geometry", "name"]);
-      autocomplete.addListener("place_changed", () => {
-        const place = autocomplete.getPlace();
-        if (place.geometry) {
-          updatePosition(place.geometry.location.lat(), place.geometry.location.lng());
-        }
-      });
+  const vehicleDB = {
+    "BAH1996": { type:"Toyota Camry", color:"White", phone:"+260777123456" },
+    "XYZ7890": { type:"Honda Accord", color:"Black", phone:"+260777987654" }
+  };
 
-      destAutocomplete = new google.maps.places.Autocomplete(el("destinationInput"));
-      destAutocomplete.setFields(["geometry", "name"]);
-      destAutocomplete.addListener("place_changed", () => {
-        const place = destAutocomplete.getPlace();
-        if (place.geometry) {
-          const lat = place.geometry.location.lat();
-          const lng = place.geometry.location.lng();
-          el("destCoordsInput").value = `${lat.toFixed(6)},${lng.toFixed(6)}`;
-        }
-      });
+  function initMap() {
+    geocoder = new google.maps.Geocoder();
+    directionsService = new google.maps.DirectionsService();
+    map = new google.maps.Map(el("map"), { center:{lat:-15.4167,lng:28.2833}, zoom:15 });
+    directionsRenderer = new google.maps.DirectionsRenderer({ map });
+    marker = new google.maps.Marker({ map });
 
-      el("vehicle").addEventListener("change", updateVehicleInfo);
-      el("startTracking").addEventListener("click", startLiveTracking);
-      el("stopTracking").addEventListener("click", stopLiveTracking);
-      el("calculateBtn").addEventListener("click", calculateRoute);
-      el("resetBtn").addEventListener("click", resetFields);
-      el("locationForm").addEventListener("submit", sendLocation);
-    }
+    const acPick = new google.maps.places.Autocomplete(el("locationInput"));
+    acPick.setFields(["geometry","formatted_address"]);
+    acPick.addListener("place_changed",()=>{
+      const p=acPick.getPlace(); if(p.geometry) updatePosition(p.geometry.location.lat(), p.geometry.location.lng());
+    });
 
-    function updateVehicleInfo() {
-      const reg = this.value;
-      const info = vehicleDB[reg] || {};
-      el("vtype").textContent = info.type || "-";
-      el("vcolor").textContent = info.color || "-";
-      el("vphone").textContent = info.phone || "-";
-
-      el("reg").value = reg;
-      el("type").value = info.type || "";
-      el("color").value = info.color || "";
-      el("phone").value = info.phone || "";
-    }
-
-    function startLiveTracking() {
-      if (!navigator.geolocation) {
-        el("manualMsg").textContent = "Geolocation not supported.";
-        return;
+    const acDest = new google.maps.places.Autocomplete(el("destinationInput"));
+    acDest.setFields(["geometry","name"]);
+    acDest.addListener("place_changed",()=>{
+      const p=acDest.getPlace();
+      if(p.geometry){
+        const lat=p.geometry.location.lat(), lng=p.geometry.location.lng();
+        el("destCoordsInput").value=`${lat.toFixed(6)},${lng.toFixed(6)}`;
+        el("destCoords").value=el("destCoordsInput").value;
+        el("destination").value=p.name;
+        speak(`Destination ${p.name} set`);
       }
+    });
 
-      el("startTracking").disabled = true;
-      el("stopTracking").disabled = false;
-      el("manualMsg").textContent = "";
-
-      watchId = navigator.geolocation.watchPosition(
-        pos => {
-          const { latitude, longitude, accuracy } = pos.coords;
-          updatePosition(latitude, longitude, accuracy);
-        },
-        err => {
-          el("manualMsg").textContent = "Auto location failed. Use manual search.";
-          stopLiveTracking();
-        },
-        { enableHighAccuracy: true, maximumAge: 10000, timeout: 10000 }
-      );
-    }
-
-    function stopLiveTracking() {
-      if (watchId) navigator.geolocation.clearWatch(watchId);
-      el("startTracking").disabled = false;
-      el("stopTracking").disabled = true;
-    }
-
-    function updatePosition(lat, lng, accuracy = null) {
-      const pos = { lat, lng };
-      map.setCenter(pos);
-      marker.setPosition(pos);
-
-      const coordStr = `${lat.toFixed(6)},${lng.toFixed(6)}`;
-      el("coordsInput").value = coordStr;
-      el("coords").value = coordStr;
-
-      if (accuracy) el("accuracyMsg").textContent = `Accuracy: ±${Math.round(accuracy)}m`;
-
-      geocoder.geocode({ location: pos }, (results, status) => {
-        if (status === "OK" && results[0]) {
-          const address = results[0].formatted_address;
-          el("locationInput").value = address;
-          el("location").value = address;
-        } else {
-          el("manualMsg").textContent = "Could not auto-fetch place. Use manual search.";
-        }
-      });
-    }
-
-    function calculateRoute() {
-      const from = el("coordsInput").value.trim();
-      const to = el("destCoordsInput").value.trim();
-
-      const isValidCoords = val => /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(val);
-
-      if (!isValidCoords(from) || !isValidCoords(to)) {
-        el("routeInfo").innerHTML = "<span class='error'>Invalid coordinate format. Use: -15.4167,28.2833</span>";
-        return;
+    el("destCoordsInput").addEventListener("blur",()=>{
+      const v=el("destCoordsInput").value.trim();
+      const m=v.match(/^(-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)$/);
+      if(m){ const lat=parseFloat(m[1]), lng=parseFloat(m[2]);
+        geocoder.geocode({location:{lat,lng}},(rs,st)=>{ if(st==="OK"&&rs[0]){
+          el("destinationInput").value=rs[0].formatted_address;
+          el("destination").value=rs[0].formatted_address;
+          el("destCoords").value=v;
+          speak(`Destination set to ${rs[0].formatted_address}`);
+        }});
       }
+    });
 
-      const [fromLat, fromLng] = from.split(",").map(Number);
-      const [toLat, toLng] = to.split(",").map(Number);
+    el("vehicle").addEventListener("change",()=>{
+      const v=vehicleDB[el("vehicle").value]||{};
+      el("vtype").textContent=v.type||"-";
+      el("vcolor").textContent=v.color||"-";
+      el("vphone").textContent=v.phone||"-";
+      el("reg").value=el("vehicle").value;
+      el("type").value=v.type||"";
+      el("color").value=v.color||"";
+      el("phone").value=v.phone||"";
+    });
 
-      const request = {
-        origin: { lat: fromLat, lng: fromLng },
-        destination: { lat: toLat, lng: toLng },
-        travelMode: 'DRIVING'
-      };
+    el("startTracking").addEventListener("click",startTracking);
+    el("stopTracking").addEventListener("click",stopTracking);
+    el("currentLocationBtn").addEventListener("click",getCurrentLocation);
+    el("calculateBtn").addEventListener("click",calculateRoute);
+    el("resetBtn").addEventListener("click",()=>{
+      ["locationInput","coordsInput","destinationInput","destCoordsInput"].forEach(id=>el(id).value="");
+      el("routeInfo").textContent="";
+    });
+    el("audioGuideBtn").addEventListener("click",()=>{
+      speechOn=!speechOn;
+      el("audioGuideBtn").textContent=speechOn?"Stop Audio Guide":"Start Audio Guide";
+      speak(speechOn?"Audio guide on":"Audio guide off");
+    });
 
-      directionsService.route(request, (result, status) => {
-        if (status === "OK") {
-          directionsRenderer.setDirections(result);
-          const leg = result.routes[0].legs[0];
-          el("routeInfo").innerHTML = `<span class="success">Distance: ${leg.distance.text}, Time: ${leg.duration.text}</span>`;
-          el("destination").value = el("destinationInput").value;
-          el("destCoords").value = el("destCoordsInput").value;
-        } else {
-          el("routeInfo").innerHTML = `<span class="error">Could not calculate route.</span>`;
-        }
-      });
-    }
+    el("locationForm").addEventListener("submit",e=>{
+      e.preventDefault(); speak("Sending location"); setTimeout(()=>el("submitMsg").textContent="✅ Sent",500);
+    });
+  }
 
-    function resetFields() {
-      ["locationInput", "coordsInput", "destinationInput", "destCoordsInput"].forEach(id => el(id).value = "");
-      el("routeInfo").textContent = "";
-      el("manualMsg").textContent = "";
-    }
+  function updatePosition(lat,lng,acc){
+    const pos={lat,lng}; marker.setPosition(pos); map.setCenter(pos);
+    const cs=`${lat.toFixed(6)},${lng.toFixed(6)}`;
+    el("coordsInput").value=cs; el("coords").value=cs;
+    if(acc) el("accuracyMsg").textContent=`Accuracy ±${Math.round(acc)}m`;
+    geocoder.geocode({location:pos},(rs,st)=>{ if(st==="OK"&&rs[0]){
+      el("locationInput").value=rs[0].formatted_address;
+      el("location").value=rs[0].formatted_address;
+      speak(`Current location: ${rs[0].formatted_address}`);
+    }});
+  }
 
-    function sendLocation(e) {
-      e.preventDefault();
-      const formData = new FormData(el("locationForm"));
-      el("submitMsg").innerHTML = "Sending...";
+  function startTracking(){
+    if(!navigator.geolocation){ alert("No geolocation"); return; }
+    el("startTracking").disabled=true; el("stopTracking").disabled=false;
+    speak("Live tracking started");
+    watchId=navigator.geolocation.watchPosition(p=>{ updatePosition(p.coords.latitude,p.coords.longitude,p.coords.accuracy); },e=>console.error(e),{enableHighAccuracy:true});
+  }
+  function stopTracking(){
+    navigator.geolocation.clearWatch(watchId);
+    el("startTracking").disabled=false; el("stopTracking").disabled=true;
+    speak("Live tracking stopped");
+  }
 
-      fetch(SCRIPT_URL, {
-        method: "POST",
-        body: formData
-      })
-      .then(res => res.ok ? res.text() : Promise.reject("Submission failed."))
-      .then(() => {
-        el("submitMsg").innerHTML = `<span class="success">Location sent successfully.</span>`;
-      })
-      .catch(() => {
-        el("submitMsg").innerHTML = `<span class="error">Failed to send location. Try again.</span>`;
-      });
-    }
-  </script>
+  function getCurrentLocation(){
+    if(!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(p=>{ updatePosition(p.coords.latitude,p.coords.longitude); speak("Current location acquired"); });
+  }
 
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap" async defer></script>
+  function calculateRoute(){
+    const f=el("coordsInput").value,t=el("destCoordsInput").value;
+    if(!f||!t){ speak("Set both start and destination"); return; }
+    const [fl,fg]=f.split(",").map(Number),[tl,tg]=t.split(",").map(Number);
+    directionsService.route({ origin:{lat:fl,lng:fg}, destination:{lat:tl,lng:tg}, travelMode:"DRIVING" },(res,st)=>{
+      if(st==="OK"){
+        directionsRenderer.setDirections(res);
+        const leg=res.routes[0].legs[0];
+        el("routeInfo").innerHTML=`<span class='success'>Distance: ${leg.distance.text}, Time: ${leg.duration.text}</span>`;
+        speak(`Distance ${leg.distance.text}, time ${leg.duration.text}`);
+        leg.steps.forEach((stp,i)=> setTimeout(()=> speak(stp.instructions.replace(/<[^>]+>/g,"")),1500*i));
+      } else {
+        el("routeInfo").innerHTML=`<span class='error'>Route failed</span>`; speak("Route failed");
+      }
+    });
+  }
+
+  window.initMap=initMap;
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap" async defer></script>
 </body>
 </html>
