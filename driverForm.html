@@ -9,6 +9,7 @@
     #map { height: 280px; width: 100%; border-radius: 8px; background: #e9e9e9; margin-bottom: 12px; }
     label, select, input, button { display: block; width: 100%; }
     select, input { padding: 8px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px; }
+    input[readonly] { background: #f0f0f0; }
     button { padding: 10px; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
     button:hover { background: #0056b3; }
     button:disabled { background: #ccc; cursor: not-allowed; }
@@ -33,9 +34,10 @@
   </div>  <div class="card">
     <h3>Current Location</h3>
     <div id="map">Loading map...</div>
-    <input id="manualLocation" type="text" placeholder="Enter location manually..." style="display:none;" />
     <button id="refreshBtn">Refresh Location</button>
     <div id="accuracy" class="message"></div>
+    <label for="locationName">Nearest Place</label>
+    <input type="text" id="locationName" readonly placeholder="Fetching place name..." />
   </div>  <div id="loading" class="message">Processing...</div>
   <div id="error" class="message error"></div>
   <div id="success" class="message success"></div>  <form id="locationForm">
@@ -52,14 +54,14 @@
       "XYZ7890": { type: "Honda Accord", color: "Black", phone: "+1-555-9876" },
       "DEF4567": { type: "Ford Transit", color: "Blue", phone: "+1-555-4567" }
     };
-
     const el = id => document.getElementById(id);
-    let map, marker;
+    let map, marker, geocoder;
 
     function init() {
       el('vehicleSelect').addEventListener('change', onVehicleChange);
       el('refreshBtn').addEventListener('click', e => { e.preventDefault(); locate(); });
       el('locationForm').addEventListener('submit', submitLocation);
+      geocoder = new google.maps.Geocoder();
       locate();
     }
 
@@ -82,16 +84,21 @@
     function locate() {
       showLoading(true); clearMsg();
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(pos => setPosition(pos.coords), err => showManualInput(), { timeout:15000, enableHighAccuracy:true });
-      } else showManualInput();
+        navigator.geolocation.getCurrentPosition(
+          pos => setPosition(pos.coords),
+          err => showError('GPS failed. Please try again.'),
+          { timeout:15000, enableHighAccuracy:true }
+        );
+      } else showError('Geolocation not supported.');
     }
 
-    function setPosition({ latitude: lat, longitude: lng, accuracy }) {
+    function setPosition({ latitude, longitude, accuracy }) {
       showLoading(false);
-      const coords = lat + ',' + lng;
+      const lat = parseFloat(latitude.toFixed(6));
+      const lng = parseFloat(longitude.toFixed(6));
+      const coords = `${lat},${lng}`;
       el('coords').value = coords;
       el('accuracy').textContent = `Accuracy: ±${Math.round(accuracy)}m`;
-      el('coords').dataset.lat = lat; el('coords').dataset.lng = lng;
 
       if (!map) {
         map = new google.maps.Map(el('map'), { center: {lat, lng}, zoom: 15 });
@@ -100,26 +107,16 @@
       const pos = { lat, lng };
       map.setCenter(pos); marker.setPosition(pos);
 
-      el('location').value = coords;
+      reverseGeocode(pos);
       checkReady();
     }
 
-    function showManualInput() {
-      showLoading(false);
-      el('manualLocation').style.display = 'block';
-      el('manualLocation').focus();
-      initAutocomplete();
-    }
-
-    function initAutocomplete() {
-      const input = el('manualLocation');
-      const autocomplete = new google.maps.places.Autocomplete(input);
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        if (!place.geometry) return;
-        const loc = place.geometry.location;
-        setPosition({ latitude: loc.lat(), longitude: loc.lng(), accuracy: 0 });
-        el('location').value = place.formatted_address;
+    function reverseGeocode(latlng) {
+      geocoder.geocode({ location: latlng }, (results, status) => {
+        let place = latlng.lat + ',' + latlng.lng;
+        if (status === 'OK' && results[0]) place = results[0].formatted_address;
+        el('locationName').value = place;
+        el('location').value = place;
       });
     }
 
@@ -129,7 +126,7 @@
 
     function submitLocation(e) {
       e.preventDefault(); showLoading(true); clearMsg();
-      const data = new URLSearchParams(new FormData(el('locationForm')));
+      const data = new URLSearchParams(new FormData(el('locationForm'))).toString();
       fetch('https://script.google.com/macros/s/AKfycbxy3eUjHDcOCr-cEpihTTrTnixw_6rE2B_w_25UxK2SnTXPYvT0f44jM3Ud1A2yEXKB_A/exec?' + data)
         .then(() => showMsg('success', 'Location sent.'))
         .catch(() => showMsg('error', 'Submit failed.'))
@@ -139,6 +136,7 @@
     function showLoading(on) { el('loading').style.display = on ? 'block' : 'none'; }
     function clearMsg() { el('error').textContent=''; el('success').textContent=''; }
     function showMsg(type, msg) { el(type).textContent = msg; }
+    function showError(msg) { showMsg('error', msg); }
 
     function loadMaps() {
       const s = document.createElement('script');
@@ -146,7 +144,6 @@
       s.async = true; s.defer = true;
       document.head.appendChild(s);
     }
-
     window.onload = loadMaps;
   </script></body>
 </html>
