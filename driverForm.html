@@ -1,385 +1,152 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Driver Location Update</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      max-width: 500px;
-      margin: auto;
-      background-color: #f9f9f9;
-    }
-    .info-card {
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    #map {
-      height: 300px;
-      width: 100%;
-      margin-bottom: 15px;
-      border-radius: 10px;
-      background-color: #e9e9e9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    button {
-      padding: 12px 20px;
-      font-size: 16px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 100%;
-      transition: background-color 0.3s;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    button:disabled {
-      background-color: #cccccc;
-      cursor: not-allowed;
-    }
-    .loading {
-      display: none;
-      text-align: center;
-      margin: 10px 0;
-      color: #666;
-    }
-    .error {
-      color: #dc3545;
-      margin: 10px 0;
-      text-align: center;
-    }
-    .success {
-      color: #28a745;
-      margin: 10px 0;
-      text-align: center;
-    }
-    .info-row {
-      display: flex;
-      margin-bottom: 8px;
-    }
-    .info-label {
-      font-weight: bold;
-      width: 150px;
-    }
-    .info-value {
-      flex-grow: 1;
-    }
-    #refreshBtn {
-      background-color: #6c757d;
-      margin-top: 10px;
-    }
-    #refreshBtn:hover {
-      background-color: #5a6268;
-    }
-    select {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-      border: 1px solid #ddd;
-    }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f9f9f9; max-width: 480px; margin: auto; }
+    .card { background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    #map { height: 280px; width: 100%; border-radius: 8px; background: #e9e9e9; margin-bottom: 12px; }
+    label, select, input, button { display: block; width: 100%; }
+    select, input { padding: 8px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px; }
+    button { padding: 10px; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    .message { text-align: center; margin: 8px 0; }
+    .error { color: #dc3545; }
+    .success { color: #28a745; }
   </style>
 </head>
 <body>
-  <h2>Driver Location Update</h2>
-  
-  <div class="info-card">
-    <h3>Driver Information</h3>
-    <div class="info-row">
-      <label for="vehicleSelect" class="info-label">Select Vehicle:</label>
-      <select id="vehicleSelect" class="info-value">
-        <option value="">-- Select Your Vehicle --</option>
-        <option value="BAH1996">BAH1996 (Toyota Camry)</option>
-        <option value="XYZ7890">XYZ7890 (Honda Accord)</option>
-        <option value="DEF4567">DEF4567 (Ford Transit)</option>
-      </select>
-    </div>
-    <div class="info-row">
-      <div class="info-label">Vehicle Type:</div>
-      <div id="displayType" class="info-value">-</div>
-    </div>
-    <div class="info-row">
-      <div class="info-label">Vehicle Color:</div>
-      <div id="displayColor" class="info-value">-</div>
-    </div>
-    <div class="info-row">
-      <div class="info-label">License Plate:</div>
-      <div id="displayPlate" class="info-value">-</div>
-    </div>
-    <div class="info-row">
-      <div class="info-label">Driver Phone:</div>
-      <div id="displayPhone" class="info-value">-</div>
-    </div>
-  </div>
-
-  <div class="info-card">
+  <h2>Driver Location Update</h2>  <div class="card">
+    <label for="vehicleSelect">Select Vehicle</label>
+    <select id="vehicleSelect" required>
+      <option value="">-- Select Your Vehicle --</option>
+      <option value="BAH1996">BAH1996 (Toyota Camry)</option>
+      <option value="XYZ7890">XYZ7890 (Honda Accord)</option>
+      <option value="DEF4567">DEF4567 (Ford Transit)</option>
+    </select>
+    <div><strong>Type:</strong> <span id="displayType">-</span></div>
+    <div><strong>Color:</strong> <span id="displayColor">-</span></div>
+    <div><strong>Plate:</strong> <span id="displayPlate">-</span></div>
+    <div><strong>Phone:</strong> <span id="displayPhone">-</span></div>
+  </div>  <div class="card">
     <h3>Current Location</h3>
     <div id="map">Loading map...</div>
-    <div id="addressDisplay" style="font-style: italic; margin-top: 10px;"></div>
+    <input id="manualLocation" type="text" placeholder="Enter location manually..." style="display:none;" />
     <button id="refreshBtn">Refresh Location</button>
-  </div>
-
-  <div id="loading" class="loading">Processing your location...</div>
-  <div id="error" class="error"></div>
-  <div id="success" class="success"></div>
-
-  <form id="locationForm">
+    <div id="accuracy" class="message"></div>
+  </div>  <div id="loading" class="message">Processing...</div>
+  <div id="error" class="message error"></div>
+  <div id="success" class="message success"></div>  <form id="locationForm">
     <input type="hidden" name="Location" id="location">
     <input type="hidden" name="Coordinates" id="coords">
     <input type="hidden" name="Vehicle_Type" id="type">
     <input type="hidden" name="Vehicle_Color" id="color">
     <input type="hidden" name="Vehicle_Registration" id="plate">
     <input type="hidden" name="Driver_Phone" id="phone">
-    <button type="submit" id="submitBtn">Send My Current Location</button>
-  </form>
-
-  <script>
-    // Vehicle database - in a real app this would come from a server
-    const vehicleDatabase = {
-      "BAH1996": {
-        type: "Toyota Camry",
-        color: "White",
-        plate: "BAH1996",
-        phone: "+1 (555) 123-4567"
-      },
-      "XYZ7890": {
-        type: "Honda Accord",
-        color: "Black",
-        plate: "XYZ7890",
-        phone: "+1 (555) 987-6543"
-      },
-      "DEF4567": {
-        type: "Ford Transit",
-        color: "Blue",
-        plate: "DEF4567",
-        phone: "+1 (555) 456-7890"
-      }
+    <button type="submit" id="submitBtn" disabled>Send Location</button>
+  </form>  <script>
+    const vehicleDB = {
+      "BAH1996": { type: "Toyota Camry", color: "White", phone: "+1-555-1234" },
+      "XYZ7890": { type: "Honda Accord", color: "Black", phone: "+1-555-9876" },
+      "DEF4567": { type: "Ford Transit", color: "Blue", phone: "+1-555-4567" }
     };
 
-    // DOM elements
-    const vehicleSelect = document.getElementById('vehicleSelect');
-    const displayType = document.getElementById('displayType');
-    const displayColor = document.getElementById('displayColor');
-    const displayPlate = document.getElementById('displayPlate');
-    const displayPhone = document.getElementById('displayPhone');
-    const typeInput = document.getElementById('type');
-    const colorInput = document.getElementById('color');
-    const plateInput = document.getElementById('plate');
-    const phoneInput = document.getElementById('phone');
+    const el = id => document.getElementById(id);
+    let map, marker;
 
-    // Initialize map variables
-    let mapInitialized = false;
-    let currentPosition = null;
-    let map = null;
-    let marker = null;
+    function init() {
+      el('vehicleSelect').addEventListener('change', onVehicleChange);
+      el('refreshBtn').addEventListener('click', e => { e.preventDefault(); locate(); });
+      el('locationForm').addEventListener('submit', submitLocation);
+      locate();
+    }
 
-    // Event listener for vehicle selection
-    vehicleSelect.addEventListener('change', function() {
-      const selectedPlate = this.value;
-      if (selectedPlate && vehicleDatabase[selectedPlate]) {
-        const vehicle = vehicleDatabase[selectedPlate];
-        displayType.textContent = vehicle.type;
-        displayColor.textContent = vehicle.color;
-        displayPlate.textContent = vehicle.plate;
-        displayPhone.textContent = vehicle.phone;
-        
-        // Update hidden form fields
-        typeInput.value = vehicle.type;
-        colorInput.value = vehicle.color;
-        plateInput.value = vehicle.plate;
-        phoneInput.value = vehicle.phone;
-        
-        // Enable submit button if location is already available
-        if (mapInitialized) {
-          document.getElementById('submitBtn').disabled = false;
-        }
-      } else {
-        // Reset fields if no vehicle selected
-        displayType.textContent = '-';
-        displayColor.textContent = '-';
-        displayPlate.textContent = '-';
-        displayPhone.textContent = '-';
-        
-        typeInput.value = '';
-        colorInput.value = '';
-        plateInput.value = '';
-        phoneInput.value = '';
-        
-        document.getElementById('submitBtn').disabled = true;
+    function onVehicleChange() {
+      const key = this.value;
+      if (vehicleDB[key]) {
+        const v = vehicleDB[key];
+        el('displayType').textContent = v.type;
+        el('displayColor').textContent = v.color;
+        el('displayPlate').textContent = key;
+        el('displayPhone').textContent = v.phone;
+        el('type').value = v.type;
+        el('color').value = v.color;
+        el('plate').value = key;
+        el('phone').value = v.phone;
+        checkReady();
       }
-    });
-
-    function showError(message) {
-      const errorEl = document.getElementById('error');
-      errorEl.textContent = message;
-      document.getElementById('success').textContent = '';
     }
 
-    function showSuccess(message) {
-      const successEl = document.getElementById('success');
-      successEl.textContent = message;
-      document.getElementById('error').textContent = '';
-    }
-
-    function clearMessages() {
-      document.getElementById('error').textContent = '';
-      document.getElementById('success').textContent = '';
-    }
-
-    function setLoading(loading) {
-      document.getElementById('loading').style.display = loading ? 'block' : 'none';
-      document.getElementById('submitBtn').disabled = loading;
-      document.getElementById('refreshBtn').disabled = loading;
-      document.getElementById('vehicleSelect').disabled = loading;
-    }
-
-    function updateLocationInfo(position) {
-      const lat = position.coords.latitude;
-      const lng = position.coords.longitude;
-      const coords = `${lat},${lng}`;
-      
-      document.getElementById("coords").value = coords;
-      currentPosition = { lat, lng };
-
-      // Update map
-      const mapDiv = document.getElementById("map");
-      mapDiv.innerHTML = ''; // Clear previous map if any
-      
-      map = new google.maps.Map(mapDiv, {
-        center: { lat, lng },
-        zoom: 15,
-      });
-
-      marker = new google.maps.Marker({
-        position: { lat, lng },
-        map,
-        title: "Your Current Location"
-      });
-
-      // Get address using Places API
-      const geocoder = new google.maps.Geocoder();
-      geocoder.geocode({ location: { lat, lng } }, (results, status) => {
-        if (status === "OK" && results[0]) {
-          const address = results[0].formatted_address;
-          document.getElementById("location").value = address;
-          document.getElementById("addressDisplay").textContent = address;
-        } else {
-          document.getElementById("location").value = "Coordinates: " + coords;
-          document.getElementById("addressDisplay").textContent = "Coordinates: " + coords;
-        }
-      });
-    }
-
-    function getCurrentLocation() {
+    function locate() {
+      showLoading(true); clearMsg();
       if (navigator.geolocation) {
-        setLoading(true);
-        clearMessages();
-        
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            try {
-              updateLocationInfo(position);
-              showSuccess("Location updated! Verify on map before submitting.");
-              mapInitialized = true;
-              // Enable submit button if vehicle is selected
-              if (vehicleSelect.value) {
-                document.getElementById('submitBtn').disabled = false;
-              }
-            } catch (error) {
-              showError("Error processing location: " + error.message);
-            }
-            setLoading(false);
-          }, 
-          (error) => {
-            let errorMessage = "Location access denied or unavailable.";
-            switch(error.code) {
-              case error.PERMISSION_DENIED:
-                errorMessage = "Location permission denied. Please enable location services.";
-                break;
-              case error.POSITION_UNAVAILABLE:
-                errorMessage = "Location information is unavailable.";
-                break;
-              case error.TIMEOUT:
-                errorMessage = "The request to get location timed out.";
-                break;
-            }
-            showError(errorMessage);
-            setLoading(false);
-          },
-          { 
-            timeout: 10000,
-            enableHighAccuracy: true 
-          }
-        );
-      } else {
-        showError("Geolocation not supported by your browser.");
-      }
+        navigator.geolocation.getCurrentPosition(pos => setPosition(pos.coords), err => showManualInput(), { timeout:15000, enableHighAccuracy:true });
+      } else showManualInput();
     }
 
-    function initMap() {
-      // First try to get the current location
-      getCurrentLocation();
+    function setPosition({ latitude: lat, longitude: lng, accuracy }) {
+      showLoading(false);
+      const coords = lat + ',' + lng;
+      el('coords').value = coords;
+      el('accuracy').textContent = `Accuracy: ±${Math.round(accuracy)}m`;
+      el('coords').dataset.lat = lat; el('coords').dataset.lng = lng;
+
+      if (!map) {
+        map = new google.maps.Map(el('map'), { center: {lat, lng}, zoom: 15 });
+        marker = new google.maps.Marker({ map });
+      }
+      const pos = { lat, lng };
+      map.setCenter(pos); marker.setPosition(pos);
+
+      el('location').value = coords;
+      checkReady();
     }
 
-    document.getElementById("locationForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      
-      if (!mapInitialized) {
-        showError("Please wait for location to load before submitting.");
-        return;
-      }
-      
-      if (!vehicleSelect.value) {
-        showError("Please select your vehicle first.");
-        return;
-      }
-      
-      setLoading(true);
-      clearMessages();
-      
-      const formData = new URLSearchParams(new FormData(this)).toString();
-      const scriptURL = "https://script.google.com/macros/s/AKfycbxy3eUjHDcOCr-cEpihTTrTnixw_6rE2B_w_25UxK2SnTXPYvT0f44jM3Ud1A2yEXKB_A/exec?" + formData;
-
-      fetch(scriptURL)
-        .then(() => {
-          showSuccess("Location submitted successfully to administrator!");
-        })
-        .catch((error) => {
-          showError("Error submitting location: " + error.message);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    });
-
-    // Add refresh button functionality
-    document.getElementById("refreshBtn").addEventListener("click", function(e) {
-      e.preventDefault();
-      getCurrentLocation();
-    });
-
-    // Load Google Maps API with your specified key
-    function loadGoogleMaps() {
-      const script = document.createElement('script');
-      script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap';
-      script.async = true;
-      script.defer = true;
-      document.head.appendChild(script);
+    function showManualInput() {
+      showLoading(false);
+      el('manualLocation').style.display = 'block';
+      el('manualLocation').focus();
+      initAutocomplete();
     }
 
-    // Start loading Google Maps API
-    loadGoogleMaps();
+    function initAutocomplete() {
+      const input = el('manualLocation');
+      const autocomplete = new google.maps.places.Autocomplete(input);
+      autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        if (!place.geometry) return;
+        const loc = place.geometry.location;
+        setPosition({ latitude: loc.lat(), longitude: loc.lng(), accuracy: 0 });
+        el('location').value = place.formatted_address;
+      });
+    }
 
-    // Disable submit button initially
-    document.getElementById('submitBtn').disabled = true;
-  </script>
-</body>
+    function checkReady() {
+      if (el('coords').value && el('vehicleSelect').value) el('submitBtn').disabled = false;
+    }
+
+    function submitLocation(e) {
+      e.preventDefault(); showLoading(true); clearMsg();
+      const data = new URLSearchParams(new FormData(el('locationForm')));
+      fetch('https://script.google.com/macros/s/AKfycbxy3eUjHDcOCr-cEpihTTrTnixw_6rE2B_w_25UxK2SnTXPYvT0f44jM3Ud1A2yEXKB_A/exec?' + data)
+        .then(() => showMsg('success', 'Location sent.'))
+        .catch(() => showMsg('error', 'Submit failed.'))
+        .finally(() => showLoading(false));
+    }
+
+    function showLoading(on) { el('loading').style.display = on ? 'block' : 'none'; }
+    function clearMsg() { el('error').textContent=''; el('success').textContent=''; }
+    function showMsg(type, msg) { el(type).textContent = msg; }
+
+    function loadMaps() {
+      const s = document.createElement('script');
+      s.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=init';
+      s.async = true; s.defer = true;
+      document.head.appendChild(s);
+    }
+
+    window.onload = loadMaps;
+  </script></body>
 </html>
