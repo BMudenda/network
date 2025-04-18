@@ -1,36 +1,171 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Taxi Booking Calls</title>
-  <style>
-    body { font-family: Arial; margin: 20px; }
-    .booking { margin-bottom: 15px; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
-    a.call { font-weight: bold; color: green; text-decoration: none; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Data Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+        }
+        .error {
+            color: #e74c3c;
+            padding: 10px;
+            background-color: #fadbd8;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+        .refresh-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .refresh-btn:hover {
+            background-color: #27ae60;
+        }
+    </style>
 </head>
 <body>
-  <h2>Bookings</h2>
-  <div id="bookings"></div>
+    <div class="container">
+        <h1>Booking Data</h1>
+        <div id="loading" class="loading">Loading data...</div>
+        <div id="error" class="error" style="display: none;"></div>
+        <div id="data-container">
+            <table id="data-table" style="display: none;">
+                <thead>
+                    <tr id="table-headers"></tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
+        <button id="refresh-btn" class="refresh-btn">Refresh Data</button>
+    </div>
 
-  <script>
-    fetch('https://script.google.com/macros/s/AKfycbwZH46itdUHUdLQRRcU0UtBNMgKDCuA7e0RCJq22Yh_/dev')
-      .then(response => response.json())
-      .then(data => {
-        const container = document.getElementById('bookings');
-        data.forEach(booking => {
-          const div = document.createElement('div');
-          div.className = 'booking';
-          div.innerHTML = `
-            <strong>Date:</strong> ${booking.Date} <br>
-            <strong>From:</strong> ${booking.From} <br>
-            <strong>To:</strong> ${booking.To} <br>
-            <strong>Time:</strong> ${booking.Time} <br>
-            <strong>Fare:</strong> ${booking.Fare} <br>
-            <a class="call" href="tel:+260${booking.Phone}">Call ${booking.Phone}</a>
-          `;
-          container.appendChild(div);
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingEl = document.getElementById('loading');
+            const errorEl = document.getElementById('error');
+            const tableEl = document.getElementById('data-table');
+            const tableHeaders = document.getElementById('table-headers');
+            const tableBody = document.getElementById('table-body');
+            const refreshBtn = document.getElementById('refresh-btn');
+            
+            // Your Google Apps Script URL
+            const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwb6uRWQy9igaziI4G-ad6qgQ-SwKxzFTv91w7tEcO8aY_mK-ozJ3t3Kklz6Qlb6CbwAQ/exec";
+            
+            function loadData() {
+                // Show loading, hide error and table
+                loadingEl.style.display = 'block';
+                errorEl.style.display = 'none';
+                tableEl.style.display = 'none';
+                
+                // Add timestamp to URL to prevent caching
+                const url = SCRIPT_URL + '?t=' + new Date().getTime();
+                
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.error) {
+                            throw new Error(data.error);
+                        }
+                        
+                        // Clear previous data
+                        tableHeaders.innerHTML = '';
+                        tableBody.innerHTML = '';
+                        
+                        if (data.length === 0) {
+                            throw new Error('No booking data available');
+                        }
+                        
+                        // Create table headers from first object's keys
+                        const headers = Object.keys(data[0]);
+                        headers.forEach(header => {
+                            const th = document.createElement('th');
+                            th.textContent = header;
+                            tableHeaders.appendChild(th);
+                        });
+                        
+                        // Populate table rows
+                        data.forEach(item => {
+                            const row = document.createElement('tr');
+                            headers.forEach(header => {
+                                const td = document.createElement('td');
+                                td.textContent = item[header] || ''; // Handle empty values
+                                row.appendChild(td);
+                            });
+                            tableBody.appendChild(row);
+                        });
+                        
+                        // Show table, hide loading
+                        tableEl.style.display = 'table';
+                        loadingEl.style.display = 'none';
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        errorEl.textContent = 'Error loading data: ' + error.message;
+                        errorEl.style.display = 'block';
+                        loadingEl.style.display = 'none';
+                    });
+            }
+            
+            // Load data initially
+            loadData();
+            
+            // Refresh button click handler
+            refreshBtn.addEventListener('click', loadData);
         });
-      });
-  </script>
+    </script>
 </body>
 </html>
