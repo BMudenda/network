@@ -3,236 +3,243 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Driver Location Update</title>
+  <title>Driver Live Location with Destination</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0 auto; padding: 20px; background: #f9f9f9; max-width: 480px; }
-    .card { background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    #map { height: 280px; width: 100%; border-radius: 8px; background: #e9e9e9; margin-bottom: 12px; }
-    label, select, input, button { display: block; width: 100%; }
-    select, input { padding: 8px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px; }
-    input[readonly] { background: #f0f0f0; }
-    button { padding: 10px; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; margin-top: 8px; }
+    body { font-family: Arial; padding: 16px; background: #f4f4f4; max-width: 480px; margin: auto; }
+    .card { background: #fff; padding: 16px; border-radius: 8px; margin-bottom: 16px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    #map { height: 300px; border-radius: 8px; margin-bottom: 12px; }
+    input, select, button { width: 100%; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; }
+    button { background: #007bff; color: white; border: none; cursor: pointer; }
     button:hover { background: #0056b3; }
-    button:disabled { background: #ccc; cursor: not-allowed; }
-    .message { text-align: center; margin: 8px 0; }
-    .error { color: #dc3545; }
-    .success { color: #28a745; }
-    #loading { display: none; text-align: center; color: #555; }
+    .message { margin-top: 10px; text-align: center; }
+    .error { color: red; }
+    .success { color: green; }
   </style>
 </head>
 <body>
-  <h2>Driver Location Update</h2>
+  <h2>Driver Live Location Update</h2>
 
   <div class="card">
-    <label for="vehicleSelect">Select Vehicle</label>
-    <select id="vehicleSelect" required>
-      <option value="">-- Select Your Vehicle --</option>
-      <option value="BAH1996">BAH1996 (Toyota Camry)</option>
-      <option value="XYZ7890">XYZ7890 (Honda Accord)</option>
-      <option value="DEF4567">DEF4567 (Ford Transit)</option>
+    <label for="vehicle">Select Vehicle</label>
+    <select id="vehicle">
+      <option value="">-- Select Vehicle --</option>
+      <option value="BAH1996">BAH1996 - Camry</option>
+      <option value="XYZ7890">XYZ7890 - Accord</option>
     </select>
-    <div><strong>Type:</strong> <span id="displayType">-</span></div>
-    <div><strong>Color:</strong> <span id="displayColor">-</span></div>
-    <div><strong>Plate:</strong> <span id="displayPlate">-</span></div>
-    <div><strong>Phone:</strong> <span id="displayPhone">-</span></div>
+    <div><strong>Type:</strong> <span id="vtype">-</span></div>
+    <div><strong>Color:</strong> <span id="vcolor">-</span></div>
+    <div><strong>Phone:</strong> <span id="vphone">-</span></div>
   </div>
 
   <div class="card">
-    <h3>Current Location</h3>
-    <div id="map"></div>
-    <button id="refreshBtn">Refresh Location</button>
-    <div id="accuracy" class="message"></div>
+    <h3>Live Tracker & Destination</h3>
+    <div id="map">Loading map...</div>
+    <button id="startTracking">Start Live Tracking</button>
+    <button id="stopTracking" disabled>Stop Tracking</button>
+    <div id="accuracyMsg" class="message"></div>
 
-    <label for="locationName">Nearest Place (Auto or Manual Search)</label>
-    <input type="text" id="locationName" placeholder="Enter location manually or click refresh..." />
+    <input type="text" id="locationInput" placeholder="📍 Current Location (auto/manual)" />
+    <input type="text" id="coordsInput" placeholder="📍 Current Coordinates (e.g., -15.4167, 28.2833)" readonly />
 
-    <label for="coordsDisplay">Coordinates</label>
-    <input type="text" id="coordsDisplay" readonly />
+    <hr>
+
+    <input type="text" id="destinationInput" placeholder="📍 Destination place name or area" />
+    <input type="text" id="destCoordsInput" placeholder="📍 Destination Coordinates (e.g., -15.4200, 28.3000)" />
+
+    <button id="calculateBtn">Calculate Distance</button>
+    <div id="routeInfo" class="message"></div>
+    <div id="manualMsg" class="message error"></div>
+    <button id="resetBtn">Reset Fields</button>
   </div>
 
-  <div id="loading" class="message">Processing...</div>
-  <div id="error" class="message error"></div>
-  <div id="success" class="message success"></div>
-
-  <form id="locationForm">
-    <input type="hidden" name="Location" id="location">
-    <input type="hidden" name="Coordinates" id="coords">
+  <form id="locationForm" class="card">
+    <input type="hidden" name="Vehicle_Registration" id="reg">
     <input type="hidden" name="Vehicle_Type" id="type">
     <input type="hidden" name="Vehicle_Color" id="color">
-    <input type="hidden" name="Vehicle_Registration" id="plate">
     <input type="hidden" name="Driver_Phone" id="phone">
-    <button type="submit" id="submitBtn" disabled>Send Location</button>
+    <input type="hidden" name="Location" id="location">
+    <input type="hidden" name="Coordinates" id="coords">
+    <input type="hidden" name="Destination" id="destination">
+    <input type="hidden" name="Destination_Coordinates" id="destCoords">
+    <button type="submit">Send Location</button>
+    <div id="submitMsg" class="message"></div>
   </form>
 
   <script>
-    const SCRIPT_URL = "YOUR_GOOGLE_SHEET_SCRIPT_URL";
-    const vehicleDB = {
-      "BAH1996": { type: "Toyota Camry", color: "White", phone: "+1-555-1234" },
-      "XYZ7890": { type: "Honda Accord", color: "Black", phone: "+1-555-9876" },
-      "DEF4567": { type: "Ford Transit", color: "Blue", phone: "+1-555-4567" }
-    };
-
     const el = id => document.getElementById(id);
-    let map, marker, geocoder, placesService, autocomplete;
-    let currentPosition = null;
+    let map, marker, geocoder, watchId, autocomplete, destAutocomplete;
+    let directionsService, directionsRenderer;
+
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxy3eUjHDcOCr-cEpihTTrTnixw_6rE2B_w_25UxK2SnTXPYvT0f44jM3Ud1A2yEXKB_A/exec";
+
+    const vehicleDB = {
+      "BAH1996": { type: "Toyota Camry", color: "White", phone: "+260-777-123456" },
+      "XYZ7890": { type: "Honda Accord", color: "Black", phone: "+260-777-987654" }
+    };
 
     function initMap() {
       geocoder = new google.maps.Geocoder();
-      const input = el('locationName');
-      autocomplete = new google.maps.places.Autocomplete(input);
-      autocomplete.setFields(['geometry', 'name']);
-      autocomplete.addListener('place_changed', () => {
+      directionsService = new google.maps.DirectionsService();
+      directionsRenderer = new google.maps.DirectionsRenderer();
+
+      map = new google.maps.Map(el("map"), {
+        center: { lat: -15.4167, lng: 28.2833 },
+        zoom: 15
+      });
+
+      directionsRenderer.setMap(map);
+      marker = new google.maps.Marker({ map });
+
+      autocomplete = new google.maps.places.Autocomplete(el("locationInput"));
+      autocomplete.setFields(["geometry", "name"]);
+      autocomplete.addListener("place_changed", () => {
         const place = autocomplete.getPlace();
         if (place.geometry) {
-          setPosition({
-            latitude: place.geometry.location.lat(),
-            longitude: place.geometry.location.lng(),
-            accuracy: 0
-          });
-          el('location').value = place.name;
+          updatePosition(place.geometry.location.lat(), place.geometry.location.lng());
         }
       });
 
-      el('vehicleSelect').addEventListener('change', onVehicleChange);
-      el('refreshBtn').addEventListener('click', e => { e.preventDefault(); locate(); });
-      el('locationForm').addEventListener('submit', submitLocation);
+      destAutocomplete = new google.maps.places.Autocomplete(el("destinationInput"));
+      destAutocomplete.setFields(["geometry", "name"]);
+      destAutocomplete.addListener("place_changed", () => {
+        const place = destAutocomplete.getPlace();
+        if (place.geometry) {
+          const lat = place.geometry.location.lat();
+          const lng = place.geometry.location.lng();
+          el("destCoordsInput").value = `${lat.toFixed(6)},${lng.toFixed(6)}`;
+        }
+      });
 
-      locate();
+      el("vehicle").addEventListener("change", updateVehicleInfo);
+      el("startTracking").addEventListener("click", startLiveTracking);
+      el("stopTracking").addEventListener("click", stopLiveTracking);
+      el("calculateBtn").addEventListener("click", calculateRoute);
+      el("resetBtn").addEventListener("click", resetFields);
+      el("locationForm").addEventListener("submit", sendLocation);
     }
 
-    function onVehicleChange() {
-      const key = this.value;
-      const v = vehicleDB[key];
-      if (v) {
-        el('displayType').textContent = v.type;
-        el('displayColor').textContent = v.color;
-        el('displayPlate').textContent = key;
-        el('displayPhone').textContent = v.phone;
-        el('type').value = v.type;
-        el('color').value = v.color;
-        el('plate').value = key;
-        el('phone').value = v.phone;
-        checkReady();
-      }
+    function updateVehicleInfo() {
+      const reg = this.value;
+      const info = vehicleDB[reg] || {};
+      el("vtype").textContent = info.type || "-";
+      el("vcolor").textContent = info.color || "-";
+      el("vphone").textContent = info.phone || "-";
+
+      el("reg").value = reg;
+      el("type").value = info.type || "";
+      el("color").value = info.color || "";
+      el("phone").value = info.phone || "";
     }
 
-    function locate() {
-      showLoading(true);
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          pos => setPosition(pos.coords),
-          () => {
-            showError("Automatic location failed. Please enter location manually.");
-            showLoading(false);
-          },
-          { timeout: 10000, enableHighAccuracy: true }
-        );
-      } else {
-        showError("Geolocation not supported.");
-        showLoading(false);
-      }
-    }
-
-    function setPosition({ latitude, longitude, accuracy }) {
-      const lat = parseFloat(latitude.toFixed(6));
-      const lng = parseFloat(longitude.toFixed(6));
-      currentPosition = { lat, lng };
-
-      el('coords').value = `${lat},${lng}`;
-      el('coordsDisplay').value = `${lat}, ${lng}`;
-      el('accuracy').textContent = accuracy ? `Accuracy: ±${Math.round(accuracy)}m` : "";
-
-      if (!map) {
-        map = new google.maps.Map(el('map'), {
-          center: currentPosition,
-          zoom: 15,
-          styles: [{ featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] }]
-        });
-        marker = new google.maps.Marker({ map });
+    function startLiveTracking() {
+      if (!navigator.geolocation) {
+        el("manualMsg").textContent = "Geolocation not supported.";
+        return;
       }
 
-      map.setCenter(currentPosition);
-      marker.setPosition(currentPosition);
+      el("startTracking").disabled = true;
+      el("stopTracking").disabled = false;
+      el("manualMsg").textContent = "";
 
-      searchNearbyPlaces(currentPosition);
-      checkReady();
-      showLoading(false);
+      watchId = navigator.geolocation.watchPosition(
+        pos => {
+          const { latitude, longitude, accuracy } = pos.coords;
+          updatePosition(latitude, longitude, accuracy);
+        },
+        err => {
+          el("manualMsg").textContent = "Auto location failed. Use manual search.";
+          stopLiveTracking();
+        },
+        { enableHighAccuracy: true, maximumAge: 10000, timeout: 10000 }
+      );
     }
 
-    function searchNearbyPlaces(pos) {
-      placesService = new google.maps.places.PlacesService(map);
-      const request = { location: pos, radius: 200, type: ['point_of_interest'] };
-      placesService.nearbySearch(request, (results, status) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK && results.length > 0) {
-          const topPlace = results[0];
-          const name = `${topPlace.name}, ${topPlace.vicinity}`;
-          el('locationName').value = name;
-          el('location').value = name;
+    function stopLiveTracking() {
+      if (watchId) navigator.geolocation.clearWatch(watchId);
+      el("startTracking").disabled = false;
+      el("stopTracking").disabled = true;
+    }
+
+    function updatePosition(lat, lng, accuracy = null) {
+      const pos = { lat, lng };
+      map.setCenter(pos);
+      marker.setPosition(pos);
+
+      const coordStr = `${lat.toFixed(6)},${lng.toFixed(6)}`;
+      el("coordsInput").value = coordStr;
+      el("coords").value = coordStr;
+
+      if (accuracy) el("accuracyMsg").textContent = `Accuracy: ±${Math.round(accuracy)}m`;
+
+      geocoder.geocode({ location: pos }, (results, status) => {
+        if (status === "OK" && results[0]) {
+          const address = results[0].formatted_address;
+          el("locationInput").value = address;
+          el("location").value = address;
         } else {
-          reverseGeocode(pos);
+          el("manualMsg").textContent = "Could not auto-fetch place. Use manual search.";
         }
       });
     }
 
-    function reverseGeocode(latlng) {
-      geocoder.geocode({ location: latlng }, (results, status) => {
-        let place = `${latlng.lat},${latlng.lng}`;
-        if (status === 'OK' && results[0]) place = results[0].formatted_address;
-        el('locationName').value = place;
-        el('location').value = place;
+    function calculateRoute() {
+      const from = el("coordsInput").value.trim();
+      const to = el("destCoordsInput").value.trim();
+
+      const isValidCoords = val => /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(val);
+
+      if (!isValidCoords(from) || !isValidCoords(to)) {
+        el("routeInfo").innerHTML = "<span class='error'>Invalid coordinate format. Use: -15.4167,28.2833</span>";
+        return;
+      }
+
+      const [fromLat, fromLng] = from.split(",").map(Number);
+      const [toLat, toLng] = to.split(",").map(Number);
+
+      const request = {
+        origin: { lat: fromLat, lng: fromLng },
+        destination: { lat: toLat, lng: toLng },
+        travelMode: 'DRIVING'
+      };
+
+      directionsService.route(request, (result, status) => {
+        if (status === "OK") {
+          directionsRenderer.setDirections(result);
+          const leg = result.routes[0].legs[0];
+          el("routeInfo").innerHTML = `<span class="success">Distance: ${leg.distance.text}, Time: ${leg.duration.text}</span>`;
+          el("destination").value = el("destinationInput").value;
+          el("destCoords").value = el("destCoordsInput").value;
+        } else {
+          el("routeInfo").innerHTML = `<span class="error">Could not calculate route.</span>`;
+        }
       });
     }
 
-    function checkReady() {
-      el('submitBtn').disabled = !(el('coords').value && el('vehicleSelect').value);
+    function resetFields() {
+      ["locationInput", "coordsInput", "destinationInput", "destCoordsInput"].forEach(id => el(id).value = "");
+      el("routeInfo").textContent = "";
+      el("manualMsg").textContent = "";
     }
 
-    function submitLocation(e) {
+    function sendLocation(e) {
       e.preventDefault();
-      showLoading(true);
-      clearMsg();
+      const formData = new FormData(el("locationForm"));
+      el("submitMsg").innerHTML = "Sending...";
 
-      const formData = new FormData(el('locationForm'));
       fetch(SCRIPT_URL, {
         method: "POST",
         body: formData
       })
-      .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        return response.text();
+      .then(res => res.ok ? res.text() : Promise.reject("Submission failed."))
+      .then(() => {
+        el("submitMsg").innerHTML = `<span class="success">Location sent successfully.</span>`;
       })
-      .then(text => {
-        showMsg('success', "Location sent successfully.");
-        el('locationForm').reset();
-      })
-      .catch(err => {
-        console.error(err);
-        showMsg('error', "Submission failed. Try again.");
-      })
-      .finally(() => showLoading(false));
+      .catch(() => {
+        el("submitMsg").innerHTML = `<span class="error">Failed to send location. Try again.</span>`;
+      });
     }
-
-    function showLoading(show) {
-      el('loading').style.display = show ? "block" : "none";
-      el('submitBtn').disabled = show;
-      el('refreshBtn').disabled = show;
-    }
-
-    function clearMsg() {
-      el('error').textContent = "";
-      el('success').textContent = "";
-    }
-
-    function showMsg(type, msg) {
-      el(type).textContent = msg;
-    }
-
-    // Load Google Maps API
-    const script = document.createElement("script");
-    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap";
-    script.async = true;
-    script.defer = true;
-    document.head.appendChild(script);
   </script>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap" async defer></script>
 </body>
 </html>
