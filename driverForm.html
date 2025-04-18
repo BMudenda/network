@@ -1,366 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>HH Physical Count Form</title>
+  <title>Driver Location Update</title>
   <style>
     body {
-      font-family: sans-serif;
-      background: red;
-      margin: 0;
-      padding: 8px;
-    }
-    .app-container {
-      max-width: 550px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,0,0,0.15);
-    }
-    .app-header {
-      background: navy;
-      color: white;
-      text-align: center;
-      padding: 12px;
-    }
-    .app-header h2 {
-      margin: 0;
-      font-size: 22px;
-    }
-    .app-content {
+      font-family: Arial, sans-serif;
       padding: 15px;
-    }
-    form {
-      max-width: 100%;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 10px;
-      font-size: 16px;
-    }
-    .required::after {
-      content: " *";
-      color: red;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 10px 10px 10px 35px;
-      margin-top: 5px;
-      margin-bottom: 12px;
-      font-size: 16px;
-      background-repeat: no-repeat;
-      background-position: 10px center;
-      background-size: 20px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
-    input[readonly] {
-      background-color: #f0f0f0;
-      padding-left: 10px;
-      background-image: none;
-    }
-    #from { background-image: url('https://img.icons8.com/ios-filled/24/000000/home.png'); }
-    #to { background-image: url('https://img.icons8.com/ios-filled/24/000000/marker.png'); }
-    #phone { background-image: url('https://img.icons8.com/ios-filled/24/000000/phone.png'); }
-    #luggage { background-image: url('https://img.icons8.com/ios-filled/24/000000/suitcase.png'); }
-    #time { background-image: url('https://img.icons8.com/ios-filled/24/000000/clock.png'); }
-
-    .trip-summary {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin: 15px 0;
-    }
-    .info-box {
-      flex: 1;
-      background: #f4f4f4;
-      padding: 12px;
-      border-radius: 8px;
-      text-align: center;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
-    .info-box label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 5px;
-      color: navy;
-      font-size: 14px;
-    }
-    .info-box div {
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    .button-group {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 15px;
-    }
-    button {
-      background: navy;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 12px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
-      font-size: 16px;
-    }
-    button:hover {
-      background: #001f4d;
-    }
-    button.disabled {
-      background: grey;
-      cursor: not-allowed;
+      max-width: 500px;
+      margin: auto;
     }
     #map {
+      height: 300px;
       width: 100%;
-      height: 180px;
-      margin: 15px 0;
-      border-radius: 8px;
-      border: 1px solid #ddd;
+      margin-bottom: 15px;
+      border-radius: 10px;
     }
-    .spinner {
-      display: none;
-      text-align: center;
-      padding: 15px 0;
-    }
-    .spinner-icon {
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      border-radius: 50%;
-      border-top: 4px solid navy;
-      width: 30px;
-      height: 30px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 10px;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    #message {
-      text-align: center;
+    button {
+      padding: 12px 20px;
       font-size: 16px;
-      margin-top: 15px;
-      min-height: 24px;
-    }
-    
-    @media (max-width: 480px) {
-      .button-group {
-        grid-template-columns: 1fr;
-      }
-      .trip-summary {
-        flex-direction: column;
-        gap: 10px;
-      }
-      body {
-        padding: 5px;
-      }
-      .app-header {
-        padding: 10px;
-      }
-      .app-header h2 {
-        font-size: 20px;
-      }
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
     }
   </style>
 </head>
 <body>
-  <div class="app-container">
-    <div class="app-header">
-      <h2>HH Physical Count Form</h2>
-    </div>
-    <div class="app-content">
-      <form id="sheetdb-form">
-        <label for="from" class="required">Pickup Location</label>
-        <input name="From" id="from" placeholder="Pickup location" required>
+  <h2>Update Your Location</h2>
+  <div id="map">Loading map...</div>
 
-        <label for="to" class="required">Destination</label>
-        <input name="To" id="to" placeholder="Destination" required>
-
-        <label for="phone" class="required">Phone Number</label>
-        <input name="Phone" id="phone" type="tel" placeholder="e.g. 097XXXXXXXX" pattern="[0-9]{10}" title="Enter a 10-digit number e.g. 097XXXXXXXX" required>
-
-        <label for="time" class="required">Pickup Time</label>
-        <input name="Time" id="time" type="time" required>
-
-        <label for="luggage" class="required">Luggage / Extra Person</label>
-        <select name="Luggage" id="luggage" required>
-          <option value="">Select Option</option>
-          <option value="No">No</option>
-          <option value="Yes">Yes</option>
-        </select>
-
-        <div class="trip-summary">
-          <div class="info-box">
-            <label>Duration</label>
-            <div id="durationDisplay">--</div>
-          </div>
-          <div class="info-box">
-            <label>Distance</label>
-            <div id="distanceDisplay">--</div>
-          </div>
-          <div class="info-box">
-            <label>Estimated Cost</label>
-            <div id="fareDisplay">--</div>
-          </div>
-        </div>
-
-        <input type="hidden" name="Duration" id="duration">
-        <input type="hidden" name="Distance" id="distance">
-        <input type="hidden" name="Fare" id="fare">
-
-        <div class="button-group">
-          <button type="button" onclick="calculateFare()">Calculate Fare</button>
-          <button type="button" onclick="confirmBooking()">Confirm</button>
-          <button type="button" onclick="cancelBooking()">Cancel</button>
-          <button type="submit" id="submitBtn" class="disabled" disabled>Send</button>
-        </div>
-      </form>
-
-      <div id="map"></div>
-      <div class="spinner" id="loading">
-        <div class="spinner-icon"></div>
-        <p>Sending your request...</p>
-      </div>
-      <div id="message"></div>
-    </div>
-  </div>
+  <form id="locationForm">
+    <input type="hidden" name="Location" id="location">
+    <input type="hidden" name="Coordinates" id="coords">
+    <input type="hidden" name="Vehicle Type" id="type">
+    <input type="hidden" name="Vehicle Color" id="color">
+    <input type="hidden" name="Vehicle Registration" id="plate">
+    <button type="submit">Send Location</button>
+  </form>
 
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbytUJ-taezbOxcxnZTWwWjeFBH-gqshju9_g295Cu9wSpwtvlHHHNajxHxii8SxsUpe/exec";
-    let directionsService, directionsRenderer, map;
-    let bookingConfirmed = false;
+    const params = new URLSearchParams(location.search);
+    document.getElementById("type").value = params.get("type") || "";
+    document.getElementById("color").value = params.get("color") || "";
+    document.getElementById("plate").value = params.get("plate") || "";
 
     function initMap() {
-      directionsService = new google.maps.DirectionsService();
-      directionsRenderer = new google.maps.DirectionsRenderer();
-      map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: -13.1367, lng: 28.4169 },
-        zoom: 13
-      });
-      directionsRenderer.setMap(map);
-      new google.maps.places.Autocomplete(document.getElementById("from"));
-      new google.maps.places.Autocomplete(document.getElementById("to"));
-    }
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (pos) {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          const coords = `${lat},${lng}`;
+          document.getElementById("coords").value = coords;
 
-    function calculateFare() {
-      const from = document.getElementById('from').value;
-      const to = document.getElementById('to').value;
-      const luggage = document.getElementById('luggage').value;
+          const map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat, lng },
+            zoom: 15,
+          });
 
-      if (!from || !to) {
-        alert("Please enter both pickup and destination.");
-        return;
-      }
+          new google.maps.Marker({
+            position: { lat, lng },
+            map,
+            title: "Your Current Location"
+          });
 
-      directionsService.route({
-        origin: from,
-        destination: to,
-        travelMode: 'DRIVING'
-      }, (result, status) => {
-        if (status === 'OK') {
-          directionsRenderer.setDirections(result);
-          const leg = result.routes[0].legs[0];
-          const distance = (leg.distance.value / 1000).toFixed(1);
-          const duration = Math.round(leg.duration.value / 60);
-          let baseFare = ((distance / 4) * 25);
-          if (luggage === 'Yes') baseFare *= 1.5;
-          const fare = Math.round(baseFare);
-
-          document.getElementById('distanceDisplay').textContent = `${distance} km`;
-          document.getElementById('durationDisplay').textContent = `${duration} min`;
-          document.getElementById('fareDisplay').textContent = `K${fare}`;
-          document.getElementById('distance').value = `${distance} km`;
-          document.getElementById('duration').value = `${duration} min`;
-          document.getElementById('fare').value = `K${fare}`;
-        } else {
-          alert("Failed to calculate route.");
-        }
-      });
-    }
-
-    function confirmBooking() {
-      const required = ['from', 'to', 'phone', 'time', 'luggage', 'distance', 'duration', 'fare'];
-      for (let id of required) {
-        if (!document.getElementById(id).value) {
-          alert("Fill in all fields and calculate fare first.");
-          return;
-        }
-      }
-      bookingConfirmed = true;
-      const btn = document.getElementById('submitBtn');
-      btn.disabled = false;
-      btn.classList.remove('disabled');
-      document.getElementById('message').innerHTML = "<span style='color:green;'>Booking confirmed. You may now send.</span>";
-    }
-
-    function cancelBooking() {
-      document.getElementById('sheetdb-form').reset();
-      bookingConfirmed = false;
-      document.getElementById('submitBtn').disabled = true;
-      document.getElementById('submitBtn').classList.add('disabled');
-      document.getElementById('durationDisplay').textContent = "--";
-      document.getElementById('distanceDisplay').textContent = "--";
-      document.getElementById('fareDisplay').textContent = "--";
-      document.getElementById('message').innerHTML = "";
-      if (directionsRenderer) {
-        directionsRenderer.setDirections({routes: []});
-        directionsRenderer.setMap(map);
+          // Reverse Geocoding using callback style (safe)
+          const geocoder = new google.maps.Geocoder();
+          geocoder.geocode({ location: { lat, lng } }, function(results, status) {
+            if (status === "OK" && results[0]) {
+              document.getElementById("location").value = results[0].formatted_address;
+            } else {
+              alert("Failed to get address: " + status);
+            }
+          });
+        }, function () {
+          alert("Location access denied or unavailable.");
+        });
+      } else {
+        alert("Geolocation not supported by your browser.");
       }
     }
 
-    document.getElementById('sheetdb-form').addEventListener("submit", function(e) {
+    document.getElementById("locationForm").addEventListener("submit", function (e) {
       e.preventDefault();
-      if (!bookingConfirmed) {
-        alert("Please confirm booking first.");
-        return;
-      }
-      
-      const loading = document.getElementById('loading');
-      const submitBtn = document.getElementById('submitBtn');
-      const message = document.getElementById('message');
+      const formData = new URLSearchParams(new FormData(this)).toString();
+      const scriptURL = "https://script.google.com/macros/s/AKfycbxy3eUjHDcOCr-cEpihTTrTnixw_6rE2B_w_25UxK2SnTXPYvT0f44jM3Ud1A2yEXKB_A/exec?" + formData;
 
-      loading.style.display = "block";
-      submitBtn.disabled = true;
-      submitBtn.classList.add('disabled');
-      message.innerHTML = "";
-
-      const formData = new FormData(this);
-      
-      fetch(SCRIPT_URL, {
-        method: "POST",
-        body: formData
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        loading.style.display = "none";
-        message.innerHTML = "<span style='color:green;'>Booking sent, please wait for the driver.</span>";
-        cancelBooking();
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        loading.style.display = "none";
-        message.innerHTML = "<span style='color:red;'>Submission failed. Try again.</span>";
-        submitBtn.disabled = false;
-        submitBtn.classList.remove('disabled');
-      });
+      fetch(scriptURL)
+        .then(() => alert("Location submitted successfully."))
+        .catch(() => alert("Error submitting location."));
     });
   </script>
 
   <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnPIA4wCgaZct0XrwK0c-FymfZKIPaGBw&callback=initMap">
   </script>
 </body>
-            </html>
+  </html>
