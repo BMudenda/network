@@ -164,6 +164,7 @@
     <div class="input-group">
       <h3>Current Location</h3>
       <div class="input-row">
+        <!-- When a user types an address here, we use geocoding to update fields -->
         <input id="locationInput" placeholder="📍 Type address" autocomplete="off">
         <input id="coordsInput" placeholder="📍 Coordinates" readonly>
       </div>
@@ -172,6 +173,7 @@
     <div class="input-group">
       <h3>Destination</h3>
       <div class="input-row">
+        <!-- Autocomplete here will be used to pick a named location -->
         <input id="destinationInput" placeholder="📍 Type address" autocomplete="off">
         <input id="destCoordsInput" placeholder="📍 Coordinates">
       </div>
@@ -182,13 +184,13 @@
 
   <!-- Data Submission Form -->
   <form id="locationForm" class="card">
-    <!-- Hidden inputs; must match the spreadsheet headers exactly -->
+    <!-- Hidden inputs (names must exactly match the spreadsheet headers) -->
     <input type="hidden" name="Timestamp" id="timestamp">
     <input type="hidden" name="Vehicle_Registration" id="reg">
     <input type="hidden" name="Vehicle_Type" id="type">
     <input type="hidden" name="Vehicle_Color" id="color">
     <input type="hidden" name="Phone" id="phone">
-    <!-- Location is now optional; if blank, "Default Location" is set -->
+    <!-- Here, Location is optional: if blank, we'll set a default value -->
     <input type="hidden" name="Location" id="location">
     <input type="hidden" name="Coordinates" id="coords">
     <input type="hidden" name="Destination" id="destination">
@@ -198,22 +200,24 @@
   </form>
 
   <script>
-    // Shortcut for getting an element by its ID.
+    // Shortcut function.
     const el = id => document.getElementById(id);
 
-    // Vehicle database lookup.
+    // Vehicle lookup.
     const vehicleDB = {
       "BAH1996": { type: "Camry", color: "Silver", phone: "+1234567890" },
       "XYZ7890": { type: "Accord", color: "Black", phone: "+0987654321" }
     };
 
     // Global variables.
+    // Use your provided Apps Script endpoint URL.
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyE-1RuFaW7C4nxp4heXKMYMcYZ4k1qeoE1Ct0KtBSJFgByr5LDYCTuykIkAt6EEoei/exec';
     let map, directionsService, directionsRenderer, currentMarker;
     let trackingInterval = null;
+    let destinationAutocomplete;  // We'll keep this global.
     let speechOn = false;
 
-    // Helper: use the Web Speech API to speak.
+    // Use Web Speech API.
     function speak(message) {
       if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(message);
@@ -223,7 +227,7 @@
       }
     }
 
-    // Helper: update a button's display with optional loader.
+    // Update button state.
     function showButtonStatus(btnId, status, text) {
       const btn = el(btnId);
       if (status === 'loading') {
@@ -235,28 +239,29 @@
       }
     }
 
-    // Initialize Google Map and set up address autocomplete.
+    // Initialize the Google Map and set up Autocomplete.
     function initMap() {
       map = new google.maps.Map(el("map"), {
         center: { lat: -34.397, lng: 150.644 },
         zoom: 15
       });
-      
+
       directionsService = new google.maps.DirectionsService();
       directionsRenderer = new google.maps.DirectionsRenderer();
       directionsRenderer.setMap(map);
 
+      // For current location input, we still use geocoding.
       const locationInput = el("locationInput");
+
+      // For destination, we want to use the autocomplete's place name properly.
       const destinationInput = el("destinationInput");
-
-      const locationAutocomplete = new google.maps.places.Autocomplete(locationInput);
-      const destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput);
-
-      locationAutocomplete.addListener("place_changed", updateCoordinates);
+      
+      new google.maps.places.Autocomplete(locationInput).addListener("place_changed", updateCoordinates);
+      destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput);
       destinationAutocomplete.addListener("place_changed", updateDestinationCoordinates);
     }
 
-    // Geocode current location address and update fields.
+    // Geocode current location — update both visible coordinates and hidden "Location" field.
     function updateCoordinates() {
       const address = el("locationInput").value;
       const geocoder = new google.maps.Geocoder();
@@ -265,16 +270,33 @@
           const loc = results[0].geometry.location;
           const formatted = results[0].formatted_address;
           el("coordsInput").value = loc.lat() + ',' + loc.lng();
-          // Update the hidden "Location" field.
-          el("location").value = formatted;
+          el("location").value = formatted;  // Set hidden Location to formatted address.
         } else {
           el("accuracyMsg").textContent = 'Geocode was not successful: ' + status;
         }
       });
     }
 
-    // Geocode destination address and update fields.
+    // For destination, use the place's 'name' if available.
     function updateDestinationCoordinates() {
+      const place = destinationAutocomplete.getPlace();
+      if (place && place.geometry) {
+        // If the place has a name, use that for the destination.
+        const placeName = place.name || place.formatted_address;
+        const coords = place.geometry.location.lat() + ',' + place.geometry.location.lng();
+        el("destinationInput").value = placeName;
+        el("destination").value = placeName;
+        el("destCoords").value = coords;
+        el("destCoordsInput").value = coords;
+        speak(`Destination set to ${placeName}`);
+      } else {
+        // Fallback: if place is not retrieved, perform geocode.
+        updateDestinationCoordinatesFallback();
+      }
+    }
+
+    // Fallback for destination geocoding.
+    function updateDestinationCoordinatesFallback() {
       const address = el("destinationInput").value;
       const geocoder = new google.maps.Geocoder();
       geocoder.geocode({ address: address }, function(results, status) {
@@ -292,7 +314,7 @@
       });
     }
 
-    // Start live tracking of current position.
+    // Start live location tracking.
     function startTracking() {
       if (navigator.geolocation) {
         trackingInterval = navigator.geolocation.watchPosition(
@@ -317,11 +339,7 @@
           (error) => {
             el("accuracyMsg").textContent = 'Error tracking location: ' + error.message;
           },
-          {
-            enableHighAccuracy: true,
-            maximumAge: 0,
-            timeout: 5000
-          }
+          { enableHighAccuracy: true, maximumAge: 0, timeout: 5000 }
         );
         el("startTracking").disabled = true;
         el("stopTracking").disabled = false;
@@ -341,7 +359,7 @@
       }
     }
 
-    // Get current location once and update fields.
+    // Get current location once.
     function getCurrentLocation() {
       if (navigator.geolocation) {
         showButtonStatus("currentLocationBtn", "loading", "Getting Location...");
@@ -374,7 +392,7 @@
       }
     }
 
-    // Calculate route and display distance & duration.
+    // Calculate a route and display distance & duration.
     function calculateRoute() {
       const startStr = el("coordsInput").value;
       const destinationStr = el("destCoordsInput").value;
@@ -410,7 +428,7 @@
       el("vtype").textContent = v.type || "-";
       el("vcolor").textContent = v.color || "-";
       el("vphone").textContent = v.phone || "-";
-      // Update hidden fields.
+      // Update hidden fields
       el("reg").value = el("vehicle").value;
       el("type").value = v.type || "";
       el("color").value = v.color || "";
@@ -436,15 +454,15 @@
       speak(speechOn ? "Audio guide on" : "Audio guide off");
     });
 
-    // --- Form Submission Handler ---
+    // --- Form Submission with Validation ---
     el("locationForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       
-      // Clear previous status.
+      // Clear any previous error message.
       el("submitMsg").textContent = "";
       el("submitMsg").classList.remove("error");
       
-      // Validate required fields: Vehicle Registration, Destination, and Route Info.
+      // Validate required fields: Vehicle, Destination, and Route Info.
       if (!el("reg").value.trim()) {
         el("submitMsg").textContent = "Please select a vehicle.";
         el("submitMsg").classList.add("error");
@@ -461,7 +479,7 @@
         return;
       }
       
-      // If Location is blank, set it to a default value.
+      // If Location is blank, set a default.
       if (!el("location").value.trim()) {
         el("location").value = "Default Location";
       }
@@ -472,12 +490,11 @@
       
       showButtonStatus("submitBtn", "loading", "Sending data...");
       speak("Sending location data");
-      
       try {
         const formData = new FormData(el("locationForm"));
         const response = await fetch(SCRIPT_URL, { method: "POST", body: formData });
         const result = await response.json();
-        // Check if the returned result contains 'success' (case-insensitive).
+        // Check if the returned result contains 'success'.
         if (result.result && result.result.toLowerCase().indexOf("success") > -1) {
           el("submitMsg").textContent = "Data successfully submitted!";
           el("submitMsg").classList.remove("error");
@@ -494,12 +511,12 @@
       }
     });
 
-    // Expose initMap globally.
+    // Expose initMap globally for Google Maps API.
     window.initMap = initMap;
   </script>
   
-  <!-- Google Maps API Script (using your provided API key & callback) -->
+  <!-- Google Maps API Script with provided API key and callback -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap" async defer></script>
   
 </body>
-  </html>
+      </html>
