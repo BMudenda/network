@@ -105,14 +105,15 @@
 </div>
 
 <form id="locationForm" class="card">
-  <input type="hidden" name="Vehicle_Registration"   id="reg">
-  <input type="hidden" name="Vehicle_Type"           id="type">
-  <input type="hidden" name="Vehicle_Color"          id="color">
-  <input type="hidden" name="Driver_Phone"           id="phone">
-  <input type="hidden" name="Location"               id="location">
-  <input type="hidden" name="Coordinates"            id="coords">
-  <input type="hidden" name="Destination"            id="destination">
+  <input type="hidden" name="Vehicle_Registration" id="reg">
+  <input type="hidden" name="Vehicle_Type" id="type">
+  <input type="hidden" name="Vehicle_Color" id="color">
+  <input type="hidden" name="Driver_Phone" id="phone">
+  <input type="hidden" name="Location" id="location">
+  <input type="hidden" name="Coordinates" id="coords">
+  <input type="hidden" name="Destination" id="destination">
   <input type="hidden" name="Destination_Coordinates" id="destCoords">
+  <input type="hidden" name="Timestamp" id="timestamp">
   <button type="submit">Send Location Data</button>
   <div id="submitMsg" class="message"></div>
 </form>
@@ -122,6 +123,7 @@
   let map, marker, watchId, geocoder, directionsService, directionsRenderer;
   let speechOn = false;
   let currentLocationAutocomplete, destinationAutocomplete;
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnk3AMSlN5PIpxwCN3zMtTYTQBfyRdnecr-POZ6vA/dev';
 
   function showButtonStatus(buttonId, type, text) {
     const button = el(buttonId);
@@ -280,10 +282,38 @@
       speak(speechOn ? "Audio guide on" : "Audio guide off");
     });
 
-    el("locationForm").addEventListener("submit", e => {
-      e.preventDefault(); 
-      speak("Sending location"); 
-      setTimeout(() => el("submitMsg").textContent = "✅ Sent", 500);
+    el("locationForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      // Set current timestamp
+      const now = new Date();
+      el("timestamp").value = now.toISOString();
+      
+      showButtonStatus('submitBtn', 'loading', "Sending data...");
+      speak("Sending location data");
+      
+      try {
+        const formData = new FormData(el("locationForm"));
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.result === "success") {
+          showButtonStatus('submitBtn', 'success', "✅ Data saved successfully");
+          speak("Location data saved successfully");
+        } else {
+          showButtonStatus('submitBtn', 'error', "❌ Error saving data");
+          speak("Error saving location data");
+          console.error(result);
+        }
+      } catch (error) {
+        showButtonStatus('submitBtn', 'error', "❌ Network error");
+        speak("Network error occurred");
+        console.error('Error:', error);
+      }
     });
   }
 
@@ -417,4 +447,4 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap" async defer></script>
 </body>
-</html>
+                                                                                                                                                  </html>
