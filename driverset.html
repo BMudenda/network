@@ -124,7 +124,6 @@
           <th>Vehicle Type</th>
           <th>Vehicle Color</th>
           <th>Phone</th>
-          <th>📞</th>
           <th>Location</th>
           <th>Coordinates</th>
           <th>Destination</th>
@@ -149,27 +148,14 @@
       rows.slice(1).forEach((row, index) => {
         const tr = document.createElement("tr");
 
-        // Add cell data (9 fields from sheet)
-        for (let i = 0; i < 5; i++) {
+        // Add all 9 cells directly
+        for (let i = 0; i < 9; i++) {
           const td = document.createElement("td");
           td.textContent = row[i] ? row[i].trim() : "";
           tr.appendChild(td);
         }
 
-        // 📞 Call button
-        const callTd = document.createElement("td");
-        const phone = row[4] ? row[4].trim() : "";
-        callTd.innerHTML = phone ? `<a href="tel:${phone}">📞 Call</a>` : "";
-        tr.appendChild(callTd);
-
-        // Remaining fields
-        for (let i = 5; i < 9; i++) {
-          const td = document.createElement("td");
-          td.textContent = row[i] ? row[i].trim() : "";
-          tr.appendChild(td);
-        }
-
-        // Row select functionality
+        // Row selection functionality
         tr.addEventListener("click", () => {
           document.querySelectorAll("tr.selected").forEach(row => row.classList.remove("selected"));
           tr.classList.add("selected");
@@ -230,4 +216,4 @@
   </script>
 
 </body>
-</html>
+  </html>
