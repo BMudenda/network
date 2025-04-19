@@ -16,12 +16,32 @@
     .success { color:green }
     .btn-group { display:flex; flex-direction:column; gap:8px; margin-top:10px }
     .btn-row { display:flex; gap:8px }
-    .btn-row button { flex:1 }
+    .btn-row button { flex:1; position:relative }
     .pac-container { z-index: 10000 !important; }
     .input-group { margin-bottom:16px; }
     .input-group h3 { margin:0 0 8px 0; font-size:16px; color:#333; }
     .input-row { display:flex; gap:8px; }
     .input-row input { flex:1; min-width:0; }
+    .loader { 
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top: 2px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .status-icon {
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .button-text { pointer-events: none; }
     @media (max-width: 400px) {
       .btn-row { flex-direction:column }
       .btn-row button { width:100% }
@@ -54,11 +74,11 @@
       <button id="stopTracking" disabled>Stop Tracking</button>
     </div>
     <div class="btn-row">
-      <button id="currentLocationBtn">Get My Location</button>
+      <button id="currentLocationBtn"><span class="button-text">Get My Location</span></button>
       <button id="audioGuideBtn">Toggle Audio Guide</button>
     </div>
     <div class="btn-row">
-      <button id="calculateBtn">Get Directions</button>
+      <button id="calculateBtn"><span class="button-text">Get Directions</span></button>
       <button id="resetBtn">Clear All</button>
     </div>
   </div>
@@ -102,6 +122,46 @@
   let map, marker, watchId, geocoder, directionsService, directionsRenderer;
   let speechOn = false;
   let currentLocationAutocomplete, destinationAutocomplete;
+
+  function showButtonStatus(buttonId, type, text) {
+    const button = el(buttonId);
+    const buttonText = button.querySelector('.button-text');
+    
+    // Clear any existing status
+    button.querySelector('.loader')?.remove();
+    button.querySelector('.status-icon')?.remove();
+    
+    if (type === 'loading') {
+      const loader = document.createElement('span');
+      loader.className = 'loader';
+      button.appendChild(loader);
+      button.disabled = true;
+    } 
+    else if (type === 'success') {
+      const icon = document.createElement('span');
+      icon.className = 'status-icon';
+      icon.innerHTML = '✅';
+      button.appendChild(icon);
+      setTimeout(() => icon.remove(), 2000);
+      button.disabled = false;
+    }
+    else if (type === 'error') {
+      const icon = document.createElement('span');
+      icon.className = 'status-icon';
+      icon.innerHTML = '❌';
+      button.appendChild(icon);
+      setTimeout(() => icon.remove(), 2000);
+      button.disabled = false;
+    }
+    
+    if (text) {
+      if (buttonId === 'currentLocationBtn') {
+        el("accuracyMsg").textContent = text;
+      } else if (buttonId === 'calculateBtn') {
+        el("routeInfo").textContent = text;
+      }
+    }
+  }
 
   function speak(txt) {
     if (!speechOn) return;
@@ -269,24 +329,54 @@
   }
 
   function getCurrentLocation() {
-    if (!navigator.geolocation) return;
+    if (!navigator.geolocation) {
+      showButtonStatus('currentLocationBtn', 'error', "Geolocation not supported");
+      speak("Geolocation not supported");
+      return;
+    }
+    
+    showButtonStatus('currentLocationBtn', 'loading', "Getting your location...");
+    speak("Getting your location");
+    
     navigator.geolocation.getCurrentPosition(
       p => { 
         updatePosition(p.coords.latitude, p.coords.longitude); 
+        showButtonStatus('currentLocationBtn', 'success', `Location acquired (Accuracy: ±${Math.round(p.coords.accuracy)}m)`);
         speak("Current location acquired");
       },
       e => {
         console.error(e);
-        speak("Could not get your location");
+        let errorMessage = "Could not get your location";
+        switch(e.code) {
+          case e.PERMISSION_DENIED:
+            errorMessage = "Location permission denied";
+            break;
+          case e.POSITION_UNAVAILABLE:
+            errorMessage = "Location information unavailable";
+            break;
+          case e.TIMEOUT:
+            errorMessage = "Location request timed out";
+            break;
+        }
+        showButtonStatus('currentLocationBtn', 'error', errorMessage);
+        speak(errorMessage);
       },
-      {enableHighAccuracy: true}
+      {enableHighAccuracy: true, timeout: 10000}
     );
   }
 
   function calculateRoute() {
     const from = el("coordsInput").value;
     const to = el("destCoordsInput").value;
-    if (!from || !to) { speak("Please set both current location and destination"); return; }
+    
+    if (!from || !to) { 
+      showButtonStatus('calculateBtn', 'error', "Please set both current location and destination");
+      speak("Please set both current location and destination"); 
+      return; 
+    }
+    
+    showButtonStatus('calculateBtn', 'loading', "Calculating route...");
+    speak("Calculating route");
     
     const [fromLat, fromLng] = from.split(",").map(Number);
     const [toLat, toLng] = to.split(",").map(Number);
@@ -300,8 +390,10 @@
       if (st === "OK") {
         directionsRenderer.setDirections(res);
         const leg = res.routes[0].legs[0];
-        el("routeInfo").innerHTML = `<span class='success'>Distance: ${leg.distance.text}, Time: ${leg.duration.text}</span>`;
-        speak(`Route found. Distance ${leg.distance.text}, estimated time ${leg.duration.text}`);
+        const successMessage = `Distance: ${leg.distance.text}, Time: ${leg.duration.text}`;
+        showButtonStatus('calculateBtn', 'success', successMessage);
+        el("routeInfo").innerHTML = `<span class='success'>${successMessage}</span>`;
+        speak(`Route found. ${successMessage}`);
         
         // Speak directions with delays
         let delay = 0;
@@ -312,8 +404,10 @@
           delay += 2000; // 2 second delay between instructions
         });
       } else {
-        el("routeInfo").innerHTML = `<span class='error'>Route calculation failed</span>`;
-        speak("Could not calculate route");
+        const errorMessage = "Route calculation failed";
+        showButtonStatus('calculateBtn', 'error', errorMessage);
+        el("routeInfo").innerHTML = `<span class='error'>${errorMessage}</span>`;
+        speak(errorMessage);
       }
     });
   }
@@ -323,4 +417,4 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap" async defer></script>
 </body>
-  </html>
+</html>
