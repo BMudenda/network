@@ -182,12 +182,13 @@
 
   <!-- Data Submission Form -->
   <form id="locationForm" class="card">
-    <!-- Hidden inputs must match the header names exactly in the order: Timestamp, Vehicle_Registration, Vehicle_Type, Vehicle_Color, Phone, Location, Coordinates, Destination, Destination_Coordinates -->
+    <!-- Hidden inputs; must match the spreadsheet headers exactly -->
     <input type="hidden" name="Timestamp" id="timestamp">
     <input type="hidden" name="Vehicle_Registration" id="reg">
     <input type="hidden" name="Vehicle_Type" id="type">
     <input type="hidden" name="Vehicle_Color" id="color">
     <input type="hidden" name="Phone" id="phone">
+    <!-- Location is now optional; if blank, "Default Location" is set -->
     <input type="hidden" name="Location" id="location">
     <input type="hidden" name="Coordinates" id="coords">
     <input type="hidden" name="Destination" id="destination">
@@ -207,12 +208,12 @@
     };
 
     // Global variables.
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnk3AMSlN5PIpxwCN3zMtTYTQBfyRdnecr-POZ6vA/dev'; 
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyE-1RuFaW7C4nxp4heXKMYMcYZ4k1qeoE1Ct0KtBSJFgByr5LDYCTuykIkAt6EEoei/exec';
     let map, directionsService, directionsRenderer, currentMarker;
     let trackingInterval = null;
     let speechOn = false;
 
-    // Helper: speak message using the Web Speech API.
+    // Helper: use the Web Speech API to speak.
     function speak(message) {
       if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(message);
@@ -222,7 +223,7 @@
       }
     }
 
-    // Helper: update a button's content and loading state.
+    // Helper: update a button's display with optional loader.
     function showButtonStatus(btnId, status, text) {
       const btn = el(btnId);
       if (status === 'loading') {
@@ -234,7 +235,7 @@
       }
     }
 
-    // Initialize the Google Map and set up autocomplete fields.
+    // Initialize Google Map and set up address autocomplete.
     function initMap() {
       map = new google.maps.Map(el("map"), {
         center: { lat: -34.397, lng: 150.644 },
@@ -255,21 +256,24 @@
       destinationAutocomplete.addListener("place_changed", updateDestinationCoordinates);
     }
 
-    // Update current location coordinates using geocoding.
+    // Geocode current location address and update fields.
     function updateCoordinates() {
       const address = el("locationInput").value;
       const geocoder = new google.maps.Geocoder();
       geocoder.geocode({ address: address }, function(results, status) {
         if (status === "OK") {
           const loc = results[0].geometry.location;
+          const formatted = results[0].formatted_address;
           el("coordsInput").value = loc.lat() + ',' + loc.lng();
+          // Update the hidden "Location" field.
+          el("location").value = formatted;
         } else {
           el("accuracyMsg").textContent = 'Geocode was not successful: ' + status;
         }
       });
     }
 
-    // Update destination information using geocoding and speak the result.
+    // Geocode destination address and update fields.
     function updateDestinationCoordinates() {
       const address = el("destinationInput").value;
       const geocoder = new google.maps.Geocoder();
@@ -288,32 +292,37 @@
       });
     }
 
-    // Start live tracking using the Geolocation API.
+    // Start live tracking of current position.
     function startTracking() {
       if (navigator.geolocation) {
-        trackingInterval = navigator.geolocation.watchPosition((position) => {
-          const { latitude, longitude } = position.coords;
-          const pos = { lat: latitude, lng: longitude };
-          if (currentMarker) {
-            currentMarker.setPosition(pos);
-          } else {
-            currentMarker = new google.maps.Marker({
-              position: pos,
-              map: map,
-              title: "Your Current Location"
-            });
+        trackingInterval = navigator.geolocation.watchPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            const pos = { lat: latitude, lng: longitude };
+            if (currentMarker) {
+              currentMarker.setPosition(pos);
+            } else {
+              currentMarker = new google.maps.Marker({
+                position: pos,
+                map: map,
+                title: "Your Current Location"
+              });
+            }
+            map.setCenter(pos);
+            el("coordsInput").value = latitude + ',' + longitude;
+            el("coords").value = latitude + ',' + longitude;
+            el("timestamp").value = new Date().toISOString();
+            el("accuracyMsg").textContent = 'Tracking your location...';
+          },
+          (error) => {
+            el("accuracyMsg").textContent = 'Error tracking location: ' + error.message;
+          },
+          {
+            enableHighAccuracy: true,
+            maximumAge: 0,
+            timeout: 5000
           }
-          map.setCenter(pos);
-          el("coords").value = latitude + ',' + longitude;
-          el("timestamp").value = new Date().toISOString();
-          el("accuracyMsg").textContent = 'Tracking your location...';
-        }, (error) => {
-          el("accuracyMsg").textContent = 'Error tracking location: ' + error.message;
-        }, {
-          enableHighAccuracy: true,
-          maximumAge: 0,
-          timeout: 5000
-        });
+        );
         el("startTracking").disabled = true;
         el("stopTracking").disabled = false;
       } else {
@@ -321,7 +330,7 @@
       }
     }
 
-    // Stop live tracking.
+    // Stop tracking.
     function stopTracking() {
       if (trackingInterval !== null) {
         navigator.geolocation.clearWatch(trackingInterval);
@@ -332,36 +341,40 @@
       }
     }
 
-    // Get current location once, with a loader on the button.
+    // Get current location once and update fields.
     function getCurrentLocation() {
       if (navigator.geolocation) {
         showButtonStatus("currentLocationBtn", "loading", "Getting Location...");
-        navigator.geolocation.getCurrentPosition((position) => {
-          const { latitude, longitude } = position.coords;
-          const pos = { lat: latitude, lng: longitude };
-          el("coordsInput").value = latitude + ',' + longitude;
-          if (currentMarker) {
-            currentMarker.setPosition(pos);
-          } else {
-            currentMarker = new google.maps.Marker({
-              position: pos,
-              map: map,
-              title: "My Location"
-            });
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            const pos = { lat: latitude, lng: longitude };
+            el("coordsInput").value = latitude + ',' + longitude;
+            el("coords").value = latitude + ',' + longitude;
+            if (currentMarker) {
+              currentMarker.setPosition(pos);
+            } else {
+              currentMarker = new google.maps.Marker({
+                position: pos,
+                map: map,
+                title: "My Location"
+              });
+            }
+            map.setCenter(pos);
+            el("accuracyMsg").textContent = 'Your current location is set on map.';
+            showButtonStatus("currentLocationBtn", "default", "Get My Location");
+          },
+          (error) => {
+            el("accuracyMsg").textContent = 'Error fetching location: ' + error.message;
+            showButtonStatus("currentLocationBtn", "default", "Get My Location");
           }
-          map.setCenter(pos);
-          el("accuracyMsg").textContent = 'Your current location is set on map.';
-          showButtonStatus("currentLocationBtn", "default", "Get My Location");
-        }, (error) => {
-          el("accuracyMsg").textContent = 'Error fetching location: ' + error.message;
-          showButtonStatus("currentLocationBtn", "default", "Get My Location");
-        });
+        );
       } else {
         alert('Geolocation is not supported by your browser.');
       }
     }
 
-    // Calculate route using the Directions API, with a loader on the button.
+    // Calculate route and display distance & duration.
     function calculateRoute() {
       const startStr = el("coordsInput").value;
       const destinationStr = el("destCoordsInput").value;
@@ -391,21 +404,19 @@
       });
     }
 
-    // Event Listeners
-
-    // When the user changes the vehicle selection, update vehicle info.
+    // --- Event Listeners ---
     el("vehicle").addEventListener("change", () => {
       const v = vehicleDB[el("vehicle").value] || {};
       el("vtype").textContent = v.type || "-";
       el("vcolor").textContent = v.color || "-";
       el("vphone").textContent = v.phone || "-";
+      // Update hidden fields.
       el("reg").value = el("vehicle").value;
       el("type").value = v.type || "";
       el("color").value = v.color || "";
       el("phone").value = v.phone || "";
     });
 
-    // Button event handlers.
     el("startTracking").addEventListener("click", startTracking);
     el("stopTracking").addEventListener("click", stopTracking);
     el("currentLocationBtn").addEventListener("click", getCurrentLocation);
@@ -425,38 +436,70 @@
       speak(speechOn ? "Audio guide on" : "Audio guide off");
     });
 
-    // Form submission event handler.
+    // --- Form Submission Handler ---
     el("locationForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+      
+      // Clear previous status.
+      el("submitMsg").textContent = "";
+      el("submitMsg").classList.remove("error");
+      
+      // Validate required fields: Vehicle Registration, Destination, and Route Info.
+      if (!el("reg").value.trim()) {
+        el("submitMsg").textContent = "Please select a vehicle.";
+        el("submitMsg").classList.add("error");
+        return;
+      }
+      if (!el("destination").value.trim()) {
+        el("submitMsg").textContent = "Please set your destination.";
+        el("submitMsg").classList.add("error");
+        return;
+      }
+      if (el("routeInfo").innerHTML.trim() === "") {
+        el("submitMsg").textContent = "Please calculate the route (distance and duration) before sending.";
+        el("submitMsg").classList.add("error");
+        return;
+      }
+      
+      // If Location is blank, set it to a default value.
+      if (!el("location").value.trim()) {
+        el("location").value = "Default Location";
+      }
+      
+      // Set the timestamp.
       const now = new Date();
       el("timestamp").value = now.toISOString();
+      
       showButtonStatus("submitBtn", "loading", "Sending data...");
       speak("Sending location data");
+      
       try {
         const formData = new FormData(el("locationForm"));
         const response = await fetch(SCRIPT_URL, { method: "POST", body: formData });
         const result = await response.json();
-        if (result.result === "success") {
-          el("submitMsg").textContent = 'Data successfully submitted!';
+        // Check if the returned result contains 'success' (case-insensitive).
+        if (result.result && result.result.toLowerCase().indexOf("success") > -1) {
+          el("submitMsg").textContent = "Data successfully submitted!";
+          el("submitMsg").classList.remove("error");
           showButtonStatus("submitBtn", "default", "Send Location Data");
         } else {
-          el("submitMsg").textContent = 'Error submitting data: ' + result.error;
+          el("submitMsg").textContent = "Error submitting data: " + (result.error || "Unknown error");
           el("submitMsg").classList.add("error");
           showButtonStatus("submitBtn", "default", "Send Location Data");
         }
       } catch (error) {
-        el("submitMsg").textContent = 'Network error: ' + error;
+        el("submitMsg").textContent = "Network error: " + error;
         el("submitMsg").classList.add("error");
         showButtonStatus("submitBtn", "default", "Send Location Data");
       }
     });
 
-    // Expose initMap globally so that the Google Maps API can call it.
+    // Expose initMap globally.
     window.initMap = initMap;
   </script>
   
-  <!-- Google Maps API Script with the provided API key and callback -->
+  <!-- Google Maps API Script (using your provided API key & callback) -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap" async defer></script>
   
 </body>
-      </html>
+  </html>
