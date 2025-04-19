@@ -18,6 +18,8 @@
     .btn-row { display:flex; gap:8px }
     .btn-row button { flex:1 }
     .pac-container { z-index: 10000 !important; }
+    .input-group { margin-bottom:12px; }
+    .input-group h3 { margin-bottom:8px; font-size:16px; color:#333; }
     @media (max-width: 400px) {
       .btn-row { flex-direction:column }
       .btn-row button { width:100% }
@@ -60,13 +62,17 @@
   
   <div id="accuracyMsg" class="message"></div>
 
-  <input id="locationInput" placeholder="📍 Current Location (start typing address)">
-  <input id="coordsInput" placeholder="📍 Coordinates" readonly>
+  <div class="input-group">
+    <h3>Current Location</h3>
+    <input id="locationInput" placeholder="📍 Start typing address">
+    <input id="coordsInput" placeholder="📍 Coordinates" readonly>
+  </div>
 
-  <hr>
-
-  <input id="destinationInput" placeholder="📍 Destination (start typing address)">
-  <input id="destCoordsInput" placeholder="📍 Destination Coordinates">
+  <div class="input-group">
+    <h3>Destination</h3>
+    <input id="destinationInput" placeholder="📍 Start typing address">
+    <input id="destCoordsInput" placeholder="📍 Destination Coordinates">
+  </div>
 
   <div id="routeInfo" class="message"></div>
 </div>
