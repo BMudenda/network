@@ -62,11 +62,30 @@
       padding-left: 10px;
       background-image: none;
     }
-    #from { background-image: url('https://img.icons8.com/ios-filled/24/000000/home.png'); }
-    #to { background-image: url('https://img.icons8.com/ios-filled/24/000000/marker.png'); }
+    #from, #fromCoords { background-image: url('https://img.icons8.com/ios-filled/24/000000/home.png'); }
+    #to, #toCoords { background-image: url('https://img.icons8.com/ios-filled/24/000000/marker.png'); }
     #phone { background-image: url('https://img.icons8.com/ios-filled/24/000000/phone.png'); }
     #luggage { background-image: url('https://img.icons8.com/ios-filled/24/000000/suitcase.png'); }
     #time { background-image: url('https://img.icons8.com/ios-filled/24/000000/clock.png'); }
+
+    .coordinate-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .coordinate-row input {
+      flex: 1;
+    }
+    .get-location-btn {
+      width: auto;
+      padding: 10px;
+      margin: 0;
+      background: #4285f4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
     .trip-summary {
       display: flex;
@@ -159,6 +178,14 @@
         flex-direction: column;
         gap: 10px;
       }
+      .coordinate-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      .get-location-btn {
+        width: 100%;
+        margin-bottom: 12px;
+      }
       body {
         padding: 5px;
       }
@@ -179,10 +206,17 @@
     <div class="app-content">
       <form id="sheetdb-form">
         <label for="from" class="required">Pickup Location</label>
-        <input name="From" id="from" placeholder="Pickup location" required>
+        <div class="coordinate-row">
+          <input name="From" id="from" placeholder="Pickup location" required>
+          <input id="fromCoords" placeholder="Coordinates (lat,lng)" readonly>
+          <button type="button" class="get-location-btn" onclick="getCurrentLocation()">📍 Current</button>
+        </div>
 
         <label for="to" class="required">Destination</label>
-        <input name="To" id="to" placeholder="Destination" required>
+        <div class="coordinate-row">
+          <input name="To" id="to" placeholder="Destination" required>
+          <input id="toCoords" placeholder="Coordinates (lat,lng)" onchange="updateToPlace()">
+        </div>
 
         <label for="phone" class="required">Phone Number</label>
         <input name="Phone" id="phone" type="tel" placeholder="e.g. 097XXXXXXXX" pattern="[0-9]{10}" title="Enter a 10-digit number e.g. 097XXXXXXXX" required>
@@ -237,6 +271,8 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbytUJ-taezbOxcxnZTWwWjeFBH-gqshju9_g295Cu9wSpwtvlHHHNajxHxii8SxsUpe/exec";
     let directionsService, directionsRenderer, map;
     let bookingConfirmed = false;
+    let fromAutocomplete, toAutocomplete;
+    let currentLocationMarker = null;
 
     function initMap() {
       directionsService = new google.maps.DirectionsService();
@@ -246,23 +282,146 @@
         zoom: 13
       });
       directionsRenderer.setMap(map);
-      new google.maps.places.Autocomplete(document.getElementById("from"));
-      new google.maps.places.Autocomplete(document.getElementById("to"));
+      
+      // Initialize autocomplete for place names
+      fromAutocomplete = new google.maps.places.Autocomplete(document.getElementById("from"));
+      toAutocomplete = new google.maps.places.Autocomplete(document.getElementById("to"));
+      
+      // When pickup place changes, update coordinates and clear current location
+      fromAutocomplete.addListener('place_changed', () => {
+        const place = fromAutocomplete.getPlace();
+        if (place.geometry) {
+          document.getElementById('fromCoords').value = 
+            `${place.geometry.location.lat()}, ${place.geometry.location.lng()}`;
+          // Clear current location marker if one exists
+          if (currentLocationMarker) {
+            currentLocationMarker.setMap(null);
+            currentLocationMarker = null;
+          }
+        }
+      });
+      
+      toAutocomplete.addListener('place_changed', () => {
+        const place = toAutocomplete.getPlace();
+        if (place.geometry) {
+          document.getElementById('toCoords').value = 
+            `${place.geometry.location.lat()}, ${place.geometry.location.lng()}`;
+        }
+      });
+    }
+
+    // Get current location and update pickup fields
+    function getCurrentLocation() {
+      if (navigator.geolocation) {
+        document.getElementById('message').innerHTML = "<span style='color:blue;'>Getting your location...</span>";
+        
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            const coords = `${latitude}, ${longitude}`;
+            
+            // Update coordinates field
+            document.getElementById('fromCoords').value = coords;
+            
+            // Clear any manually entered pickup location
+            document.getElementById('from').value = '';
+            
+            // Add marker for current location
+            const pos = { lat: latitude, lng: longitude };
+            if (currentLocationMarker) {
+              currentLocationMarker.setPosition(pos);
+            } else {
+              currentLocationMarker = new google.maps.Marker({
+                position: pos,
+                map: map,
+                title: "Your Current Location",
+                icon: {
+                  url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                }
+              });
+            }
+            
+            // Center map on current location
+            map.setCenter(pos);
+            
+            // Get address from coordinates
+            const geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ location: pos }, (results, status) => {
+              if (status === 'OK' && results[0]) {
+                document.getElementById('from').value = results[0].formatted_address;
+                document.getElementById('message').innerHTML = "<span style='color:green;'>Location found!</span>";
+              } else {
+                document.getElementById('from').value = "Current Location";
+                document.getElementById('message').innerHTML = "<span style='color:green;'>Location found (address not available)</span>";
+              }
+            });
+          },
+          (error) => {
+            document.getElementById('message').innerHTML = `<span style='color:red;'>Error: ${error.message}</span>`;
+          },
+          { enableHighAccuracy: true, timeout: 10000 }
+        );
+      } else {
+        document.getElementById('message').innerHTML = "<span style='color:red;'>Geolocation not supported by your browser</span>";
+      }
+    }
+
+    // Update destination place name when coordinates are entered
+    function updateToPlace() {
+      const coords = document.getElementById('toCoords').value;
+      if (!coords) return;
+      
+      const [lat, lng] = coords.split(',').map(coord => parseFloat(coord.trim()));
+      if (isNaN(lat) || isNaN(lng)) {
+        document.getElementById('message').innerHTML = "<span style='color:red;'>Invalid coordinates format</span>";
+        return;
+      }
+      
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+        if (status === 'OK' && results[0]) {
+          document.getElementById('to').value = results[0].formatted_address;
+          document.getElementById('message').innerHTML = "<span style='color:green;'>Destination updated</span>";
+        } else {
+          document.getElementById('message').innerHTML = "<span style='color:red;'>Could not find address for these coordinates</span>";
+        }
+      });
     }
 
     function calculateFare() {
       const from = document.getElementById('from').value;
       const to = document.getElementById('to').value;
+      const fromCoords = document.getElementById('fromCoords').value;
+      const toCoords = document.getElementById('toCoords').value;
       const luggage = document.getElementById('luggage').value;
 
-      if (!from || !to) {
-        alert("Please enter both pickup and destination.");
+      // Use coordinates if available, otherwise use place names
+      let origin, destination;
+      
+      if (fromCoords) {
+        const [lat, lng] = fromCoords.split(',').map(coord => parseFloat(coord.trim()));
+        origin = new google.maps.LatLng(lat, lng);
+      } else {
+        origin = from;
+      }
+      
+      if (toCoords) {
+        const [lat, lng] = toCoords.split(',').map(coord => parseFloat(coord.trim()));
+        destination = new google.maps.LatLng(lat, lng);
+      } else {
+        destination = to;
+      }
+
+      if ((!from && !fromCoords) || (!to && !toCoords)) {
+        document.getElementById('message').innerHTML = "<span style='color:red;'>Please enter both pickup and destination</span>";
         return;
       }
 
+      document.getElementById('message').innerHTML = "<span style='color:blue;'>Calculating route...</span>";
+
       directionsService.route({
-        origin: from,
-        destination: to,
+        origin: origin,
+        destination: destination,
         travelMode: 'DRIVING'
       }, (result, status) => {
         if (status === 'OK') {
@@ -280,8 +439,9 @@
           document.getElementById('distance').value = `${distance} km`;
           document.getElementById('duration').value = `${duration} min`;
           document.getElementById('fare').value = `K${fare}`;
+          document.getElementById('message').innerHTML = "<span style='color:green;'>Route calculated</span>";
         } else {
-          alert("Failed to calculate route.");
+          document.getElementById('message').innerHTML = "<span style='color:red;'>Failed to calculate route</span>";
         }
       });
     }
@@ -290,7 +450,7 @@
       const required = ['from', 'to', 'phone', 'time', 'luggage', 'distance', 'duration', 'fare'];
       for (let id of required) {
         if (!document.getElementById(id).value) {
-          alert("Fill in all fields and calculate fare first.");
+          document.getElementById('message').innerHTML = "<span style='color:red;'>Please fill all fields and calculate fare</span>";
           return;
         }
       }
@@ -314,12 +474,16 @@
         directionsRenderer.setDirections({routes: []});
         directionsRenderer.setMap(map);
       }
+      if (currentLocationMarker) {
+        currentLocationMarker.setMap(null);
+        currentLocationMarker = null;
+      }
     }
 
     document.getElementById('sheetdb-form').addEventListener("submit", function(e) {
       e.preventDefault();
       if (!bookingConfirmed) {
-        alert("Please confirm booking first.");
+        document.getElementById('message').innerHTML = "<span style='color:red;'>Please confirm booking first</span>";
         return;
       }
       
@@ -363,4 +527,4 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap">
   </script>
 </body>
-            </html>
+  </html>
