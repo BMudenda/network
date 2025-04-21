@@ -77,6 +77,7 @@
       flex: 1;
     }
     .get-location-btn {
+      position: relative;
       width: auto;
       padding: 10px;
       margin: 0;
@@ -85,6 +86,29 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 100px;
+    }
+    .get-location-btn .button-text {
+      margin-right: 5px;
+    }
+    .get-location-btn .loader {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 5px;
+    }
+    .get-location-btn.success {
+      background: #4CAF50;
+    }
+    .get-location-btn.error {
+      background: #F44336;
     }
 
     .trip-summary {
@@ -209,7 +233,10 @@
         <div class="coordinate-row">
           <input name="From" id="from" placeholder="Pickup location" required>
           <input id="fromCoords" placeholder="Coordinates (lat,lng)" readonly>
-          <button type="button" class="get-location-btn" onclick="getCurrentLocation()">📍 Current</button>
+          <button type="button" class="get-location-btn" onclick="getCurrentLocation()">
+            <span class="button-text">📍 Current</span>
+            <span class="loader"></span>
+          </button>
         </div>
 
         <label for="to" class="required">Destination</label>
@@ -312,9 +339,19 @@
 
     // Get current location and update pickup fields
     function getCurrentLocation() {
+      const locationBtn = document.querySelector('.get-location-btn');
+      const buttonText = locationBtn.querySelector('.button-text');
+      const loader = locationBtn.querySelector('.loader');
+      
+      // Reset button state
+      locationBtn.classList.remove('success', 'error');
+      buttonText.textContent = 'Locating...';
+      loader.style.display = 'inline-block';
+      locationBtn.disabled = true;
+      
+      document.getElementById('message').innerHTML = "<span style='color:blue;'>Detecting your location...</span>";
+
       if (navigator.geolocation) {
-        document.getElementById('message').innerHTML = "<span style='color:blue;'>Getting your location...</span>";
-        
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const { latitude, longitude } = position.coords;
@@ -347,21 +384,56 @@
             // Get address from coordinates
             const geocoder = new google.maps.Geocoder();
             geocoder.geocode({ location: pos }, (results, status) => {
+              loader.style.display = 'none';
+              locationBtn.disabled = false;
+              
               if (status === 'OK' && results[0]) {
                 document.getElementById('from').value = results[0].formatted_address;
                 document.getElementById('message').innerHTML = "<span style='color:green;'>Location found!</span>";
+                buttonText.textContent = '📍 Current';
+                locationBtn.classList.add('success');
+                setTimeout(() => locationBtn.classList.remove('success'), 2000);
               } else {
                 document.getElementById('from').value = "Current Location";
                 document.getElementById('message').innerHTML = "<span style='color:green;'>Location found (address not available)</span>";
+                buttonText.textContent = '📍 Current';
+                locationBtn.classList.add('success');
+                setTimeout(() => locationBtn.classList.remove('success'), 2000);
               }
             });
           },
           (error) => {
-            document.getElementById('message').innerHTML = `<span style='color:red;'>Error: ${error.message}</span>`;
+            loader.style.display = 'none';
+            locationBtn.disabled = false;
+            buttonText.textContent = '📍 Try Again';
+            locationBtn.classList.add('error');
+            setTimeout(() => locationBtn.classList.remove('error'), 2000);
+            
+            let errorMessage = 'Error getting location';
+            switch(error.code) {
+              case error.PERMISSION_DENIED:
+                errorMessage = "Location access was denied";
+                break;
+              case error.POSITION_UNAVAILABLE:
+                errorMessage = "Location information is unavailable";
+                break;
+              case error.TIMEOUT:
+                errorMessage = "Location request timed out";
+                break;
+              case error.UNKNOWN_ERROR:
+                errorMessage = "An unknown error occurred";
+                break;
+            }
+            document.getElementById('message').innerHTML = `<span style='color:red;'>${errorMessage}</span>`;
           },
           { enableHighAccuracy: true, timeout: 10000 }
         );
       } else {
+        loader.style.display = 'none';
+        locationBtn.disabled = false;
+        buttonText.textContent = '📍 Unavailable';
+        locationBtn.classList.add('error');
+        setTimeout(() => locationBtn.classList.remove('error'), 2000);
         document.getElementById('message').innerHTML = "<span style='color:red;'>Geolocation not supported by your browser</span>";
       }
     }
