@@ -14,6 +14,8 @@
     .trip-summary { display: flex; justify-content: space-between; gap: 10px; font-weight: bold; }
     .hidden { display: none; }
     .tracking-status { color: green; font-weight: bold; margin-bottom: 10px; }
+    .loader { border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; margin: auto; display: none; }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -30,7 +32,8 @@
 
 <div class="form-section">
   <label for="phone">Phone Number</label>
-  <input type="tel" id="phone" placeholder="Enter phone number" required>
+  <input type="tel" id="phone" placeholder="Enter phone number" list="phoneNumbers" required>
+  <datalist id="phoneNumbers"></datalist>
 </div>
 
 <div id="driverFields" class="hidden">
@@ -62,6 +65,7 @@
 <div class="form-section">
   <label for="originCoords">Current Coordinates</label>
   <input id="originCoords" placeholder="Latitude, Longitude">
+  <button onclick="fetchCurrentLocation()">Fetch Current Location</button>
 </div>
 
 <div class="form-section">
@@ -74,6 +78,14 @@
   <input id="destinationCoords" placeholder="Latitude, Longitude">
 </div>
 
+<div class="form-section">
+  <label for="extraOptions">Luggage/Extra Person</label>
+  <select id="extraOptions" onchange="recalculateCost()">
+    <option value="No">No</option>
+    <option value="Yes">Yes</option>
+  </select>
+</div>
+
 <div class="trip-summary">
   <div id="distance">Distance: -</div>
   <div id="duration">Duration: -</div>
@@ -83,6 +95,7 @@
 <button onclick="calculateRoute()">Calculate Route</button>
 <button onclick="submitData()">Submit</button>
 <button onclick="toggleMap()">Show/Hide Map</button>
+<div id="loader" class="loader"></div>
 
 <div id="map"></div>
 
@@ -119,6 +132,8 @@
         document.getElementById("destinationCoords").value = `${loc.lat()},${loc.lng()}`;
       }
     });
+
+    loadPhoneNumbers();
   }
 
   function toggleFields() {
@@ -150,6 +165,24 @@
     document.getElementById("trackingStatus").classList.add("hidden");
   }
 
+  function fetchCurrentLocation() {
+    const loader = document.getElementById("loader");
+    loader.style.display = "block";
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(pos => {
+        loader.style.display = "none";
+        const coords = `${pos.coords.latitude},${pos.coords.longitude}`;
+        document.getElementById("originCoords").value = coords;
+      }, () => {
+        loader.style.display = "none";
+        alert("Unable to fetch location");
+      });
+    } else {
+      loader.style.display = "none";
+      alert("Geolocation not supported");
+    }
+  }
+
   function calculateRoute() {
     const [lat1, lng1] = document.getElementById("originCoords").value.split(",").map(Number);
     const [lat2, lng2] = document.getElementById("destinationCoords").value.split(",").map(Number);
@@ -175,8 +208,23 @@
     });
   }
 
+  function recalculateCost() {
+    const distanceText = document.getElementById("distance").innerText.replace("Distance: ", "");
+    if (distanceText !== "-") {
+      const distance = parseFloat(distanceText.replace(" km", ""));
+      let cost = distance * 10; // 10 ZMW per KM
+      const extra = document.getElementById("extraOptions").value;
+      if (extra === "Yes") {
+        cost *= 1.5; // Increase by 50%
+      }
+      document.getElementById("cost").innerText = `Cost: ZMW ${cost.toFixed(2)}`;
+    }
+  }
+
   function submitData() {
     const url = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"; // Replace with your real script URL
+    const loader = document.getElementById("loader");
+    loader.style.display = "block";
 
     const data = {
       submitterType: document.getElementById("submitterType").value,
@@ -193,9 +241,29 @@
       timestamp: new Date().toLocaleString()
     };
 
-    fetch(url + "?" + new URLSearchParams(data), { method: "GET" })
-      .then(res => res.ok ? alert("Submitted successfully!") : alert("Submission failed"))
-      .catch(err => alert("Error: " + err));
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then(res => {
+        loader.style.display = "none";
+        res.ok ? alert("Submitted successfully!") : alert("Submission failed");
+      })
+      .catch(err => {
+        loader.style.display = "none";
+        alert("Error: " + err);
+      });
+  }
+
+  function loadPhoneNumbers() {
+    const phoneNumbers = ["+260123456789", "+260987654321", "+260345678901"]; // Example numbers
+    const dataList = document.getElementById("phoneNumbers");
+    phoneNumbers.forEach(num => {
+      const option = document.createElement("option");
+      option.value = num;
+      dataList.appendChild(option);
+    });
   }
 </script>
 
