@@ -1,573 +1,335 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>HH Physical Count Form</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Driver Live Location with Enhanced Autocomplete</title>
   <style>
-    body {
-      font-family: sans-serif;
-      background: red;
-      margin: 0;
-      padding: 8px;
-    }
-    .app-container {
-      max-width: 550px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,0,0,0.15);
-    }
-    .app-header {
-      background: navy;
-      color: white;
-      text-align: center;
-      padding: 12px;
-    }
-    .app-header h2 {
-      margin: 0;
-      font-size: 22px;
-    }
-    .app-content {
-      padding: 15px;
-    }
-    form {
-      max-width: 100%;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 10px;
-      font-size: 16px;
-    }
-    .required::after {
-      content: " *";
-      color: red;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 10px 10px 10px 35px;
-      margin-top: 5px;
-      margin-bottom: 12px;
-      font-size: 16px;
-      background-repeat: no-repeat;
-      background-position: 10px center;
-      background-size: 20px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
-    input[readonly] {
-      background-color: #f0f0f0;
-      padding-left: 10px;
-      background-image: none;
-    }
-    #from, #fromCoords { background-image: url('https://img.icons8.com/ios-filled/24/000000/home.png'); }
-    #to, #toCoords { background-image: url('https://img.icons8.com/ios-filled/24/000000/marker.png'); }
-    #phone { background-image: url('https://img.icons8.com/ios-filled/24/000000/phone.png'); }
-    #luggage { background-image: url('https://img.icons8.com/ios-filled/24/000000/suitcase.png'); }
-    #time { background-image: url('https://img.icons8.com/ios-filled/24/000000/clock.png'); }
-
-    .coordinate-row {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-    .coordinate-row input {
-      flex: 1;
-    }
-    .get-location-btn {
-      position: relative;
-      width: auto;
-      padding: 10px;
-      margin: 0;
-      background: #4285f4;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 100px;
-    }
-    .get-location-btn .button-text {
-      margin-right: 5px;
-    }
-    .get-location-btn .loader {
-      display: none;
+    body { font-family: Arial, sans-serif; padding:20px; background:#f0f0f0; max-width:500px; margin:auto }
+    .card { background:#fff; padding:16px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1); margin-bottom:16px }
+    #map { height:300px; border-radius:8px; margin-bottom:12px }
+    input, select, button { width:100%; margin-top:10px; padding:10px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box }
+    button { background:#007bff; color:#fff; border:none; cursor:pointer }
+    button:hover { background:#0056b3 }
+    .message { margin-top:10px }
+    .error { color:red }
+    .success { color:green }
+    .btn-group { display:flex; flex-direction:column; gap:8px; margin-top:10px }
+    .btn-row { display:flex; gap:8px }
+    .btn-row button { flex:1; position:relative }
+    .pac-container { z-index: 10000 !important; }
+    .input-group { margin-bottom:16px; }
+    .input-group h3 { margin:0 0 8px 0; font-size:16px; color:#333; }
+    .input-row { display:flex; gap:8px; }
+    .input-row input { flex:1; min-width:0; }
+    .loader { 
+      display: inline-block;
       width: 16px;
       height: 16px;
       border: 2px solid rgba(255,255,255,0.3);
-      border-top: 2px solid white;
+      border-top: 2px solid #fff;
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      margin-left: 5px;
-    }
-    .get-location-btn.success {
-      background: #4CAF50;
-    }
-    .get-location-btn.error {
-      background: #F44336;
-    }
-
-    .trip-summary {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin: 15px 0;
-    }
-    .info-box {
-      flex: 1;
-      background: #f4f4f4;
-      padding: 12px;
-      border-radius: 8px;
-      text-align: center;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
-    .info-box label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 5px;
-      color: navy;
-      font-size: 14px;
-    }
-    .info-box div {
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    .button-group {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 15px;
-    }
-    button {
-      background: navy;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 12px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
-      font-size: 16px;
-    }
-    button:hover {
-      background: #001f4d;
-    }
-    button.disabled {
-      background: grey;
-      cursor: not-allowed;
-    }
-    #map {
-      width: 100%;
-      height: 180px;
-      margin: 15px 0;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-    }
-    .spinner {
-      display: none;
-      text-align: center;
-      padding: 15px 0;
-    }
-    .spinner-icon {
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      border-radius: 50%;
-      border-top: 4px solid navy;
-      width: 30px;
-      height: 30px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 10px;
+      margin-left: 8px;
+      vertical-align: middle;
     }
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-    #message {
-      text-align: center;
-      font-size: 16px;
-      margin-top: 15px;
-      min-height: 24px;
+    .status-icon {
+      margin-left: 8px;
+      vertical-align: middle;
     }
-    
-    @media (max-width: 480px) {
-      .button-group {
-        grid-template-columns: 1fr;
-      }
-      .trip-summary {
-        flex-direction: column;
-        gap: 10px;
-      }
-      .coordinate-row {
-        flex-direction: column;
-        gap: 0;
-      }
-      .get-location-btn {
-        width: 100%;
-        margin-bottom: 12px;
-      }
-      body {
-        padding: 5px;
-      }
-      .app-header {
-        padding: 10px;
-      }
-      .app-header h2 {
-        font-size: 20px;
-      }
+    .button-text { pointer-events: none; }
+    .coord-display {
+      position: relative;
+      flex: 1;
+    }
+    .coord-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+    #coordsInput {
+      padding-left: 30px;
+      width: 100%;
+    }
+    @media (max-width: 400px) {
+      .btn-row { flex-direction:column }
+      .btn-row button { width:100% }
+      .input-row { flex-direction:column; gap:10px; }
     }
   </style>
 </head>
 <body>
-  <div class="app-container">
-    <div class="app-header">
-      <h2>HH Physical Count Form</h2>
+
+<h2>Driver Live Location</h2>
+
+<div class="card">
+  <label for="vehicle">Select Vehicle</label>
+  <select id="vehicle">
+    <option value="">-- Select --</option>
+    <option value="BAH1996">BAH1996 – Camry</option>
+    <option value="XYZ7890">XYZ7890 – Accord</option>
+  </select>
+  <div><b>Type:</b> <span id="vtype">-</span></div>
+  <div><b>Color:</b> <span id="vcolor">-</span></div>
+  <div><b>Phone:</b> <span id="vphone">-</span></div>
+</div>
+
+<div class="card">
+  <div id="map">Loading map…</div>
+  
+  <div class="btn-group">
+    <div class="btn-row">
+      <button id="startTracking">Start Tracking</button>
+      <button id="stopTracking" disabled>Stop Tracking</button>
     </div>
-    <div class="app-content">
-      <form id="sheetdb-form">
-        <label for="from" class="required">Pickup Location</label>
-        <div class="coordinate-row">
-          <input name="From" id="from" placeholder="Pickup location" required>
-          <input id="fromCoords" placeholder="Coordinates (lat,lng)" readonly>
-          <button type="button" class="get-location-btn" onclick="getCurrentLocation()">
-            <span class="button-text">📍 Current</span>
-            <span class="loader"></span>
-          </button>
-        </div>
+    <div class="btn-row">
+      <button id="currentLocationBtn"><span class="button-text">Get My Location</span></button>
+      <button id="audioGuideBtn">Toggle Audio Guide</button>
+    </div>
+    <div class="btn-row">
+      <button id="calculateBtn"><span class="button-text">Get Directions</span></button>
+      <button id="resetBtn">Clear All</button>
+    </div>
+  </div>
+  
+  <div id="accuracyMsg" class="message"></div>
 
-        <label for="to" class="required">Destination</label>
-        <div class="coordinate-row">
-          <input name="To" id="to" placeholder="Destination" required>
-          <input id="toCoords" placeholder="Coordinates (lat,lng)" onchange="updateToPlace()">
-        </div>
-
-        <label for="phone" class="required">Phone Number</label>
-        <input name="Phone" id="phone" type="tel" placeholder="e.g. 097XXXXXXXX" pattern="[0-9]{10}" title="Enter a 10-digit number e.g. 097XXXXXXXX" required>
-
-        <label for="time" class="required">Pickup Time</label>
-        <input name="Time" id="time" type="time" required>
-
-        <label for="luggage" class="required">Luggage / Extra Person</label>
-        <select name="Luggage" id="luggage" required>
-          <option value="">Select Option</option>
-          <option value="No">No</option>
-          <option value="Yes">Yes</option>
-        </select>
-
-        <div class="trip-summary">
-          <div class="info-box">
-            <label>Duration</label>
-            <div id="durationDisplay">--</div>
-          </div>
-          <div class="info-box">
-            <label>Distance</label>
-            <div id="distanceDisplay">--</div>
-          </div>
-          <div class="info-box">
-            <label>Estimated Cost</label>
-            <div id="fareDisplay">--</div>
-          </div>
-        </div>
-
-        <input type="hidden" name="Duration" id="duration">
-        <input type="hidden" name="Distance" id="distance">
-        <input type="hidden" name="Fare" id="fare">
-
-        <div class="button-group">
-          <button type="button" onclick="calculateFare()">Calculate Fare</button>
-          <button type="button" onclick="confirmBooking()">Confirm</button>
-          <button type="button" onclick="cancelBooking()">Cancel</button>
-          <button type="submit" id="submitBtn" class="disabled" disabled>Send</button>
-        </div>
-      </form>
-
-      <div id="map"></div>
-      <div class="spinner" id="loading">
-        <div class="spinner-icon"></div>
-        <p>Sending your request...</p>
+  <div class="input-group">
+    <h3>Current Location</h3>
+    <div class="input-row">
+      <input id="locationInput" placeholder="Type address">
+      <div class="coord-display">
+        <span class="coord-icon">📍</span>
+        <input id="coordsInput" placeholder="Coordinates" readonly>
       </div>
-      <div id="message"></div>
     </div>
   </div>
 
-  <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbytUJ-taezbOxcxnZTWwWjeFBH-gqshju9_g295Cu9wSpwtvlHHHNajxHxii8SxsUpe/exec";
-    let directionsService, directionsRenderer, map;
-    let bookingConfirmed = false;
-    let fromAutocomplete, toAutocomplete;
-    let currentLocationMarker = null;
+  <div class="input-group">
+    <h3>Destination</h3>
+    <div class="input-row">
+      <input id="destinationInput" placeholder="Type address">
+      <div class="coord-display">
+        <span class="coord-icon">📍</span>
+        <input id="destCoordsInput" placeholder="Coordinates">
+      </div>
+    </div>
+  </div>
 
-    function initMap() {
-      directionsService = new google.maps.DirectionsService();
-      directionsRenderer = new google.maps.DirectionsRenderer();
-      map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: -13.1367, lng: 28.4169 },
-        zoom: 13
-      });
-      directionsRenderer.setMap(map);
+  <div id="routeInfo" class="message"></div>
+</div>
+
+<form id="locationForm" class="card">
+  <input type="hidden" name="Vehicle_Registration" id="reg">
+  <input type="hidden" name="Vehicle_Type" id="type">
+  <input type="hidden" name="Vehicle_Color" id="color">
+  <input type="hidden" name="Driver_Phone" id="phone">
+  <input type="hidden" name="Location" id="location">
+  <input type="hidden" name="Coordinates" id="coords">
+  <input type="hidden" name="Destination" id="destination">
+  <input type="hidden" name="Destination_Coordinates" id="destCoords">
+  <input type="hidden" name="Timestamp" id="timestamp">
+  <button type="submit">Send Location Data</button>
+  <div id="submitMsg" class="message"></div>
+</form>
+
+<script>
+  const el = id => document.getElementById(id);
+  let map, marker, watchId, geocoder, directionsService, directionsRenderer, infoWindow;
+  let speechOn = false;
+  let currentLocationAutocomplete, destinationAutocomplete;
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnk3AMSlN5PIpxwCN3zMtTYTQBfyRdnecr-POZ6vA/dev';
+
+  function showButtonStatus(buttonId, type, text) {
+    const button = el(buttonId);
+    const buttonText = button.querySelector('.button-text');
+    
+    button.querySelector('.loader')?.remove();
+    button.querySelector('.status-icon')?.remove();
+    
+    if (type === 'loading') {
+      const loader = document.createElement('span');
+      loader.className = 'loader';
+      button.appendChild(loader);
+      button.disabled = true;
+    } 
+    else if (type === 'success') {
+      const icon = document.createElement('span');
+      icon.className = 'status-icon';
+      icon.innerHTML = '✅';
+      button.appendChild(icon);
+      setTimeout(() => icon.remove(), 2000);
+      button.disabled = false;
+    }
+    else if (type === 'error') {
+      const icon = document.createElement('span');
+      icon.className = 'status-icon';
+      icon.innerHTML = '❌';
+      button.appendChild(icon);
+      setTimeout(() => icon.remove(), 2000);
+      button.disabled = false;
+    }
+    
+    if (text) {
+      if (buttonId === 'currentLocationBtn') {
+        el("accuracyMsg").textContent = text;
+      } else if (buttonId === 'calculateBtn') {
+        el("routeInfo").textContent = text;
+      }
+    }
+  }
+
+  function speak(txt) {
+    if (!speechOn) return;
+    const u = new SpeechSynthesisUtterance(txt);
+    u.lang = 'en-US';
+    speechSynthesis.speak(u);
+  }
+
+  const vehicleDB = {
+    "BAH1996": { type:"Toyota Camry", color:"White", phone:"+260777123456" },
+    "XYZ7890": { type:"Honda Accord", color:"Black", phone:"+260777987654" }
+  };
+
+  function initMap() {
+    geocoder = new google.maps.Geocoder();
+    directionsService = new google.maps.DirectionsService();
+    map = new google.maps.Map(el("map"), { 
+      center: {lat: -15.4167, lng: 28.2833}, 
+      zoom: 15,
+      mapTypeControl: false,
+      streetViewControl: false
+    });
+    
+    // Create marker with proper alignment
+    marker = new google.maps.Marker({
+      map: map,
+      icon: {
+        url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+        anchor: new google.maps.Point(10, 10),
+        scaledSize: new google.maps.Size(20, 32)
+      },
+      zIndex: 100
+    });
+    
+    infoWindow = new google.maps.InfoWindow();
+    directionsRenderer = new google.maps.DirectionsRenderer({ map });
+
+    // Enhanced Current Location Autocomplete
+    currentLocationAutocomplete = new google.maps.places.Autocomplete(
+      el("locationInput"),
+      {
+        types: ['geocode'],
+        componentRestrictions: {country: 'zm'},
+        fields: ['geometry', 'formatted_address', 'name']
+      }
+    );
+    currentLocationAutocomplete.addListener('place_changed', () => {
+      const place = currentLocationAutocomplete.getPlace();
+      if (!place.geometry) {
+        el("locationInput").placeholder = "Enter a place";
+        return;
+      }
+      updatePosition(place.geometry.location.lat(), place.geometry.location.lng());
+    });
+
+    // Enhanced Destination Autocomplete
+    destinationAutocomplete = new google.maps.places.Autocomplete(
+      el("destinationInput"),
+      {
+        types: ['geocode', 'establishment'],
+        componentRestrictions: {country: 'zm'},
+        fields: ['geometry', 'formatted_address', 'name']
+      }
+    );
+    destinationAutocomplete.addListener('place_changed', () => {
+      const place = destinationAutocomplete.getPlace();
+      if (!place.geometry) {
+        el("destinationInput").placeholder = "Enter a destination";
+        return;
+      }
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
+      el("destCoordsInput").value = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+      el("destCoords").value = el("destCoordsInput").value;
+      el("destination").value = place.name || place.formatted_address;
+      speak(`Destination set to ${place.name || place.formatted_address}`);
       
-      // Initialize autocomplete for place names
-      fromAutocomplete = new google.maps.places.Autocomplete(document.getElementById("from"));
-      toAutocomplete = new google.maps.places.Autocomplete(document.getElementById("to"));
-      
-      // When pickup place changes, update coordinates and clear current location
-      fromAutocomplete.addListener('place_changed', () => {
-        const place = fromAutocomplete.getPlace();
-        if (place.geometry) {
-          document.getElementById('fromCoords').value = 
-            `${place.geometry.location.lat()}, ${place.geometry.location.lng()}`;
-          // Clear current location marker if one exists
-          if (currentLocationMarker) {
-            currentLocationMarker.setMap(null);
-            currentLocationMarker = null;
+      if (el("coordsInput").value) {
+        const bounds = new google.maps.LatLngBounds();
+        bounds.extend(place.geometry.location);
+        bounds.extend(marker.getPosition());
+        map.fitBounds(bounds);
+      }
+    });
+
+    // Handle manual coordinate entry for destination
+    el("destCoordsInput").addEventListener("blur", () => {
+      const v = el("destCoordsInput").value.trim();
+      const m = v.match(/^(-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)$/);
+      if (m) { 
+        const lat = parseFloat(m[1]), lng = parseFloat(m[2]);
+        geocoder.geocode({location: {lat, lng}}, (rs, st) => { 
+          if (st === "OK" && rs[0]) {
+            el("destinationInput").value = rs[0].formatted_address;
+            el("destination").value = rs[0].formatted_address;
+            el("destCoords").value = v;
+            speak(`Destination set to ${rs[0].formatted_address}`);
           }
-        }
-      });
-      
-      toAutocomplete.addListener('place_changed', () => {
-        const place = toAutocomplete.getPlace();
-        if (place.geometry) {
-          document.getElementById('toCoords').value = 
-            `${place.geometry.location.lat()}, ${place.geometry.location.lng()}`;
-        }
-      });
-    }
-
-    // Get current location and update pickup fields
-    function getCurrentLocation() {
-      const locationBtn = document.querySelector('.get-location-btn');
-      const buttonText = locationBtn.querySelector('.button-text');
-      const loader = locationBtn.querySelector('.loader');
-      
-      // Reset button state
-      locationBtn.classList.remove('success', 'error');
-      buttonText.textContent = 'Locating...';
-      loader.style.display = 'inline-block';
-      locationBtn.disabled = true;
-      
-      document.getElementById('message').innerHTML = "<span style='color:blue;'>Detecting your location...</span>";
-
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            const coords = `${latitude}, ${longitude}`;
-            
-            // Update coordinates field
-            document.getElementById('fromCoords').value = coords;
-            
-            // Clear any manually entered pickup location
-            document.getElementById('from').value = '';
-            
-            // Add marker for current location
-            const pos = { lat: latitude, lng: longitude };
-            if (currentLocationMarker) {
-              currentLocationMarker.setPosition(pos);
-            } else {
-              currentLocationMarker = new google.maps.Marker({
-                position: pos,
-                map: map,
-                title: "Your Current Location",
-                icon: {
-                  url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-                }
-              });
-            }
-            
-            // Center map on current location
-            map.setCenter(pos);
-            
-            // Get address from coordinates
-            const geocoder = new google.maps.Geocoder();
-            geocoder.geocode({ location: pos }, (results, status) => {
-              loader.style.display = 'none';
-              locationBtn.disabled = false;
-              
-              if (status === 'OK' && results[0]) {
-                document.getElementById('from').value = results[0].formatted_address;
-                document.getElementById('message').innerHTML = "<span style='color:green;'>Location found!</span>";
-                buttonText.textContent = '📍 Current';
-                locationBtn.classList.add('success');
-                setTimeout(() => locationBtn.classList.remove('success'), 2000);
-              } else {
-                document.getElementById('from').value = "Current Location";
-                document.getElementById('message').innerHTML = "<span style='color:green;'>Location found (address not available)</span>";
-                buttonText.textContent = '📍 Current';
-                locationBtn.classList.add('success');
-                setTimeout(() => locationBtn.classList.remove('success'), 2000);
-              }
-            });
-          },
-          (error) => {
-            loader.style.display = 'none';
-            locationBtn.disabled = false;
-            buttonText.textContent = '📍 Try Again';
-            locationBtn.classList.add('error');
-            setTimeout(() => locationBtn.classList.remove('error'), 2000);
-            
-            let errorMessage = 'Error getting location';
-            switch(error.code) {
-              case error.PERMISSION_DENIED:
-                errorMessage = "Location access was denied";
-                break;
-              case error.POSITION_UNAVAILABLE:
-                errorMessage = "Location information is unavailable";
-                break;
-              case error.TIMEOUT:
-                errorMessage = "Location request timed out";
-                break;
-              case error.UNKNOWN_ERROR:
-                errorMessage = "An unknown error occurred";
-                break;
-            }
-            document.getElementById('message').innerHTML = `<span style='color:red;'>${errorMessage}</span>`;
-          },
-          { enableHighAccuracy: true, timeout: 10000 }
-        );
-      } else {
-        loader.style.display = 'none';
-        locationBtn.disabled = false;
-        buttonText.textContent = '📍 Unavailable';
-        locationBtn.classList.add('error');
-        setTimeout(() => locationBtn.classList.remove('error'), 2000);
-        document.getElementById('message').innerHTML = "<span style='color:red;'>Geolocation not supported by your browser</span>";
+        });
       }
-    }
+    });
 
-    // Update destination place name when coordinates are entered
-    function updateToPlace() {
-      const coords = document.getElementById('toCoords').value;
-      if (!coords) return;
-      
-      const [lat, lng] = coords.split(',').map(coord => parseFloat(coord.trim()));
-      if (isNaN(lat) || isNaN(lng)) {
-        document.getElementById('message').innerHTML = "<span style='color:red;'>Invalid coordinates format</span>";
-        return;
-      }
-      
-      const geocoder = new google.maps.Geocoder();
-      geocoder.geocode({ location: { lat, lng } }, (results, status) => {
-        if (status === 'OK' && results[0]) {
-          document.getElementById('to').value = results[0].formatted_address;
-          document.getElementById('message').innerHTML = "<span style='color:green;'>Destination updated</span>";
-        } else {
-          document.getElementById('message').innerHTML = "<span style='color:red;'>Could not find address for these coordinates</span>";
-        }
-      });
-    }
+    el("vehicle").addEventListener("change", () => {
+      const v = vehicleDB[el("vehicle").value] || {};
+      el("vtype").textContent = v.type || "-";
+      el("vcolor").textContent = v.color || "-";
+      el("vphone").textContent = v.phone || "-";
+      el("reg").value = el("vehicle").value;
+      el("type").value = v.type || "";
+      el("color").value = v.color || "";
+      el("phone").value = v.phone || "";
+    });
 
-    function calculateFare() {
-      const from = document.getElementById('from').value;
-      const to = document.getElementById('to').value;
-      const fromCoords = document.getElementById('fromCoords').value;
-      const toCoords = document.getElementById('toCoords').value;
-      const luggage = document.getElementById('luggage').value;
+    el("startTracking").addEventListener("click", startTracking);
+    el("stopTracking").addEventListener("click", stopTracking);
+    el("currentLocationBtn").addEventListener("click", getCurrentLocation);
+    el("calculateBtn").addEventListener("click", calculateRoute);
+    el("resetBtn").addEventListener("click", () => {
+      ["locationInput", "coordsInput", "destinationInput", "destCoordsInput"].forEach(id => el(id).value = "");
+      el("routeInfo").textContent = "";
+      marker.setMap(null);
+      directionsRenderer.setMap(null);
+      infoWindow.close();
+    });
+    el("audioGuideBtn").addEventListener("click", () => {
+      speechOn = !speechOn;
+      el("audioGuideBtn").textContent = speechOn ? "Disable Audio" : "Enable Audio";
+      speak(speechOn ? "Audio guide on" : "Audio guide off");
+    });
 
-      // Use coordinates if available, otherwise use place names
-      let origin, destination;
-      
-      if (fromCoords) {
-        const [lat, lng] = fromCoords.split(',').map(coord => parseFloat(coord.trim()));
-        origin = new google.maps.LatLng(lat, lng);
-      } else {
-        origin = from;
-      }
-      
-      if (toCoords) {
-        const [lat, lng] = toCoords.split(',').map(coord => parseFloat(coord.trim()));
-        destination = new google.maps.LatLng(lat, lng);
-      } else {
-        destination = to;
-      }
-
-      if ((!from && !fromCoords) || (!to && !toCoords)) {
-        document.getElementById('message').innerHTML = "<span style='color:red;'>Please enter both pickup and destination</span>";
-        return;
-      }
-
-      document.getElementById('message').innerHTML = "<span style='color:blue;'>Calculating route...</span>";
-
-      directionsService.route({
-        origin: origin,
-        destination: destination,
-        travelMode: 'DRIVING'
-      }, (result, status) => {
-        if (status === 'OK') {
-          directionsRenderer.setDirections(result);
-          const leg = result.routes[0].legs[0];
-          const distance = (leg.distance.value / 1000).toFixed(1);
-          const duration = Math.round(leg.duration.value / 60);
-          let baseFare = ((distance / 4) * 25);
-          if (luggage === 'Yes') baseFare *= 1.5;
-          const fare = Math.round(baseFare);
-
-          document.getElementById('distanceDisplay').textContent = `${distance} km`;
-          document.getElementById('durationDisplay').textContent = `${duration} min`;
-          document.getElementById('fareDisplay').textContent = `K${fare}`;
-          document.getElementById('distance').value = `${distance} km`;
-          document.getElementById('duration').value = `${duration} min`;
-          document.getElementById('fare').value = `K${fare}`;
-          document.getElementById('message').innerHTML = "<span style='color:green;'>Route calculated</span>";
-        } else {
-          document.getElementById('message').innerHTML = "<span style='color:red;'>Failed to calculate route</span>";
-        }
-      });
-    }
-
-    function confirmBooking() {
-      const required = ['from', 'to', 'phone', 'time', 'luggage', 'distance', 'duration', 'fare'];
-      for (let id of required) {
-        if (!document.getElementById(id).value) {
-          document.getElementById('message').innerHTML = "<span style='color:red;'>Please fill all fields and calculate fare</span>";
-          return;
-        }
-      }
-      bookingConfirmed = true;
-      const btn = document.getElementById('submitBtn');
-      btn.disabled = false;
-      btn.classList.remove('disabled');
-      document.getElementById('message').innerHTML = "<span style='color:green;'>Booking confirmed. You may now send.</span>";
-    }
-
-    function cancelBooking() {
-      document.getElementById('sheetdb-form').reset();
-      bookingConfirmed = false;
-      document.getElementById('submitBtn').disabled = true;
-      document.getElementById('submitBtn').classList.add('disabled');
-      document.getElementById('durationDisplay').textContent = "--";
-      document.getElementById('distanceDisplay').textContent = "--";
-      document.getElementById('fareDisplay').textContent = "--";
-      document.getElementById('message').innerHTML = "";
-      if (directionsRenderer) {
-        directionsRenderer.setDirections({routes: []});
-        directionsRenderer.setMap(map);
-      }
-      if (currentLocationMarker) {
-        currentLocationMarker.setMap(null);
-        currentLocationMarker = null;
-      }
-    }
-
-    document.getElementById('sheetdb-form').addEventListener("submit", function(e) {
+    el("locationForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      if (!bookingConfirmed) {
-        document.getElementById('message').innerHTML = "<span style='color:red;'>Please confirm booking first</span>";
-        return;
-      }
       
-      const loading = document.getElementById('loading');
-      const submitBtn = document.getElementById('submitBtn');
-      const message = document.getElementById('message');
-
-      loading.style.display = "block";
+      const now = new Date();
+      el("timestamp").value = now.toISOString();
+      
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const loading = document.createElement('div');
+      loading.className = 'loader';
+      submitBtn.appendChild(loading);
       submitBtn.disabled = true;
-      submitBtn.classList.add('disabled');
-      message.innerHTML = "";
-
+      
+      const message = el("submitMsg");
+      
+      speak("Sending location data");
+      
       const formData = new FormData(this);
       
       fetch(SCRIPT_URL, {
@@ -581,22 +343,176 @@
         return response.json();
       })
       .then(data => {
-        loading.style.display = "none";
-        message.innerHTML = "<span style='color:green;'>Booking sent, please wait for the driver.</span>";
-        cancelBooking();
+        loading.remove();
+        if (data.result === "success") {
+          message.innerHTML = "<span class='success'>✅ Location data saved successfully</span>";
+          speak("Location data saved successfully");
+        } else {
+          throw new Error(data.error || 'Unknown error occurred');
+        }
       })
       .catch(error => {
         console.error('Error:', error);
-        loading.style.display = "none";
-        message.innerHTML = "<span style='color:red;'>Submission failed. Try again.</span>";
+        loading.remove();
+        message.innerHTML = `<span class='error'>❌ Error: ${error.message || 'Submission failed'}</span>`;
+        speak("Failed to save location data");
+      })
+      .finally(() => {
         submitBtn.disabled = false;
-        submitBtn.classList.remove('disabled');
       });
     });
-  </script>
+  }
 
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap">
-  </script>
+  function updatePosition(lat, lng, acc) {
+    const pos = {lat, lng}; 
+    if (!marker.getMap()) marker.setMap(map);
+    marker.setPosition(pos); 
+    map.setCenter(pos);
+    const cs = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+    el("coordsInput").value = cs; 
+    el("coords").value = cs;
+    
+    if (acc) el("accuracyMsg").textContent = `Accuracy ±${Math.round(acc)}m`;
+    
+    // Update info window
+    infoWindow.setContent(`
+      <div style="padding: 5px; min-width: 200px;">
+        <strong>Current Location</strong><br>
+        ${el("locationInput").value || 'Loading address...'}<br>
+        <small>${cs}</small>
+      </div>
+    `);
+    infoWindow.open(map, marker);
+    
+    geocoder.geocode({location: pos}, (rs, st) => { 
+      if (st === "OK" && rs[0]) {
+        const address = rs[0].formatted_address;
+        el("locationInput").value = address;
+        el("location").value = address;
+        
+        // Update info window with actual address
+        infoWindow.setContent(`
+          <div style="padding: 5px; min-width: 200px;">
+            <strong>Current Location</strong><br>
+            ${address}<br>
+            <small>${cs}</small>
+          </div>
+        `);
+        
+        speak(`Current location: ${address}`);
+      }
+    });
+  }
+
+  function startTracking() {
+    if (!navigator.geolocation) { alert("Geolocation is not supported by your browser"); return; }
+    el("startTracking").disabled = true; 
+    el("stopTracking").disabled = false;
+    speak("Live tracking started");
+    watchId = navigator.geolocation.watchPosition(
+      p => { updatePosition(p.coords.latitude, p.coords.longitude, p.coords.accuracy); },
+      e => { 
+        console.error(e); 
+        speak("Location error occurred");
+        el("accuracyMsg").textContent = "Error getting location";
+      },
+      {enableHighAccuracy: true, maximumAge: 10000, timeout: 5000}
+    );
+  }
+
+  function stopTracking() {
+    navigator.geolocation.clearWatch(watchId);
+    el("startTracking").disabled = false; 
+    el("stopTracking").disabled = true;
+    speak("Live tracking stopped");
+  }
+
+  function getCurrentLocation() {
+    if (!navigator.geolocation) {
+      showButtonStatus('currentLocationBtn', 'error', "Geolocation not supported");
+      speak("Geolocation not supported");
+      return;
+    }
+    
+    showButtonStatus('currentLocationBtn', 'loading', "Getting your location...");
+    speak("Getting your location");
+    
+    navigator.geolocation.getCurrentPosition(
+      p => { 
+        updatePosition(p.coords.latitude, p.coords.longitude); 
+        showButtonStatus('currentLocationBtn', 'success', `Location acquired (Accuracy: ±${Math.round(p.coords.accuracy)}m)`);
+        speak("Current location acquired");
+      },
+      e => {
+        console.error(e);
+        let errorMessage = "Could not get your location";
+        switch(e.code) {
+          case e.PERMISSION_DENIED:
+            errorMessage = "Location permission denied";
+            break;
+          case e.POSITION_UNAVAILABLE:
+            errorMessage = "Location information unavailable";
+            break;
+          case e.TIMEOUT:
+            errorMessage = "Location request timed out";
+            break;
+        }
+        showButtonStatus('currentLocationBtn', 'error', errorMessage);
+        speak(errorMessage);
+      },
+      {enableHighAccuracy: true, timeout: 10000}
+    );
+  }
+
+  function calculateRoute() {
+    const from = el("coordsInput").value;
+    const to = el("destCoordsInput").value;
+    
+    if (!from || !to) { 
+      showButtonStatus('calculateBtn', 'error', "Please set both current location and destination");
+      speak("Please set both current location and destination"); 
+      return; 
+    }
+    
+    showButtonStatus('calculateBtn', 'loading', "Calculating route...");
+    speak("Calculating route");
+    
+    const [fromLat, fromLng] = from.split(",").map(Number);
+    const [toLat, toLng] = to.split(",").map(Number);
+    
+    directionsService.route({
+      origin: {lat: fromLat, lng: fromLng},
+      destination: {lat: toLat, lng: toLng},
+      travelMode: "DRIVING",
+      provideRouteAlternatives: false
+    }, (res, st) => {
+      if (st === "OK") {
+        directionsRenderer.setDirections(res);
+        const leg = res.routes[0].legs[0];
+        const successMessage = `Distance: ${leg.distance.text}, Time: ${leg.duration.text}`;
+        showButtonStatus('calculateBtn', 'success', successMessage);
+        el("routeInfo").innerHTML = `<span class='success'>${successMessage}</span>`;
+        speak(`Route found. ${successMessage}`);
+        
+        let delay = 0;
+        leg.steps.forEach((step, i) => {
+          setTimeout(() => {
+            speak(step.instructions.replace(/<[^>]+>/g, ""));
+          }, delay);
+          delay += 2000;
+        });
+      } else {
+        const errorMessage = "Route calculation failed";
+        showButtonStatus('calculateBtn', 'error', errorMessage);
+        el("routeInfo").innerHTML = `<span class='error'>${errorMessage}</span>`;
+        speak(errorMessage);
+      }
+    });
+  }
+
+  window.initMap = initMap;
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap" async defer></script>
 </body>
-  </html>
+</html>
