@@ -206,6 +206,8 @@
   let map, directionsService, directionsRenderer;
   let autocompleteOrigin, autocompleteDest;
   const API_KEY = 'AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY';
+  // Replace with your Google Sheets web app URL
+  const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
 
   function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
@@ -393,11 +395,40 @@
     const loader = document.getElementById("loader");
     loader.style.display = "block";
     
-    setTimeout(() => {
+    // Collect form data
+    const formData = {
+      submitterType: document.getElementById("submitterType").value,
+      phone: document.getElementById("phone").value,
+      vehicle: document.getElementById("vehicle").value,
+      origin: document.getElementById("origin").value,
+      originCoords: document.getElementById("originCoords").value,
+      destination: document.getElementById("destination").value,
+      destinationCoords: document.getElementById("destinationCoords").value,
+      extras: document.getElementById("extras").checked ? "Yes" : "No",
+      distance: document.getElementById("distance").textContent.replace('📏 ', ''),
+      duration: document.getElementById("duration").textContent.replace('⏱ ', ''),
+      totalCost: document.getElementById("totalCost").textContent.replace('💲 Total: ', ''),
+      timestamp: new Date().toISOString()
+    };
+
+    // Submit to Google Sheets
+    fetch(GOOGLE_SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(() => {
       loader.style.display = "none";
       showMessage('Ride submitted successfully!', 'success');
       resetForm();
-    }, 2000);
+    })
+    .catch(error => {
+      loader.style.display = "none";
+      showMessage('Submission failed: ' + error.message, 'error');
+    });
   }
 
   function resetForm() {
@@ -444,8 +475,4 @@
 </script>
 
 <script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap">
-</script>
-
-</body>
-    </html>
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjg
