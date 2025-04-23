@@ -1,245 +1,190 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Taxi Booking Viewer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      padding: 10px;
-      margin: 0;
-    }
-    h2 {
-      text-align: center;
-    }
-    .btn {
-      background: #3498db;
-      color: white;
-      padding: 8px 12px;
-      margin: 5px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .btn:hover {
-      background: #2980b9;
-    }
-    .table-container {
-      overflow-x: auto;
-      margin-top: 10px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    th, td {
-      padding: 10px;
-      border: 1px solid #ddd;
-      font-size: 14px;
-      text-align: left;
-      white-space: nowrap;
-    }
-    th {
-      background: #3498db;
-      color: white;
-      position: sticky;
-      top: 0;
-    }
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-    tr:hover {
-      background-color: #e6f7ff;
-    }
-    .status-pending {
-      background-color: #fff3cd;
-      color: #856404;
-    }
-    .status-confirmed {
-      background-color: #d4edda;
-      color: #155724;
-    }
-    .status-completed {
-      background-color: #cce5ff;
-      color: #004085;
-    }
-    .call-link {
-      color: green;
-      font-weight: bold;
-      text-decoration: none;
-    }
-    .selected-row {
-      outline: 2px solid #3498db;
-    }
-    .last-updated {
-      text-align: center;
-      font-size: 0.9em;
-      color: #555;
-      margin-bottom: 10px;
-    }
-    #searchInput {
-      width: 100%;
-      max-width: 400px;
-      padding: 8px;
-      margin: 10px auto;
-      display: block;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
-    @media screen and (max-width: 600px) {
-      th, td {
-        font-size: 12px;
-      }
-    }
+    body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 10px; margin: 0; }
+    h2 { text-align: center; }
+    .btn { background: #3498db; color: white; padding: 8px 12px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; }
+    .btn:hover { background: #2980b9; }
+    .table-container { overflow-x: auto; margin-top: 10px; }
+    table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    th, td { padding: 10px; border: 1px solid #ddd; font-size: 14px; text-align: left; white-space: nowrap; }
+    th { background: #3498db; color: white; position: sticky; top: 0; }
+    tr:nth-child(even) { background-color: #f9f9f9; }
+    tr:hover { background-color: #e6f7ff; }
+    .status-pending { background-color: #fff3cd; color: #856404; }
+    .status-confirmed { background-color: #d4edda; color: #155724; }
+    .status-completed { background-color: #cce5ff; color: #004085; }
+    .call-link { color: green; font-weight: bold; text-decoration: none; }
+    .selected-row { outline: 2px solid #3498db; }
+    .last-updated { text-align: center; font-size: 0.9em; color: #555; margin-bottom: 10px; }
+    #searchInput { width: 100%; max-width: 400px; padding: 8px; margin: 10px auto; display: block; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; }
+    .hidden { display: none; }
   </style>
 </head>
-<body><h2>Taxi Bookings</h2>
-<input type="text" id="searchInput" placeholder="Search bookings..." onkeyup="filterTable()" /><div style="text-align:center;">
-  <button class="btn" onclick="loadData()">🔄 Refresh</button>
-  <button class="btn" onclick="selectAllRows()">Select All</button>
-  <button class="btn" onclick="shareSelected('whatsapp')">WhatsApp</button>
-  <button class="btn" onclick="shareSelected('email')">Email</button>
-  <button class="btn" onclick="shareSelected('sms')">Text</button>
-  <button class="btn" onclick="copySelected()">Copy</button>
-</div><div class="last-updated" id="last-updated"></div>
-<div class="table-container" id="table-container">Loading bookings...</div><script>
-  const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vShr09AksHPHlitdSwYO2hvFfZcqtocWpaTlAZZFUQspYFvmx-JCNpwT58i9plPC5XHPooBE9J6VFTG/pub?output=csv";
-  const PHONE_COL_INDEX = 3;
-  const STATUS_COL_INDEX = 5;
+<body>
 
-  function formatPhone(phone) {
-    const digits = phone.replace(/\D/g, '');
-    const trimmed = digits.startsWith('0') ? digits.slice(1) : digits;
-    return trimmed.length >= 9 ? '+260' + trimmed : '';
-  }
+  <h2>Taxi Bookings</h2>
+  <input type="text" id="searchInput" placeholder="Search bookings..." onkeyup="filterTable()" />
 
-  function updateTimestamp() {
-    document.getElementById("last-updated").textContent = "Last updated: " + new Date().toLocaleString();
-  }
+  <div style="text-align:center;">
+    <button class="btn" onclick="loadData()">🔄 Refresh</button>
+    <button class="btn" onclick="selectAllRows()">Select All</button>
+    <button class="btn" onclick="shareSelected('whatsapp')">WhatsApp</button>
+    <button class="btn" onclick="shareSelected('email')">Email</button>
+    <button class="btn" onclick="shareSelected('sms')">Text</button>
+    <button class="btn" onclick="copySelected()">Copy</button>
+  </div>
 
-  function toggleRowSelect(row) {
-    row.classList.toggle("selected-row");
-  }
+  <div class="last-updated" id="last-updated"></div>
 
-  function selectAllRows() {
-    const rows = document.querySelectorAll("#bookingTable tbody tr");
-    rows.forEach(row => row.classList.add("selected-row"));
-  }
+  <div class="table-container" id="table-container">Loading bookings...</div>
 
-  function parseCSV(str) {
-    const rows = str.trim().split('\n');
-    return rows.map(line => {
-      const cells = [];
-      let current = '', inQuotes = false;
-      for (let char of line) {
-        if (char === '"') inQuotes = !inQuotes;
-        else if (char === ',' && !inQuotes) {
-          cells.push(current.trim());
-          current = '';
-        } else current += char;
-      }
-      cells.push(current.trim());
-      return cells;
-    });
-  }
+  <script>
+    const SHEET_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vShr09AksHPHlitdSwYO2hvFfZcqtocWpaTlAZZFUQspYFvmx-JCNpwT58i9plPC5XHPooBE9J6VFTG/pub?output=csv";
 
-  function loadData() {
-    const container = document.getElementById('table-container');
-    container.innerHTML = "Loading...";
-
-    fetch(SHEET_URL)
-      .then(res => res.text())
-      .then(csv => {
-        const data = parseCSV(csv);
-        if (data.length < 2) {
-          container.innerHTML = "No data available.";
-          return;
+    // Utility: parse CSV
+    function parseCSV(str) {
+      const rows = str.trim().split('\n');
+      return rows.map(line => {
+        const cells = [];
+        let cur='', inQ=false;
+        for (let ch of line) {
+          if (ch === '"') inQ = !inQ;
+          else if (ch===',' && !inQ) { cells.push(cur); cur=''; }
+          else cur+=ch;
         }
+        cells.push(cur);
+        return cells;
+      });
+    }
+
+    // Format phone to +260...
+    function formatPhone(phone) {
+      const d = phone.replace(/\D/g,'');
+      const t = d.startsWith('0') ? d.slice(1) : d;
+      return t.length>=9? '+260'+t : '';
+    }
+
+    // Toggle row selection
+    function toggleRowSelect(r) { r.classList.toggle('selected-row'); }
+    function selectAllRows(){ document.querySelectorAll('#bookingTable tbody tr').forEach(r=>r.classList.add('selected-row')); }
+
+    // Haversine for straight-line distance (km)
+    function toRad(x){return x*Math.PI/180;}
+    function hav(lat1,lon1,lat2,lon2){
+      const R=6371, dLat=toRad(lat2-lat1), dLon=toRad(lon2-lon1);
+      const a=Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+      return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+    }
+
+    // Main loader
+    async function loadData(){
+      const container = document.getElementById('table-container');
+      container.innerHTML = 'Loading...';
+      try {
+        const txt = await (await fetch(SHEET_CSV)).text();
+        const data = parseCSV(txt);
+        if (data.length<2) { container.innerHTML='No data.'; return; }
 
         const headers = data[0];
-        let tableHTML = `<table id="bookingTable"><thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}<th>Action</th></tr></thead><tbody>`;
+        // find key indices
+        const idxType = headers.indexOf('submitterType');
+        const idxCoords = headers.indexOf('originCoords');
+        const idxPhone = headers.indexOf('phone');
+        const idxStatus = headers.indexOf('status')>=0? headers.indexOf('status') : headers.indexOf('bookingStatus');
 
-        data.slice(1).forEach(row => {
-          const phone = formatPhone(row[PHONE_COL_INDEX] || '');
-          const status = (row[STATUS_COL_INDEX] || '').toLowerCase();
-          let statusClass = '';
-          if (status.includes("pending")) statusClass = "status-pending";
-          else if (status.includes("confirmed")) statusClass = "status-confirmed";
-          else if (status.includes("completed")) statusClass = "status-completed";
+        // build table header, plus two new cols
+        let html = '<table id="bookingTable"><thead><tr>';
+        headers.forEach(h=> html+=`<th>${h}</th>`);
+        html += '<th>Nearest Driver</th><th>Driver Dist (km)</th><th>Action</th></tr></thead><tbody>';
 
-          tableHTML += `<tr class="${statusClass}" onclick="toggleRowSelect(this)">`;
-          row.forEach(cell => tableHTML += `<td>${cell}</td>`);
-          tableHTML += phone ? `<td><a class="call-link" href="tel:${phone}">Call</a></td>` : `<td></td>`;
-          tableHTML += `</tr>`;
+        // collect driver entries
+        const drivers = data.slice(1)
+          .filter(r=>r[idxType].toLowerCase()==='driver' && r[idxCoords])
+          .map(r=>({ phone: r[idxPhone], coords: r[idxCoords] }));
+
+        // rows
+        data.slice(1).forEach(r=>{
+          const type = r[idxType].toLowerCase();
+          // determine CSS status class
+          const st = idxStatus>=0? r[idxStatus].toLowerCase(): '';
+          let cls = '';
+          if (st.includes('pending')) cls='status-pending';
+          else if (st.includes('confirmed')) cls='status-confirmed';
+          else if (st.includes('completed')) cls='status-completed';
+
+          html += `<tr class="${cls}" onclick="toggleRowSelect(this)">`;
+          // original cells
+          r.forEach(c=> html+=`<td>${c}</td>`);
+
+          // if customer, find nearest driver
+          let nearestPhone='', nearestDist='';
+          if (type==='customer' && r[idxCoords]){
+            const [clat,clng] = r[idxCoords].split(',').map(Number);
+            let best=1e9, bestP='';
+            drivers.forEach(d=>{
+              const [dlat,dlng] = d.coords.split(',').map(Number);
+              const dist = hav(clat,clng,dlat,dlng);
+              if (dist<best){ best=dist; bestP=d.phone; }
+            });
+            if (best<1e9){
+              nearestPhone = bestP;
+              nearestDist = best.toFixed(2);
+            }
+          }
+          html += `<td>${nearestPhone}</td><td>${nearestDist}</td>`;
+
+          // call link
+          const ph = formatPhone(r[idxPhone]||'');
+          html += ph? `<td><a class="call-link" href="tel:${ph}">Call</a></td>` : '<td></td>';
+          html += '</tr>';
         });
 
-        tableHTML += "</tbody></table>";
-        container.innerHTML = tableHTML;
-        updateTimestamp();
-      })
-      .catch(err => {
-        container.innerHTML = "Failed to load data.";
-        console.error(err);
-      });
-  }
-
-  function getSelectedText() {
-    const rows = document.querySelectorAll(".selected-row");
-    let output = "";
-    rows.forEach(row => {
-      const cells = row.querySelectorAll("td");
-      const line = Array.from(cells).map(td => {
-        let text = td.innerText;
-        const phoneMatch = text.match(/^(\+?260\d{9}|0\d{9})$/);
-        if (phoneMatch) {
-          const clean = text.replace(/\D/g, '').replace(/^0/, '');
-          const tel = '+260' + clean;
-          return `📞 ${tel}`;
-        }
-        return text;
-      }).join(" | ");
-      output += line + "\n";
-    });
-    return output.trim();
-  }
-
-  function shareSelected(method) {
-    const text = getSelectedText();
-    if (!text) return alert("No rows selected.");
-    const encoded = encodeURIComponent(text);
-    if (method === "whatsapp") window.open(`https://wa.me/?text=${encoded}`, "_blank");
-    else if (method === "email") window.location = `mailto:?subject=Taxi Booking&body=${encoded}`;
-    else if (method === "sms") window.location = `sms:?body=${encoded}`;
-  }
-
-  function copySelected() {
-    const text = getSelectedText();
-    if (!text) return alert("No rows selected.");
-    navigator.clipboard.writeText(text).then(() => alert("Copied to clipboard!"));
-  }
-
-  function filterTable() {
-    const input = document.getElementById("searchInput").value.toLowerCase();
-    const table = document.getElementById("bookingTable");
-    const rows = table.getElementsByTagName("tr");
-    for (let i = 1; i < rows.length; i++) {
-      const row = rows[i];
-      const cells = row.getElementsByTagName("td");
-      let match = false;
-      for (let j = 0; j < cells.length; j++) {
-        if (cells[j].textContent.toLowerCase().includes(input)) {
-          match = true;
-          break;
-        }
+        html += '</tbody></table>';
+        container.innerHTML = html;
+        document.getElementById('last-updated').textContent = 'Last updated: '+new Date().toLocaleString();
+      } catch(e){
+        container.innerHTML = 'Load failed.';
+        console.error(e);
       }
-      row.style.display = match ? "" : "none";
     }
-  }
 
-  loadData();
-</script></body>
-    </html>
+    // sharing & copy
+    function getSelectedText(){
+      let out='';
+      document.querySelectorAll('.selected-row').forEach(r=>{
+        const cells = [...r.children].slice(0,-1); // omit action cell
+        out += cells.map(td=>td.innerText).join(' | ') + '\n';
+      });
+      return out.trim();
+    }
+    function shareSelected(m){
+      const t=encodeURIComponent(getSelectedText());
+      if(!t) return alert('No rows.');
+      if(m==='whatsapp') window.open(`https://wa.me/?text=${t}`);
+      if(m==='email') window.location=`mailto:?subject=Taxi&body=${t}`;
+      if(m==='sms')   window.location=`sms:?body=${t}`;
+    }
+    function copySelected(){
+      const t=getSelectedText();
+      if(!t)return alert('No rows.');
+      navigator.clipboard.writeText(t).then(()=>alert('Copied!'));
+    }
+
+    function filterTable(){
+      const q=document.getElementById('searchInput').value.toLowerCase();
+      document.querySelectorAll('#bookingTable tbody tr').forEach(r=>{
+        const txt = r.innerText.toLowerCase();
+        r.style.display = txt.includes(q)? '' : 'none';
+      });
+    }
+
+    // init
+    loadData();
+  </script>
+</body>
+</html>
