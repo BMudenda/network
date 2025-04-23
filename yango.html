@@ -17,23 +17,12 @@
       border-radius: 12px;
       box-shadow: 0 2px 15px rgba(0,0,0,0.1);
     }
-    .form-section { 
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: #333;
-    }
+    .form-section { margin-bottom: 20px; }
+    label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
     input, select, button {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-sizing: border-box;
-      transition: all 0.3s ease;
+      width: 100%; padding: 12px; margin-bottom: 15px;
+      border: 1px solid #ddd; border-radius: 8px;
+      box-sizing: border-box; transition: all 0.3s ease;
     }
     input:focus, select:focus {
       border-color: #4A90E2;
@@ -43,440 +32,252 @@
     .button-group {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 10px;
-      margin-top: 20px;
+      gap: 10px; margin-top: 20px;
     }
     button {
-      background: #4A90E2;
-      color: white;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      padding: 12px 20px;
+      background: #4A90E2; color: white; border: none;
+      font-weight: 600; cursor: pointer; padding: 12px 20px;
     }
-    button:hover {
-      background: #357ABD;
-    }
-    .map-container {
-      position: relative;
-      margin: 20px 0;
-    }
-    #map { 
-      height: 400px;
-      border-radius: 8px;
-      display: none;
-    }
+    button:hover { background: #357ABD; }
+    .map-container { position: relative; margin: 20px 0; }
+    #map { height: 400px; border-radius: 8px; display: none; }
     .trip-summary {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 8px;
-      margin: 20px 0;
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap:15px; background:#f8f9fa; padding:15px;
+      border-radius:8px; margin:20px 0;
     }
     .trip-summary div {
-      text-align: center;
-      padding: 10px;
-      background: white;
-      border-radius: 6px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      text-align:center; padding:10px; background:white;
+      border-radius:6px; box-shadow:0 2px 5px rgba(0,0,0,0.05);
     }
-    .hidden { display: none; }
+    .hidden { display:none; }
     .loader {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #4A90E2;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      animation: spin 1s linear infinite;
-      margin: 20px auto;
-      display: none;
+      border:4px solid #f3f3f3; border-top:4px solid #4A90E2;
+      border-radius:50%; width:30px; height:30px;
+      animation:spin 1s linear infinite; margin:20px auto;
+      display:none;
     }
-    @keyframes spin {
-      100% { transform: rotate(360deg); }
-    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
     .coords-group {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 10px;
-      align-items: center;
+      display:grid; grid-template-columns:2fr 1fr; gap:10px;
+      align-items:center;
     }
-    .extra-options {
-      margin: 15px 0;
-    }
+    .extra-options { margin:15px 0; }
     .extra-options label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: #f8f9fa;
-      padding: 12px;
-      border-radius: 8px;
-      cursor: pointer;
+      display:flex; align-items:center; gap:8px;
+      background:#f8f9fa; padding:12px; border-radius:8px;
+      cursor:pointer;
     }
-    input[type="checkbox"] {
-      width: auto;
-      margin: 0;
-    }
+    input[type="checkbox"] { width:auto; margin:0; }
     .status-message {
-      padding: 12px;
-      border-radius: 8px;
-      margin: 15px 0;
-      display: none;
+      padding:12px; border-radius:8px; margin:15px 0;
+      display:none;
     }
-    .success { background: #e3fcef; color: #0a6640; }
-    .error { background: #fde8e8; color: #9b2c2c; }
+    .success { background:#e3fcef; color:#0a6640; }
+    .error { background:#fde8e8; color:#9b2c2c; }
   </style>
 </head>
 <body>
-<div class="container">
-  <h1 style="color: #2c3e50; text-align: center; margin-bottom: 30px;">🚖 RideTrack</h1>
+  <div class="container">
+    <h1 style="text-align:center; color:#2c3e50; margin-bottom:30px;">🚖 RideTrack</h1>
 
-  <div class="form-section">
-    <label for="submitterType">You are:</label>
-    <select id="submitterType" onchange="toggleFields()">
-      <option value="Customer">Customer</option>
-      <option value="Driver">Driver</option>
-    </select>
-  </div>
-
-  <div class="form-section">
-    <label for="phone">Phone Number</label>
-    <input type="tel" id="phone" placeholder="+260 123 456 789" required>
-  </div>
-
-  <div id="driverFields" class="hidden">
     <div class="form-section">
-      <label for="vehicle">Select Vehicle</label>
-      <select id="vehicle" onchange="populateDriverPhone()">
-        <option value="">Choose your vehicle</option>
-        <option value="BAH1996, ist, Silver">BAH1996, ist, Silver</option>
-        <option value="BAH2345, Vitz, Blue">BAH2345, Vitz, Blue</option>
-        <option value="BAH9876, Corolla, White">BAH9876, Corolla, White</option>
-        <option value="BAH3456, Harrier, Black">BAH3456, Harrier, Black</option>
-        <option value="BAH5678, Mazda, Red">BAH5678, Mazda, Red</option>
+      <label for="submitterType">You are:</label>
+      <select id="submitterType" onchange="toggleFields()">
+        <option value="Customer">Customer</option>
+        <option value="Driver">Driver</option>
       </select>
     </div>
-  </div>
 
-  <div class="form-section">
-    <label>Current Location</label>
-    <div class="coords-group">
-      <input id="origin" placeholder="Enter location or coordinates">
-      <button onclick="fetchCurrentLocation()" class="secondary">📍 Current</button>
+    <div class="form-section">
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" placeholder="+260 123 456 789" required>
     </div>
-    <input id="originCoords" placeholder="Latitude, Longitude">
-  </div>
 
-  <div class="form-section">
-    <label>Destination</label>
-    <div class="coords-group">
-      <input id="destination" placeholder="Enter destination or coordinates">
+    <div id="driverFields" class="hidden">
+      <div class="form-section">
+        <label for="vehicle">Select Vehicle</label>
+        <select id="vehicle" onchange="populateDriverPhone()">
+          <option value="">Choose your vehicle</option>
+          <option value="BAH1996,ist,Silver">BAH1996, ist, Silver</option>
+          <option value="BAH2345,Vitz,Blue">BAH2345, Vitz, Blue</option>
+          <option value="BAH9876,Corolla,White">BAH9876, Corolla, White</option>
+          <option value="BAH3456,Harrier,Black">BAH3456, Harrier, Black</option>
+          <option value="BAH5678,Mazda,Red">BAH5678, Mazda, Red</option>
+        </select>
+      </div>
     </div>
-    <input id="destinationCoords" placeholder="Latitude, Longitude">
+
+    <div class="form-section">
+      <label>Current Location</label>
+      <div class="coords-group">
+        <input id="origin" placeholder="Enter location or coordinates">
+        <button type="button" onclick="fetchCurrentLocation()">📍 Current</button>
+      </div>
+      <input id="originCoords" placeholder="Latitude,Longitude">
+    </div>
+
+    <div class="form-section">
+      <label>Destination</label>
+      <div class="coords-group">
+        <input id="destination" placeholder="Enter destination or coordinates">
+      </div>
+      <input id="destinationCoords" placeholder="Latitude,Longitude">
+    </div>
+
+    <div class="extra-options">
+      <label><input type="checkbox" id="extras" onclick="calculateRoute()"> 🧳+👥 Extras (50% Surcharge)</label>
+    </div>
+
+    <div id="tripSummary" class="trip-summary hidden">
+      <div id="distance">📏 Distance: -</div>
+      <div id="duration">⏱ Duration: -</div>
+      <div id="totalCost">💲 Total: -</div>
+    </div>
+
+    <div id="statusMessage" class="status-message"></div>
+
+    <div class="button-group">
+      <button type="button" onclick="calculateRoute()">🗺 Calculate Route</button>
+      <button type="button" onclick="toggleMap()">🌍 Toggle Map</button>
+      <button type="button" onclick="submitData()">📤 Submit Ride</button>
+    </div>
+
+    <div id="loader" class="loader"></div>
+    <div class="map-container"><div id="map"></div></div>
   </div>
 
-  <div class="extra-options">
-    <label>
-      <input type="checkbox" id="extras" onclick="calculateRoute()"> 🧳+👥 Extras (50% Surcharge)
-    </label>
-  </div>
+  <script>
+    let map, directionsService, directionsRenderer, autocompleteOrigin, autocompleteDest;
+    const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbytUJ-taezbOxcxnZTWwWjeFBH-gqshju9_g295Cu9wSpwtvlHHHNajxHxii8SxsUpe/exec';
 
-  <div class="trip-summary hidden" id="tripSummary">
-    <div id="distance">📏 Distance: -</div>
-    <div id="duration">⏱ Duration: -</div>
-    <div id="totalCost">💲 Total: -</div>
-  </div>
-
-  <div id="statusMessage" class="status-message"></div>
-
-  <div class="button-group">
-    <button onclick="calculateRoute()">🗺 Calculate Route</button>
-    <button onclick="toggleMap()">🌍 Toggle Map</button>
-    <button onclick="submitData()">📤 Submit Ride</button>
-  </div>
-
-  <div id="loader" class="loader"></div>
-  <div class="map-container">
-    <div id="map"></div>
-  </div>
-</div>
-
-<script>
-  let map, directionsService, directionsRenderer;
-  let autocompleteOrigin, autocompleteDest;
-  const API_KEY = 'AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY';
-  // Replace with your Google Sheets web app URL
-  const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbytUJ-taezbOxcxnZTWwWjeFBH-gqshju9_g295Cu9wSpwtvlHHHNajxHxii8SxsUpe/exec';
-
-  function initMap() {
-    map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 14,
-      center: { lat: -13.1339, lng: 27.8493 },
-      mapId: 'DEMO_MAP_ID'
-    });
-
-    directionsService = new google.maps.DirectionsService();
-    directionsRenderer = new google.maps.DirectionsRenderer({
-      map: map,
-      suppressMarkers: false,
-      polylineOptions: {
-        strokeColor: "#4A90E2",
-        strokeWeight: 4
-      }
-    });
-
-    const options = {
-      types: ['geocode'],
-      componentRestrictions: { country: 'zm' }
-    };
-
-    autocompleteOrigin = new google.maps.places.Autocomplete(document.getElementById('origin'), options);
-    autocompleteDest = new google.maps.places.Autocomplete(document.getElementById('destination'), options);
-
-    autocompleteOrigin.addListener('place_changed', () => {
-      const place = autocompleteOrigin.getPlace();
-      if (place.geometry) {
-        document.getElementById('originCoords').value = 
-          `${place.geometry.location.lat().toFixed(6)}, ${place.geometry.location.lng().toFixed(6)}`;
-      }
-    });
-
-    autocompleteDest.addListener('place_changed', () => {
-      const place = autocompleteDest.getPlace();
-      if (place.geometry) {
-        document.getElementById('destinationCoords').value = 
-          `${place.geometry.location.lat().toFixed(6)}, ${place.geometry.location.lng().toFixed(6)}`;
-      }
-    });
-
-    setupCoordinateHandlers();
-  }
-
-  function setupCoordinateHandlers() {
-    // Coordinate input handlers
-    ['originCoords', 'destinationCoords'].forEach(field => {
-      document.getElementById(field).addEventListener('input', debounce(e => {
-        const [addressField, coordsField] = field.includes('origin') ? 
-          ['origin', 'originCoords'] : ['destination', 'destinationCoords'];
-        updateAddressFromCoords(coordsField, addressField);
-      }, 500));
-    });
-
-    // Address input handlers
-    ['origin', 'destination'].forEach(field => {
-      document.getElementById(field).addEventListener('input', debounce(e => {
-        const [addressField, coordsField] = field === 'origin' ? 
-          ['origin', 'originCoords'] : ['destination', 'destinationCoords'];
-        updateCoordsFromAddress(addressField, coordsField);
-      }, 500));
-    });
-  }
-
-  async function updateAddressFromCoords(coordsFieldId, addressFieldId) {
-    const coordsInput = document.getElementById(coordsFieldId).value;
-    const [lat, lng] = coordsInput.split(',').map(Number.parseFloat);
-    
-    if (!isNaN(lat) && !isNaN(lng)) {
-      const geocoder = new google.maps.Geocoder();
-      try {
-        const { results } = await geocoder.geocode({ location: { lat, lng } });
-        document.getElementById(addressFieldId).value = results[0]?.formatted_address || 'Unknown Location';
-      } catch (error) {
-        showMessage('Geocoding failed: ' + error.message, 'error');
-      }
-    }
-  }
-
-  async function updateCoordsFromAddress(addressFieldId, coordsFieldId) {
-    const address = document.getElementById(addressFieldId).value;
-    if (address.includes(',')) return;
-
-    const geocoder = new google.maps.Geocoder();
-    try {
-      const { results } = await geocoder.geocode({ address });
-      if (results[0]) {
-        const loc = results[0].geometry.location;
-        document.getElementById(coordsFieldId).value = 
-          `${loc.lat().toFixed(6)}, ${loc.lng().toFixed(6)}`;
-      }
-    } catch (error) {
-      showMessage('Geocoding failed: ' + error.message, 'error');
-    }
-  }
-
-  async function fetchCurrentLocation() {
-    await fetchLocation('origin', 'originCoords');
-  }
-
-  async function fetchLocation(addressField, coordsField) {
-    const loader = document.getElementById("loader");
-    loader.style.display = "block";
-    
-    try {
-      const position = await new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject);
+    function initMap() {
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 14,
+        center: { lat: -13.1339, lng: 27.8493 }
       });
-      
-      const coords = position.coords;
-      document.getElementById(coordsField).value = 
-        `${coords.latitude.toFixed(6)}, ${coords.longitude.toFixed(6)}`;
-      
-      const geocoder = new google.maps.Geocoder();
-      const { results } = await geocoder.geocode({
-        location: { lat: coords.latitude, lng: coords.longitude }
+      directionsService = new google.maps.DirectionsService();
+      directionsRenderer = new google.maps.DirectionsRenderer({ map });
+
+      autocompleteOrigin = new google.maps.places.Autocomplete(document.getElementById('origin'));
+      autocompleteDest   = new google.maps.places.Autocomplete(document.getElementById('destination'));
+
+      autocompleteOrigin.addListener('place_changed', () => {
+        const p = autocompleteOrigin.getPlace();
+        if (p.geometry) document.getElementById('originCoords').value =
+          `${p.geometry.location.lat().toFixed(6)},${p.geometry.location.lng().toFixed(6)}`;
       });
-      
-      document.getElementById(addressField).value = results[0]?.formatted_address || 'Current Location';
-    } catch (error) {
-      showMessage('Error fetching location: ' + error.message, 'error');
-    } finally {
-      loader.style.display = "none";
-    }
-  }
-
-  function toggleMap() {
-    const mapDiv = document.getElementById("map");
-    if (mapDiv.style.display === 'none') {
-      mapDiv.style.display = 'block';
-      google.maps.event.trigger(map, 'resize');
-      directionsRenderer.setMap(map);
-    } else {
-      mapDiv.style.display = 'none';
-      directionsRenderer.setMap(null);
-    }
-  }
-
-  function calculateRoute() {
-    const loader = document.getElementById("loader");
-    loader.style.display = "block";
-    
-    const origin = document.getElementById("originCoords").value;
-    const destination = document.getElementById("destinationCoords").value;
-
-    if (!origin || !destination) {
-      loader.style.display = "none";
-      showMessage('Please enter both locations', 'error');
-      return;
+      autocompleteDest.addListener('place_changed', () => {
+        const p = autocompleteDest.getPlace();
+        if (p.geometry) document.getElementById('destinationCoords').value =
+          `${p.geometry.location.lat().toFixed(6)},${p.geometry.location.lng().toFixed(6)}`;
+      });
     }
 
-    const [lat1, lng1] = origin.split(',').map(Number);
-    const [lat2, lng2] = destination.split(',').map(Number);
+    function toggleFields() {
+      const isDriver = document.getElementById("submitterType").value === "Driver";
+      document.getElementById("driverFields").classList.toggle("hidden", !isDriver);
+    }
 
-    directionsService.route({
-      origin: new google.maps.LatLng(lat1, lng1),
-      destination: new google.maps.LatLng(lat2, lng2),
-      travelMode: google.maps.TravelMode.DRIVING
-    }, (response, status) => {
-      loader.style.display = "none";
-      if (status === 'OK') {
-        directionsRenderer.setDirections(response);
-        document.getElementById("map").style.display = 'block';
-        document.getElementById("tripSummary").classList.remove('hidden');
-        
-        const route = response.routes[0].legs[0];
-        const distanceKm = route.distance.value / 1000;
-        let total = distanceKm * 3.3;
-        
-        if (document.getElementById('extras').checked) {
-          total *= 1.5;
-        }
+    function populateDriverPhone() {
+      const map = {
+        "BAH1996,ist,Silver":"+260123456789",
+        "BAH2345,Vitz,Blue":"+260987654321",
+        "BAH9876,Corolla,White":"+260345678901",
+        "BAH3456,Harrier,Black":"+260567890123",
+        "BAH5678,Mazda,Red":"+260678901234"
+      };
+      const v = document.getElementById("vehicle").value;
+      document.getElementById("phone").value = map[v]||"";
+    }
 
-        document.getElementById("distance").textContent = `📏 ${route.distance.text}`;
-        document.getElementById("duration").textContent = `⏱ ${route.duration.text}`;
-        document.getElementById("totalCost").textContent = `💲 Total: ZMW ${total.toFixed(2)}`;
-      } else {
-        showMessage('Route error: ' + status, 'error');
-      }
-    });
-  }
+    function fetchCurrentLocation() {
+      if (!navigator.geolocation) return alert("Geolocation not supported");
+      navigator.geolocation.getCurrentPosition(pos => {
+        const c = `${pos.coords.latitude.toFixed(6)},${pos.coords.longitude.toFixed(6)}`;
+        document.getElementById("origin").value = c;
+        document.getElementById("originCoords").value = c;
+      }, ()=>alert("Unable to fetch location"));
+    }
 
-  function submitData() {
-    const loader = document.getElementById("loader");
-    loader.style.display = "block";
-    
-    // Collect form data
-    const formData = {
-      submitterType: document.getElementById("submitterType").value,
-      phone: document.getElementById("phone").value,
-      vehicle: document.getElementById("vehicle").value,
-      origin: document.getElementById("origin").value,
-      originCoords: document.getElementById("originCoords").value,
-      destination: document.getElementById("destination").value,
-      destinationCoords: document.getElementById("destinationCoords").value,
-      extras: document.getElementById("extras").checked ? "Yes" : "No",
-      distance: document.getElementById("distance").textContent.replace('📏 ', ''),
-      duration: document.getElementById("duration").textContent.replace('⏱ ', ''),
-      totalCost: document.getElementById("totalCost").textContent.replace('💲 Total: ', ''),
-      timestamp: new Date().toISOString()
-    };
+    function toggleMap() {
+      const m = document.getElementById("map");
+      m.style.display = (m.style.display==="block"?"none":"block");
+    }
 
-    // Submit to Google Sheets
-    fetch(GOOGLE_SHEETS_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData)
-    })
-    .then(() => {
-      loader.style.display = "none";
-      showMessage('Ride submitted successfully!', 'success');
-      resetForm();
-    })
-    .catch(error => {
-      loader.style.display = "none";
-      showMessage('Submission failed: ' + error.message, 'error');
-    });
-  }
+    function calculateRoute() {
+      const o = document.getElementById("originCoords").value.split(",").map(Number);
+      const d = document.getElementById("destinationCoords").value.split(",").map(Number);
+      if(o.length<2||d.length<2) return alert("Enter coords");
+      directionsService.route({
+        origin: {lat:o[0],lng:o[1]},
+        destination:{lat:d[0],lng:d[1]},
+        travelMode:'DRIVING'
+      },(res,st)=>{
+        if(st==="OK"){
+          directionsRenderer.setDirections(res);
+          document.getElementById("map").style.display="block";
+          const leg = res.routes[0].legs[0];
+          document.getElementById("distance").innerText=`📏 Distance: ${leg.distance.text}`;
+          document.getElementById("duration").innerText=`⏱ Duration: ${leg.duration.text}`;
+          let fare=(leg.distance.value/1000)*10;
+          if(document.getElementById("extras").checked) fare*=1.5;
+          document.getElementById("totalCost").innerText=`💲 Total: ZMW ${fare.toFixed(2)}`;
+          document.getElementById("tripSummary").classList.remove("hidden");
+        } else alert("Route error:"+st);
+      });
+    }
 
-  function resetForm() {
-    document.getElementById("phone").value = '';
-    document.getElementById("origin").value = '';
-    document.getElementById("destination").value = '';
-    document.getElementById("tripSummary").classList.add('hidden');
-    document.getElementById('extras').checked = false;
-    directionsRenderer.setMap(null);
-  }
+    function submitData() {
+      const data = {
+        submitterType: document.getElementById("submitterType").value,
+        phone:           document.getElementById("phone").value,
+        vehicle:         document.getElementById("vehicle")?.value||"",
+        origin:          document.getElementById("origin").value,
+        originCoords:    document.getElementById("originCoords").value,
+        destination:     document.getElementById("destination").value,
+        destinationCoords:document.getElementById("destinationCoords").value,
+        extras:          document.getElementById("extras").checked?"Yes":"No",
+        distance:        document.getElementById("distance").innerText.replace("📏 Distance: ",""),
+        duration:        document.getElementById("duration").innerText.replace("⏱ Duration: ",""),
+        totalCost:       document.getElementById("totalCost").innerText.replace("💲 Total: ZMW ",""),
+        Date:            "" // handled by Apps Script
+      };
+      document.getElementById("loader").style.display="block";
 
-  function showMessage(message, type) {
-    const statusDiv = document.getElementById("statusMessage");
-    statusDiv.textContent = message;
-    statusDiv.className = `status-message ${type}`;
-    statusDiv.style.display = 'block';
-    setTimeout(() => statusDiv.style.display = 'none', 5000);
-  }
+      const formBody = Object.keys(data).map(k=>
+        encodeURIComponent(k)+"="+encodeURIComponent(data[k])
+      ).join("&");
 
-  function populateDriverPhone() {
-    const vehicleMap = {
-      "BAH1996, ist, Silver": "+260123456789",
-      "BAH2345, Vitz, Blue": "+260987654321",
-      "BAH9876, Corolla, White": "+260345678901",
-      "BAH3456, Harrier, Black": "+260567890123",
-      "BAH5678, Mazda, Red": "+260678901234"
-    };
-    const vehicle = document.getElementById("vehicle").value;
-    document.getElementById("phone").value = vehicleMap[vehicle] || '';
-  }
+      fetch(GOOGLE_SHEETS_URL, {
+        method:'POST',
+        headers:{'Content-Type':'application/x-www-form-urlencoded'},
+        body: formBody
+      })
+      .then(r=>r.json())
+      .then(j=>{ 
+        document.getElementById("loader").style.display="none";
+        showMessage(j.result,"success");
+      })
+      .catch(e=>{
+        document.getElementById("loader").style.display="none";
+        showMessage("Submission failed","error");
+        console.error(e);
+      });
+    }
 
-  function toggleFields() {
-    const isDriver = document.getElementById("submitterType").value === 'Driver';
-    document.getElementById("driverFields").classList.toggle('hidden', !isDriver);
-  }
+    function showMessage(msg,type){
+      const s=document.getElementById("statusMessage");
+      s.textContent=msg;
+      s.className=`status-message ${type}`;
+      s.style.display="block";
+      setTimeout(()=>s.style.display="none",5000);
+    }
 
-  function debounce(func, timeout = 300) {
-    let timer;
-    return (...args) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => { func.apply(this, args); }, timeout);
-    };
-  }
-</script>
-
-<script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap">
-</script>
-  
+    window.initMap = initMap;
+  </script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap">
+  </script>
 </body>
 </html>
