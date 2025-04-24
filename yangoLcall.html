@@ -1,79 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Proximity Tracker</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RideTracker Proximity Viewer</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
+      background: #f9f9f9;
     }
-
+    h2 {
+      text-align: center;
+      color: #333;
+    }
     .filter-options {
       margin-bottom: 15px;
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      align-items: center;
+      justify-content: center;
     }
-
     .filter-options input {
       padding: 8px;
       font-size: 14px;
       border: 1px solid #ccc;
+      border-radius: 5px;
     }
-
     .action-buttons {
       margin-bottom: 10px;
       display: flex;
-      flex-wrap: wrap;
       gap: 10px;
+      justify-content: center;
     }
-
-    button {
+    .action-buttons button {
       padding: 8px 12px;
       font-size: 14px;
       cursor: pointer;
-      border: 1px solid #ccc;
-      background-color: #f4f4f4;
+      border: none;
+      border-radius: 5px;
+      transition: background 0.3s ease;
     }
-
-    button:hover {
-      background-color: #ddd;
+    .action-buttons button:nth-child(1) {
+      background-color: #e7e7e7;
     }
-
-    .table-container {
-      overflow-x: auto;
-      max-width: 100%;
+    .action-buttons button:nth-child(1):hover {
+      background-color: #ccc;
     }
-
+    .action-buttons button:nth-child(2) {
+      background-color: #d0f0c0;
+    }
+    .action-buttons button:nth-child(2):hover {
+      background-color: #a0d090;
+    }
+    .action-buttons button:nth-child(3) {
+      background-color: #25D366;
+      color: white;
+    }
+    .action-buttons button:nth-child(3):hover {
+      background-color: #128C7E;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 20px;
     }
-
     th, td {
       padding: 8px;
       border: 1px solid #ccc;
       text-align: left;
     }
-
     th {
       background-color: #f4f4f4;
     }
-
     thead th {
       position: sticky;
       top: 0;
       background: #f4f4f4;
       z-index: 2;
     }
-
     tr.selected {
       background-color: #dff0d8;
+    }
+    .table-container {
+      overflow-x: auto;
     }
   </style>
 </head>
@@ -83,7 +94,7 @@
   <div class="filter-options">
     <input type="text" id="searchBox" placeholder="Search..." />
     <input type="number" id="proximityFilter" placeholder="Max Proximity (km)" value="5" />
-    <button onclick="filterByProximity()">Filter by Proximity</button>
+    <button onclick="filterByProximity()">Filter</button>
   </div>
 
   <div class="action-buttons">
@@ -95,6 +106,8 @@
   <div class="table-container">
     <table id="dataTable"></table>
   </div>
+
+  <audio id="proximityAlert" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" preload="auto"></audio>
 
   <script>
     const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR9R6Ni-k27YwwW5UHF32L1MZVao2GhMUe3fVTMwFwtcShDS8sfdnUq8svszdZDs2YfSkqmbC9TRD5N/pub?output=csv';
@@ -114,12 +127,12 @@
     function renderTable(data) {
       const table = document.getElementById("dataTable");
       const headers = Object.keys(data[0]);
-
       table.innerHTML = `
         <thead>
           <tr>
             ${headers.map(h => `<th>${h}</th>`).join('')}
-            <th>Action</th>
+            <th>Map</th>
+            <th>Call</th>
           </tr>
         </thead>
         <tbody>
@@ -127,6 +140,7 @@
             return `
               <tr onclick="toggleRow(this)">
                 ${headers.map(h => `<td>${formatValue(h, row[h])}</td>`).join('')}
+                <td><button onclick="event.stopPropagation(); viewMap('${row.originCoords}')">View Map</button></td>
                 <td><a href="tel:${row.phone || ''}">Call</a></td>
               </tr>`;
           }).join('')}
@@ -155,7 +169,7 @@
     function getSelectedText() {
       const selected = document.querySelectorAll("tr.selected");
       return Array.from(selected).map(row =>
-        Array.from(row.cells).slice(0, -1).map(cell => cell.innerText).join(" | ")
+        Array.from(row.cells).slice(0, -2).map(cell => cell.innerText).join(" | ")
       ).join("\n");
     }
 
@@ -189,6 +203,8 @@
     function filterByProximity() {
       const proximity = parseFloat(document.getElementById('proximityFilter').value) || 5;
       const rows = document.querySelectorAll('#dataTable tbody tr');
+      const alertSound = document.getElementById('proximityAlert');
+
       rows.forEach(row => {
         const originCoords = row.cells[4].innerText.split(',');
         const destinationCoords = row.cells[5].innerText.split(',');
@@ -198,12 +214,13 @@
         const destinationLat = parseFloat(destinationCoords[0]);
         const destinationLng = parseFloat(destinationCoords[1]);
 
-        const distanceToCustomer = calculateDistance(originLat, originLng, destinationLat, destinationLng);
+        const distance = calculateDistance(originLat, originLng, destinationLat, destinationLng);
 
-        if (distanceToCustomer <= proximity) {
-          row.style.backgroundColor = '#dff0d8'; // Highlight
+        if (distance <= proximity) {
+          row.style.backgroundColor = '#dff0d8';
+          alertSound.play();
         } else {
-          row.style.backgroundColor = ''; // Reset
+          row.style.backgroundColor = '';
         }
       });
     }
@@ -221,6 +238,23 @@
 
     function toRad(value) {
       return value * Math.PI / 180;
+    }
+
+    function viewMap(coords) {
+      const [lat, lng] = coords.split(',').map(parseFloat);
+      if (!isNaN(lat) && !isNaN(lng)) {
+        const url = `https://www.google.com/maps?q=${lat},${lng}`;
+        const message = `Head towards ${lat.toFixed(2)}, ${lng.toFixed(2)}`;
+        speak(message);
+        window.open(url, '_blank');
+      }
+    }
+
+    function speak(text) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        speechSynthesis.speak(utterance);
+      }
     }
   </script>
 </body>
