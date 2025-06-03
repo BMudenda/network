@@ -2,521 +2,220 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Driver Live Location</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live Orders Viewer</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
-      background: #f0f0f0;
-      max-width: 500px;
-      margin: auto;
     }
-    .card {
-      background: #fff;
-      padding: 16px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      margin-bottom: 16px;
+    h2 {
+      margin-bottom: 10px;
     }
-    #map {
-      height: 300px;
-      border-radius: 8px;
-      margin-bottom: 12px;
-    }
-    input, select, button {
+    input[type="text"], select {
       width: 100%;
-      margin-top: 10px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+      padding: 8px;
+      margin-bottom: 12px;
+      font-size: 16px;
       box-sizing: border-box;
     }
-    button {
-      background: #007bff;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-    .message {
+    table {
+      width: 100%;
+      border-collapse: collapse;
       margin-top: 10px;
     }
-    .error {
-      color: red;
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
     }
-    .success {
-      color: green;
+    th {
+      background-color: #f2f2f2;
     }
-    .btn-group {
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    tr.selected {
+      background-color: #d0f0c0 !important;
+    }
+    .action-buttons {
+      margin-top: 12px;
       display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 10px;
+      gap: 10px;
+      flex-wrap: wrap;
     }
-    .btn-row {
-      display: flex;
-      gap: 8px;
-    }
-    .btn-row button {
-      flex: 1;
-      position: relative;
-    }
-    .pac-container {
-      z-index: 10000 !important;
-    }
-    .input-group {
-      margin-bottom: 16px;
-    }
-    .input-group h3 {
-      margin: 0 0 8px 0;
+    .action-buttons button {
+      padding: 10px 15px;
       font-size: 16px;
-      color: #333;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
     }
-    .input-row {
+    .action-buttons button:hover {
+      background-color: #0056b3;
+    }
+    .filters {
       display: flex;
-      gap: 8px;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
     }
-    .input-row input {
+    .filters input, .filters select {
       flex: 1;
-      min-width: 0;
-    }
-    .loader {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top: 2px solid #fff;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-left: 8px;
-      vertical-align: middle;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    .status-icon {
-      margin-left: 8px;
-      vertical-align: middle;
-    }
-    .button-text {
-      pointer-events: none;
-    }
-    @media (max-width: 400px) {
-      .btn-row {
-        flex-direction: column;
-      }
-      .btn-row button {
-        width: 100%;
-      }
-      .input-row {
-        flex-direction: column;
-        gap: 10px;
-      }
     }
   </style>
 </head>
 <body>
+  <h2>Live Orders Viewer</h2>
 
-  <h2>Driver Live Location</h2>
-
-  <!-- Vehicle Selection Card -->
-  <div class="card">
-    <label for="vehicle">Select Vehicle</label>
-    <select id="vehicle">
-      <option value="">-- Select --</option>
-      <option value="BAH1996">BAH1996 – Camry</option>
-      <option value="XYZ7890">XYZ7890 – Accord</option>
+  <div class="filters">
+    <input type="text" id="searchInput" placeholder="Search orders..."/>
+    <select id="dateFilter">
+      <option value="">Filter by Date</option>
     </select>
-    <div><b>Type:</b> <span id="vtype">-</span></div>
-    <div><b>Color:</b> <span id="vcolor">-</span></div>
-    <div><b>Phone:</b> <span id="vphone">-</span></div>
   </div>
 
-  <!-- Map and Controls Card -->
-  <div class="card">
-    <div id="map">Loading map…</div>
-    
-    <div class="btn-group">
-      <div class="btn-row">
-        <button id="startTracking">Start Tracking</button>
-        <button id="stopTracking" disabled>Stop Tracking</button>
-      </div>
-      <div class="btn-row">
-        <button id="currentLocationBtn">
-          <span class="button-text">Get My Location</span>
-        </button>
-        <button id="audioGuideBtn">Toggle Audio Guide</button>
-      </div>
-      <div class="btn-row">
-        <button id="calculateBtn">
-          <span class="button-text">Get Directions</span>
-        </button>
-        <button id="resetBtn">Clear All</button>
-      </div>
-    </div>
-    
-    <div id="accuracyMsg" class="message"></div>
-  
-    <div class="input-group">
-      <h3>Current Location</h3>
-      <div class="input-row">
-        <!-- When a user types an address here, we use geocoding to update fields -->
-        <input id="locationInput" placeholder="📍 Type address" autocomplete="off">
-        <input id="coordsInput" placeholder="📍 Coordinates" readonly>
-      </div>
-    </div>
-  
-    <div class="input-group">
-      <h3>Destination</h3>
-      <div class="input-row">
-        <!-- Autocomplete here will be used to pick a named location -->
-        <input id="destinationInput" placeholder="📍 Type address" autocomplete="off">
-        <input id="destCoordsInput" placeholder="📍 Coordinates">
-      </div>
-    </div>
-  
-    <div id="routeInfo" class="message"></div>
+  <div id="table-container">Loading data...</div>
+
+  <div class="action-buttons">
+    <button onclick="makeCall()">📞 Call</button>
+    <button onclick="sendSMS()">📩 Send SMS</button>
+    <button onclick="sendWhatsApp()">💬 WhatsApp</button>
   </div>
 
-  <!-- Data Submission Form -->
-  <form id="locationForm" class="card">
-    <!-- Hidden inputs (names must exactly match the spreadsheet headers) -->
-    <input type="hidden" name="Timestamp" id="timestamp">
-    <input type="hidden" name="Vehicle_Registration" id="reg">
-    <input type="hidden" name="Vehicle_Type" id="type">
-    <input type="hidden" name="Vehicle_Color" id="color">
-    <input type="hidden" name="Phone" id="phone">
-    <!-- Here, Location is optional: if blank, we'll set a default value -->
-    <input type="hidden" name="Location" id="location">
-    <input type="hidden" name="Coordinates" id="coords">
-    <input type="hidden" name="Destination" id="destination">
-    <input type="hidden" name="Destination_Coordinates" id="destCoords">
-    <button type="submit" id="submitBtn">Send Location Data</button>
-    <div id="submitMsg" class="message"></div>
-  </form>
+  <audio id="beepSound">
+    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
+  </audio>
 
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
-    // Shortcut function.
-    const el = id => document.getElementById(id);
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrVPpYBJn9qVMO2x3OgUEQMQQgBdDmZWk1r4ddv-oaat52PGPowHPoPvhV2Up7wV5WKmHvTdmXxWT2/pub?output=csv";
+    const corsProxy = "https://corsproxy.io/?";
+    let tableData = [];
+    let filteredData = [];
+    let previousRowCount = 0;
+    let selectedRowIndex = -1;
 
-    // Vehicle lookup.
-    const vehicleDB = {
-      "BAH1996": { type: "Camry", color: "Silver", phone: "+1234567890" },
-      "XYZ7890": { type: "Accord", color: "Black", phone: "+0987654321" }
-    };
-
-    // Global variables.
-    // Use your provided Apps Script endpoint URL.
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyE-1RuFaW7C4nxp4heXKMYMcYZ4k1qeoE1Ct0KtBSJFgByr5LDYCTuykIkAt6EEoei/exec';
-    let map, directionsService, directionsRenderer, currentMarker;
-    let trackingInterval = null;
-    let destinationAutocomplete;  // We'll keep this global.
-    let speechOn = false;
-
-    // Use Web Speech API.
-    function speak(message) {
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(message);
-        window.speechSynthesis.speak(utterance);
-      } else {
-        console.log("Speak:", message);
-      }
+    function beep() {
+      document.getElementById("beepSound").play();
     }
 
-    // Update button state.
-    function showButtonStatus(btnId, status, text) {
-      const btn = el(btnId);
-      if (status === 'loading') {
-        btn.innerHTML = text + '<span class="loader"></span>';
-        btn.disabled = true;
-      } else {
-        btn.innerHTML = text;
-        btn.disabled = false;
-      }
-    }
-
-    // Initialize the Google Map and set up Autocomplete.
-    function initMap() {
-      map = new google.maps.Map(el("map"), {
-        center: { lat: -34.397, lng: 150.644 },
-        zoom: 15
-      });
-
-      directionsService = new google.maps.DirectionsService();
-      directionsRenderer = new google.maps.DirectionsRenderer();
-      directionsRenderer.setMap(map);
-
-      // For current location input, we still use geocoding.
-      const locationInput = el("locationInput");
-
-      // For destination, we want to use the autocomplete's place name properly.
-      const destinationInput = el("destinationInput");
-      
-      new google.maps.places.Autocomplete(locationInput).addListener("place_changed", updateCoordinates);
-      destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput);
-      destinationAutocomplete.addListener("place_changed", updateDestinationCoordinates);
-    }
-
-    // Geocode current location — update both visible coordinates and hidden "Location" field.
-    function updateCoordinates() {
-      const address = el("locationInput").value;
-      const geocoder = new google.maps.Geocoder();
-      geocoder.geocode({ address: address }, function(results, status) {
-        if (status === "OK") {
-          const loc = results[0].geometry.location;
-          const formatted = results[0].formatted_address;
-          el("coordsInput").value = loc.lat() + ',' + loc.lng();
-          el("location").value = formatted;  // Set hidden Location to formatted address.
-        } else {
-          el("accuracyMsg").textContent = 'Geocode was not successful: ' + status;
-        }
-      });
-    }
-
-    // For destination, use the place's 'name' if available.
-    function updateDestinationCoordinates() {
-      const place = destinationAutocomplete.getPlace();
-      if (place && place.geometry) {
-        // If the place has a name, use that for the destination.
-        const placeName = place.name || place.formatted_address;
-        const coords = place.geometry.location.lat() + ',' + place.geometry.location.lng();
-        el("destinationInput").value = placeName;
-        el("destination").value = placeName;
-        el("destCoords").value = coords;
-        el("destCoordsInput").value = coords;
-        speak(`Destination set to ${placeName}`);
-      } else {
-        // Fallback: if place is not retrieved, perform geocode.
-        updateDestinationCoordinatesFallback();
-      }
-    }
-
-    // Fallback for destination geocoding.
-    function updateDestinationCoordinatesFallback() {
-      const address = el("destinationInput").value;
-      const geocoder = new google.maps.Geocoder();
-      geocoder.geocode({ address: address }, function(results, status) {
-        if (status === "OK") {
-          const loc = results[0].geometry.location;
-          const coords = loc.lat() + ',' + loc.lng();
-          el("destinationInput").value = results[0].formatted_address;
-          el("destination").value = results[0].formatted_address;
-          el("destCoords").value = coords;
-          el("destCoordsInput").value = coords;
-          speak(`Destination set to ${results[0].formatted_address}`);
-        } else {
-          el("accuracyMsg").textContent = 'Geocode was not successful: ' + status;
-        }
-      });
-    }
-
-    // Start live location tracking.
-    function startTracking() {
-      if (navigator.geolocation) {
-        trackingInterval = navigator.geolocation.watchPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            const pos = { lat: latitude, lng: longitude };
-            if (currentMarker) {
-              currentMarker.setPosition(pos);
-            } else {
-              currentMarker = new google.maps.Marker({
-                position: pos,
-                map: map,
-                title: "Your Current Location"
-              });
-            }
-            map.setCenter(pos);
-            el("coordsInput").value = latitude + ',' + longitude;
-            el("coords").value = latitude + ',' + longitude;
-            el("timestamp").value = new Date().toISOString();
-            el("accuracyMsg").textContent = 'Tracking your location...';
-          },
-          (error) => {
-            el("accuracyMsg").textContent = 'Error tracking location: ' + error.message;
-          },
-          { enableHighAccuracy: true, maximumAge: 0, timeout: 5000 }
-        );
-        el("startTracking").disabled = true;
-        el("stopTracking").disabled = false;
-      } else {
-        alert('Geolocation is not supported by your browser.');
-      }
-    }
-
-    // Stop tracking.
-    function stopTracking() {
-      if (trackingInterval !== null) {
-        navigator.geolocation.clearWatch(trackingInterval);
-        trackingInterval = null;
-        el("accuracyMsg").textContent = 'Tracking stopped.';
-        el("startTracking").disabled = false;
-        el("stopTracking").disabled = true;
-      }
-    }
-
-    // Get current location once.
-    function getCurrentLocation() {
-      if (navigator.geolocation) {
-        showButtonStatus("currentLocationBtn", "loading", "Getting Location...");
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            const pos = { lat: latitude, lng: longitude };
-            el("coordsInput").value = latitude + ',' + longitude;
-            el("coords").value = latitude + ',' + longitude;
-            if (currentMarker) {
-              currentMarker.setPosition(pos);
-            } else {
-              currentMarker = new google.maps.Marker({
-                position: pos,
-                map: map,
-                title: "My Location"
-              });
-            }
-            map.setCenter(pos);
-            el("accuracyMsg").textContent = 'Your current location is set on map.';
-            showButtonStatus("currentLocationBtn", "default", "Get My Location");
-          },
-          (error) => {
-            el("accuracyMsg").textContent = 'Error fetching location: ' + error.message;
-            showButtonStatus("currentLocationBtn", "default", "Get My Location");
+    function fetchAndUpdateData() {
+      fetch(corsProxy + encodeURIComponent(sheetUrl))
+        .then(response => response.text())
+        .then(csv => {
+          const parsed = Papa.parse(csv, { header: true });
+          const newData = parsed.data.filter(row => Object.values(row).some(cell => cell));
+          
+          if (previousRowCount > 0 && newData.length > previousRowCount) {
+            beep();
           }
-        );
-      } else {
-        alert('Geolocation is not supported by your browser.');
-      }
+
+          previousRowCount = newData.length;
+          tableData = newData;
+          populateDateFilter();
+          applyFilters();
+        })
+        .catch(error => {
+          document.getElementById("table-container").innerHTML = "❌ Failed to load data.";
+          console.error("Fetch error:", error);
+        });
     }
 
-    // Calculate a route and display distance & duration.
-    function calculateRoute() {
-      const startStr = el("coordsInput").value;
-      const destinationStr = el("destCoordsInput").value;
-      if (!startStr || !destinationStr) {
-        el("routeInfo").textContent = 'Start and destination coordinates are required.';
-        return;
-      }
-      showButtonStatus("calculateBtn", "loading", "Calculating Route...");
-      const startArr = startStr.split(',');
-      const destArr = destinationStr.split(',');
-      const origin = { lat: parseFloat(startArr[0]), lng: parseFloat(startArr[1]) };
-      const dest = { lat: parseFloat(destArr[0]), lng: parseFloat(destArr[1]) };
-      
-      directionsService.route({
-        origin: origin,
-        destination: dest,
-        travelMode: google.maps.TravelMode.DRIVING
-      }, function(result, status) {
-        if (status === "OK") {
-          directionsRenderer.setDirections(result);
-          const leg = result.routes[0].legs[0];
-          el("routeInfo").innerHTML = `<strong>Distance:</strong> ${leg.distance.text}<br/><strong>Duration:</strong> ${leg.duration.text}`;
-        } else {
-          el("routeInfo").textContent = 'Could not calculate route: ' + status;
-        }
-        showButtonStatus("calculateBtn", "default", "Get Directions");
+    function populateDateFilter() {
+      const dateFilter = document.getElementById("dateFilter");
+      const dates = [...new Set(tableData.map(row => row.Date).filter(Boolean))];
+      const current = dateFilter.value;
+      dateFilter.innerHTML = '<option value="">Filter by Date</option>';
+      dates.forEach(date => {
+        const option = document.createElement("option");
+        option.value = date;
+        option.textContent = date;
+        dateFilter.appendChild(option);
       });
+      if (current) dateFilter.value = current;
     }
 
-    // --- Event Listeners ---
-    el("vehicle").addEventListener("change", () => {
-      const v = vehicleDB[el("vehicle").value] || {};
-      el("vtype").textContent = v.type || "-";
-      el("vcolor").textContent = v.color || "-";
-      el("vphone").textContent = v.phone || "-";
-      // Update hidden fields
-      el("reg").value = el("vehicle").value;
-      el("type").value = v.type || "";
-      el("color").value = v.color || "";
-      el("phone").value = v.phone || "";
-    });
+    function applyFilters() {
+      const searchValue = document.getElementById("searchInput").value.toLowerCase();
+      const dateValue = document.getElementById("dateFilter").value;
 
-    el("startTracking").addEventListener("click", startTracking);
-    el("stopTracking").addEventListener("click", stopTracking);
-    el("currentLocationBtn").addEventListener("click", getCurrentLocation);
-    el("calculateBtn").addEventListener("click", calculateRoute);
-    el("resetBtn").addEventListener("click", () => {
-      ["locationInput", "coordsInput", "destinationInput", "destCoordsInput"].forEach(id => el(id).value = "");
-      el("routeInfo").textContent = "";
-      if (currentMarker) {
-        currentMarker.setMap(null);
-        currentMarker = null;
-      }
-      directionsRenderer.setMap(null);
-    });
-    el("audioGuideBtn").addEventListener("click", () => {
-      speechOn = !speechOn;
-      el("audioGuideBtn").textContent = speechOn ? "Disable Audio" : "Enable Audio";
-      speak(speechOn ? "Audio guide on" : "Audio guide off");
-    });
+      filteredData = tableData.filter(row => {
+        const matchesSearch = Object.values(row).some(cell =>
+          cell && cell.toLowerCase().includes(searchValue)
+        );
+        const matchesDate = dateValue ? row.Date === dateValue : true;
+        return matchesSearch && matchesDate;
+      });
 
-    // --- Form Submission with Validation ---
-    el("locationForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      
-      // Clear any previous error message.
-      el("submitMsg").textContent = "";
-      el("submitMsg").classList.remove("error");
-      
-      // Validate required fields: Vehicle, Destination, and Route Info.
-      if (!el("reg").value.trim()) {
-        el("submitMsg").textContent = "Please select a vehicle.";
-        el("submitMsg").classList.add("error");
+      renderTable(filteredData);
+    }
+
+    function renderTable(data) {
+      const container = document.getElementById("table-container");
+      if (data.length === 0) {
+        container.innerHTML = "No data found.";
         return;
       }
-      if (!el("destination").value.trim()) {
-        el("submitMsg").textContent = "Please set your destination.";
-        el("submitMsg").classList.add("error");
-        return;
-      }
-      if (el("routeInfo").innerHTML.trim() === "") {
-        el("submitMsg").textContent = "Please calculate the route (distance and duration) before sending.";
-        el("submitMsg").classList.add("error");
-        return;
-      }
-      
-      // If Location is blank, set a default.
-      if (!el("location").value.trim()) {
-        el("location").value = "Default Location";
-      }
-      
-      // Set the timestamp.
-      const now = new Date();
-      el("timestamp").value = now.toISOString();
-      
-      showButtonStatus("submitBtn", "loading", "Sending data...");
-      speak("Sending location data");
-      try {
-        const formData = new FormData(el("locationForm"));
-        const response = await fetch(SCRIPT_URL, { method: "POST", body: formData });
-        const result = await response.json();
-        // Check if the returned result contains 'success'.
-        if (result.result && result.result.toLowerCase().indexOf("success") > -1) {
-          el("submitMsg").textContent = "Data successfully submitted!";
-          el("submitMsg").classList.remove("error");
-          showButtonStatus("submitBtn", "default", "Send Location Data");
-        } else {
-          el("submitMsg").textContent = "Error submitting data: " + (result.error || "Unknown error");
-          el("submitMsg").classList.add("error");
-          showButtonStatus("submitBtn", "default", "Send Location Data");
-        }
-      } catch (error) {
-        el("submitMsg").textContent = "Network error: " + error;
-        el("submitMsg").classList.add("error");
-        showButtonStatus("submitBtn", "default", "Send Location Data");
-      }
-    });
 
-    // Expose initMap globally for Google Maps API.
-    window.initMap = initMap;
+      let table = "<table><thead><tr>";
+      Object.keys(data[0]).forEach(header => {
+        table += `<th>${header}</th>`;
+      });
+      table += "</tr></thead><tbody>";
+
+      data.forEach((row, index) => {
+        table += `<tr onclick="highlightRow(this, ${index})">`;
+        Object.values(row).forEach(cell => {
+          table += `<td>${cell}</td>`;
+        });
+        table += "</tr>";
+      });
+
+      table += "</tbody></table>";
+      container.innerHTML = table;
+    }
+
+    function highlightRow(rowElement, index) {
+      const rows = document.querySelectorAll("tbody tr");
+      rows.forEach(row => row.classList.remove("selected"));
+      rowElement.classList.add("selected");
+      selectedRowIndex = index;
+    }
+
+    function makeCall() {
+      const row = filteredData[selectedRowIndex];
+      if (row && row.phoneNumber) {
+        window.open(`tel:${row.phoneNumber}`);
+      }
+    }
+
+    function sendSMS() {
+      const row = filteredData[selectedRowIndex];
+      if (row && row.phoneNumber) {
+        const message = `Order:\nPickup: ${row.pickup}\nTo: ${row.destination}\nTotal: ${row.grandTotal}`;
+        window.open(`sms:${row.phoneNumber}?body=${encodeURIComponent(message)}`);
+      }
+    }
+
+    function sendWhatsApp() {
+      const row = filteredData[selectedRowIndex];
+      if (row && row.phoneNumber) {
+        const phone = row.phoneNumber.replace(/\D/g, "");
+        const message = `Order:\nPickup: ${row.pickup}\nTo: ${row.destination}\nTotal: ${row.grandTotal}`;
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`);
+      }
+    }
+
+    // Event listeners
+    document.getElementById("searchInput").addEventListener("input", applyFilters);
+    document.getElementById("dateFilter").addEventListener("change", applyFilters);
+
+    // Initial load + refresh every 30s
+    fetchAndUpdateData();
+    setInterval(fetchAndUpdateData, 30000);
   </script>
-  
-  <!-- Google Maps API Script with provided API key and callback -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRdnvGw7epuDJjgBnpv0-FEuSQ6J-fyNY&libraries=places&callback=initMap" async defer></script>
-  
 </body>
-      </html>
+</html>
